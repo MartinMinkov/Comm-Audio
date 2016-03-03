@@ -1,2 +1,9 @@
 # Comm-Audio
-A Windows application that lets the user transfer sound data using the TCP/IP protocol suite between two Windows workstations. This project was designed and developed as a group.  
+A Windows application that lets the user transfer sound data using the TCP/IP protocol suite between two Windows workstations. 
+This project was designed and developed as a group.  
+
+Members:
+    Colin Bose
+    Alvin Man
+    Allen Tsang
+    Martin Minkov
