@@ -12,7 +12,7 @@ ThreadManager::~ThreadManager()
     WSACleanup();
 }
 
-void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
+/*void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
 {
     if(sd != 0) {
         qDebug() << "Socket not null";
@@ -63,20 +63,20 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     }
 
     //Get and send name
-    /*if(username != "") {
+    if(username != "") {
         sendDataTCP(SI, username.toStdString().c_str());
         qDebug() << username;
     }
     else {
         qDebug() << "No name";
-    }*/
+    }
 
     //Get song list
 
     //Get user list
 
 
-}
+}*/
 
 void ThreadManager::formatMessage(const char* message)
 {

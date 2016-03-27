@@ -18,8 +18,6 @@ client::~client()
 
 void client::on_connectButton_clicked()
 {
-
-
     QString ipaddr = ui->ipfield->text();
     QString portnum = ui->portfield->text();
     QString username = ui->nameField->text();
