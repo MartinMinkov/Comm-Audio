@@ -25,7 +25,7 @@
    <property name="currentIndex">
     <number>0</number>
    </property>
-   <widget class="QWidget" name="tab_5">
+   <widget class="QWidget" name="connectTab">
     <attribute name="title">
      <string>Connect</string>
     </attribute>
@@ -35,16 +35,16 @@
        <x>120</x>
        <y>20</y>
        <width>241</width>
-       <height>101</height>
+       <height>121</height>
       </rect>
      </property>
      <property name="title">
       <string>Server Details</string>
      </property>
-     <widget class="QLineEdit" name="lineEdit_4">
+     <widget class="QLineEdit" name="ipfield">
       <property name="geometry">
        <rect>
-        <x>42</x>
+        <x>40</x>
         <y>30</y>
         <width>181</width>
         <height>20</height>
@@ -77,12 +77,35 @@
        <string>Port:</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_5">
+     <widget class="QLineEdit" name="portfield">
       <property name="geometry">
        <rect>
         <x>40</x>
         <y>60</y>
         <width>71</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_22">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Name:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="nameField">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>90</y>
+        <width>113</width>
         <height>20</height>
        </rect>
       </property>
@@ -94,13 +117,13 @@
        <x>370</x>
        <y>20</y>
        <width>201</width>
-       <height>101</height>
+       <height>121</height>
       </rect>
      </property>
      <property name="title">
       <string>Status</string>
      </property>
-     <widget class="QLabel" name="label_20">
+     <widget class="QLabel" name="connectStatus">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -116,7 +139,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Connected</string>
+       <string>Disconnected</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_21">
@@ -133,7 +156,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QPushButton" name="pushButton_14">
+    <widget class="QPushButton" name="connectButton">
      <property name="geometry">
       <rect>
        <x>580</x>
@@ -146,7 +169,7 @@
       <string>Connect</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_15">
+    <widget class="QPushButton" name="disconnectButton">
      <property name="geometry">
       <rect>
        <x>580</x>
@@ -160,7 +183,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab">
+   <widget class="QWidget" name="downloadTab">
     <attribute name="title">
      <string>File Download</string>
     </attribute>
@@ -177,7 +200,7 @@
       <string>Download Songs</string>
      </property>
     </widget>
-    <widget class="QProgressBar" name="progressBar">
+    <widget class="QProgressBar" name="downloadProgress">
      <property name="geometry">
       <rect>
        <x>102</x>
@@ -349,7 +372,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_4">
+   <widget class="QWidget" name="uploadTab">
     <attribute name="title">
      <string>File Upload</string>
     </attribute>
@@ -498,7 +521,7 @@
       </property>
      </item>
     </widget>
-    <widget class="QProgressBar" name="progressBar_2">
+    <widget class="QProgressBar" name="uploadProgress">
      <property name="geometry">
       <rect>
        <x>102</x>
@@ -538,7 +561,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_2">
+   <widget class="QWidget" name="chatTab">
     <attribute name="title">
      <string>Voice Chat</string>
     </attribute>
@@ -770,7 +793,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_3">
+   <widget class="QWidget" name="streamTab">
     <attribute name="title">
      <string>Stream Music</string>
     </attribute>
