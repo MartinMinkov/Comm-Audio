@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QWidget>
 #include "networkutility.h"
 
 
@@ -17,12 +18,23 @@ signals:
     void signalConnect(QString ipaddr, QString portnum, QString username);
     void signalDisconnect();
     void signalHandleRequest();
+    void updateUserList(QVector<QString> userList);
+    void signalDownload();
+    void signalUpload();
+    void signalStream();
+    void signalVoice();
+    void signalRefresh();
     void finished();
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);
     void disconnect();
     void handleRequest();
+    void SendDownloadRequest();
+    void SendUploadRequest();
+    void SendStreamRequest();
+    void SendVoiceRequest();
+    void SendRefreshRequest();
 
 private:
     DWORD ret;

@@ -47,7 +47,7 @@ public:
     QWidget *downloadTab;
     QPushButton *pushButton_2;
     QProgressBar *downloadProgress;
-    QListWidget *listWidget_2;
+    QListWidget *downloadFileWidget;
     QPushButton *pushButton;
     QLineEdit *lineEdit;
     QLabel *label_3;
@@ -57,6 +57,7 @@ public:
     QListWidget *listWidget_3;
     QLabel *label_4;
     QLabel *label_5;
+    QPushButton *updateSongButton;
     QWidget *uploadTab;
     QListWidget *listWidget_4;
     QLabel *label_10;
@@ -69,10 +70,10 @@ public:
     QListWidget *listWidget_5;
     QProgressBar *uploadProgress;
     QLabel *label_14;
-    QPushButton *pushButton_8;
+    QPushButton *uploadButton;
     QWidget *chatTab;
     QGroupBox *groupBox_2;
-    QListWidget *listWidget;
+    QListWidget *connectedWidget;
     QPushButton *pushButton_3;
     QGroupBox *groupBox_3;
     QLabel *label_6;
@@ -85,7 +86,7 @@ public:
     QLabel *label_9;
     QPushButton *pushButton_4;
     QPushButton *pushButton_5;
-    QPushButton *pushButton_6;
+    QPushButton *voiceChatButton;
     QWidget *streamTab;
     QGroupBox *groupBox_8;
     QPushButton *pushButton_9;
@@ -167,19 +168,19 @@ public:
         downloadProgress->setObjectName(QStringLiteral("downloadProgress"));
         downloadProgress->setGeometry(QRect(102, 311, 341, 21));
         downloadProgress->setValue(24);
-        listWidget_2 = new QListWidget(downloadTab);
-        new QListWidgetItem(listWidget_2);
-        new QListWidgetItem(listWidget_2);
-        new QListWidgetItem(listWidget_2);
-        new QListWidgetItem(listWidget_2);
-        new QListWidgetItem(listWidget_2);
-        listWidget_2->setObjectName(QStringLiteral("listWidget_2"));
-        listWidget_2->setGeometry(QRect(10, 30, 221, 271));
+        downloadFileWidget = new QListWidget(downloadTab);
+        new QListWidgetItem(downloadFileWidget);
+        new QListWidgetItem(downloadFileWidget);
+        new QListWidgetItem(downloadFileWidget);
+        new QListWidgetItem(downloadFileWidget);
+        new QListWidgetItem(downloadFileWidget);
+        downloadFileWidget->setObjectName(QStringLiteral("downloadFileWidget"));
+        downloadFileWidget->setGeometry(QRect(10, 30, 221, 271));
         QFont font1;
         font1.setBold(false);
         font1.setWeight(50);
-        listWidget_2->setFont(font1);
-        listWidget_2->setAutoFillBackground(false);
+        downloadFileWidget->setFont(font1);
+        downloadFileWidget->setAutoFillBackground(false);
         pushButton = new QPushButton(downloadTab);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(240, 190, 201, 23));
@@ -207,6 +208,9 @@ public:
         label_5 = new QLabel(downloadTab);
         label_5->setObjectName(QStringLiteral("label_5"));
         label_5->setGeometry(QRect(450, 10, 121, 16));
+        updateSongButton = new QPushButton(downloadTab);
+        updateSongButton->setObjectName(QStringLiteral("updateSongButton"));
+        updateSongButton->setGeometry(QRect(240, 250, 201, 23));
         tabWidget->addTab(downloadTab, QString());
         uploadTab = new QWidget();
         uploadTab->setObjectName(QStringLiteral("uploadTab"));
@@ -251,22 +255,22 @@ public:
         label_14 = new QLabel(uploadTab);
         label_14->setObjectName(QStringLiteral("label_14"));
         label_14->setGeometry(QRect(11, 311, 85, 16));
-        pushButton_8 = new QPushButton(uploadTab);
-        pushButton_8->setObjectName(QStringLiteral("pushButton_8"));
-        pushButton_8->setGeometry(QRect(240, 280, 201, 23));
+        uploadButton = new QPushButton(uploadTab);
+        uploadButton->setObjectName(QStringLiteral("uploadButton"));
+        uploadButton->setGeometry(QRect(240, 280, 201, 23));
         tabWidget->addTab(uploadTab, QString());
         chatTab = new QWidget();
         chatTab->setObjectName(QStringLiteral("chatTab"));
         groupBox_2 = new QGroupBox(chatTab);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
         groupBox_2->setGeometry(QRect(10, 10, 151, 321));
-        listWidget = new QListWidget(groupBox_2);
-        new QListWidgetItem(listWidget);
-        new QListWidgetItem(listWidget);
-        new QListWidgetItem(listWidget);
-        new QListWidgetItem(listWidget);
-        listWidget->setObjectName(QStringLiteral("listWidget"));
-        listWidget->setGeometry(QRect(10, 30, 131, 281));
+        connectedWidget = new QListWidget(groupBox_2);
+        new QListWidgetItem(connectedWidget);
+        new QListWidgetItem(connectedWidget);
+        new QListWidgetItem(connectedWidget);
+        new QListWidgetItem(connectedWidget);
+        connectedWidget->setObjectName(QStringLiteral("connectedWidget"));
+        connectedWidget->setGeometry(QRect(10, 30, 131, 281));
         pushButton_3 = new QPushButton(chatTab);
         pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
         pushButton_3->setGeometry(QRect(170, 120, 201, 31));
@@ -307,9 +311,9 @@ public:
         pushButton_5 = new QPushButton(groupBox_6);
         pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
         pushButton_5->setGeometry(QRect(120, 60, 91, 23));
-        pushButton_6 = new QPushButton(chatTab);
-        pushButton_6->setObjectName(QStringLiteral("pushButton_6"));
-        pushButton_6->setGeometry(QRect(170, 80, 141, 23));
+        voiceChatButton = new QPushButton(chatTab);
+        voiceChatButton->setObjectName(QStringLiteral("voiceChatButton"));
+        voiceChatButton->setGeometry(QRect(170, 80, 141, 23));
         tabWidget->addTab(chatTab, QString());
         streamTab = new QWidget();
         streamTab->setObjectName(QStringLiteral("streamTab"));
@@ -384,7 +388,7 @@ public:
 
         retranslateUi(client);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(client);
@@ -405,19 +409,19 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(connectTab), QApplication::translate("client", "Connect", 0));
         pushButton_2->setText(QApplication::translate("client", "Download Songs", 0));
 
-        const bool __sortingEnabled = listWidget_2->isSortingEnabled();
-        listWidget_2->setSortingEnabled(false);
-        QListWidgetItem *___qlistwidgetitem = listWidget_2->item(0);
+        const bool __sortingEnabled = downloadFileWidget->isSortingEnabled();
+        downloadFileWidget->setSortingEnabled(false);
+        QListWidgetItem *___qlistwidgetitem = downloadFileWidget->item(0);
         ___qlistwidgetitem->setText(QApplication::translate("client", "Stressed Out - Twenty One Pilots", 0));
-        QListWidgetItem *___qlistwidgetitem1 = listWidget_2->item(1);
+        QListWidgetItem *___qlistwidgetitem1 = downloadFileWidget->item(1);
         ___qlistwidgetitem1->setText(QApplication::translate("client", "Sorry - Justin Bieber", 0));
-        QListWidgetItem *___qlistwidgetitem2 = listWidget_2->item(2);
+        QListWidgetItem *___qlistwidgetitem2 = downloadFileWidget->item(2);
         ___qlistwidgetitem2->setText(QApplication::translate("client", "Renegades - X Ambassadors", 0));
-        QListWidgetItem *___qlistwidgetitem3 = listWidget_2->item(3);
+        QListWidgetItem *___qlistwidgetitem3 = downloadFileWidget->item(3);
         ___qlistwidgetitem3->setText(QApplication::translate("client", "Hide Away - Daya", 0));
-        QListWidgetItem *___qlistwidgetitem4 = listWidget_2->item(4);
+        QListWidgetItem *___qlistwidgetitem4 = downloadFileWidget->item(4);
         ___qlistwidgetitem4->setText(QApplication::translate("client", "See You Again - Wiz Khalifa", 0));
-        listWidget_2->setSortingEnabled(__sortingEnabled);
+        downloadFileWidget->setSortingEnabled(__sortingEnabled);
 
         pushButton->setText(QApplication::translate("client", "Change Directory", 0));
         lineEdit->setText(QApplication::translate("client", "C:/Downloads", 0));
@@ -427,6 +431,7 @@ public:
         label_2->setText(QApplication::translate("client", "Total Size:", 0));
         label_4->setText(QApplication::translate("client", "Select Songs", 0));
         label_5->setText(QApplication::translate("client", "Downloaded Songs", 0));
+        updateSongButton->setText(QApplication::translate("client", "Update Song List", 0));
         tabWidget->setTabText(tabWidget->indexOf(downloadTab), QApplication::translate("client", "File Download", 0));
         label_10->setText(QApplication::translate("client", "Select Songs", 0));
         label_11->setText(QApplication::translate("client", "Uploaded Songs", 0));
@@ -451,21 +456,21 @@ public:
         listWidget_5->setSortingEnabled(__sortingEnabled1);
 
         label_14->setText(QApplication::translate("client", "Upload Status:", 0));
-        pushButton_8->setText(QApplication::translate("client", "Upload Songs", 0));
+        uploadButton->setText(QApplication::translate("client", "Upload Songs", 0));
         tabWidget->setTabText(tabWidget->indexOf(uploadTab), QApplication::translate("client", "File Upload", 0));
         groupBox_2->setTitle(QApplication::translate("client", "Online Users:", 0));
 
-        const bool __sortingEnabled2 = listWidget->isSortingEnabled();
-        listWidget->setSortingEnabled(false);
-        QListWidgetItem *___qlistwidgetitem10 = listWidget->item(0);
+        const bool __sortingEnabled2 = connectedWidget->isSortingEnabled();
+        connectedWidget->setSortingEnabled(false);
+        QListWidgetItem *___qlistwidgetitem10 = connectedWidget->item(0);
         ___qlistwidgetitem10->setText(QApplication::translate("client", "Alvin Man", 0));
-        QListWidgetItem *___qlistwidgetitem11 = listWidget->item(1);
+        QListWidgetItem *___qlistwidgetitem11 = connectedWidget->item(1);
         ___qlistwidgetitem11->setText(QApplication::translate("client", "Colin Bose", 0));
-        QListWidgetItem *___qlistwidgetitem12 = listWidget->item(2);
+        QListWidgetItem *___qlistwidgetitem12 = connectedWidget->item(2);
         ___qlistwidgetitem12->setText(QApplication::translate("client", "Martin Minkov", 0));
-        QListWidgetItem *___qlistwidgetitem13 = listWidget->item(3);
+        QListWidgetItem *___qlistwidgetitem13 = connectedWidget->item(3);
         ___qlistwidgetitem13->setText(QApplication::translate("client", "Allen Tsang", 0));
-        listWidget->setSortingEnabled(__sortingEnabled2);
+        connectedWidget->setSortingEnabled(__sortingEnabled2);
 
         pushButton_3->setText(QApplication::translate("client", "End Chat", 0));
         groupBox_3->setTitle(QApplication::translate("client", "Selected User:", 0));
@@ -478,7 +483,7 @@ public:
         label_9->setText(QApplication::translate("client", "From: Alvin Man", 0));
         pushButton_4->setText(QApplication::translate("client", "Accept", 0));
         pushButton_5->setText(QApplication::translate("client", "Reject", 0));
-        pushButton_6->setText(QApplication::translate("client", "Call", 0));
+        voiceChatButton->setText(QApplication::translate("client", "Call", 0));
         tabWidget->setTabText(tabWidget->indexOf(chatTab), QApplication::translate("client", "Voice Chat", 0));
         groupBox_8->setTitle(QApplication::translate("client", "Stream Controls", 0));
         pushButton_9->setText(QApplication::translate("client", "Play/Pause", 0));

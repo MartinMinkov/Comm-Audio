@@ -27,8 +27,11 @@ void client::on_connectButton_clicked()
     receiveWorker = new ThreadManager();
     receiveWorker->moveToThread(receiveThread);
     connect(receiveWorker, SIGNAL(signalConnect(QString, QString, QString)), receiveWorker, SLOT(connect(QString, QString, QString)));
+    connect(receiveWorker, SIGNAL(updateUserList(QVector<QString>)), this, SLOT(updateUsers(QVector<QString>)));
     connect(receiveWorker, SIGNAL(signalDisconnect()), receiveWorker, SLOT(disconnect()));
+    connect(receiveWorker, SIGNAL(signalRefresh()), receiveWorker, SLOT(SendRefreshRequest()));
     connect(receiveWorker, SIGNAL(signalHandleRequest()), receiveWorker, SLOT(handleRequest()));
+    connect(receiveWorker, SIGNAL(signalUpdateUser()), receiveWorker, SLOT(updateUserList()));
     connect(receiveWorker, SIGNAL(finished()), receiveThread, SLOT(quit()));
     receiveThread->start();
 
@@ -54,6 +57,21 @@ void client::on_disconnectButton_clicked()
         ui->tabWidget->setTabEnabled(i, false);
     }
 }
+void client::on_updateSongButton_clicked()
+{
+    emit receiveWorker->signalRefresh();
+}
+
+void client::on_uploadButton_clicked()
+{
+    //emit receiveWorker->signalUpload();
+}
+
+void client::on_voiceChatButton_clicked()
+{
+    //emit receiveWorker->signalUpload();
+}
+
 void client::toggleInput(bool state)
 {
     ui->connectButton->setEnabled(state);
@@ -61,4 +79,11 @@ void client::toggleInput(bool state)
     ui->portfield->setDisabled(!state);
     ui->ipfield->setDisabled(!state);
     ui->nameField->setDisabled(!state);
+}
+void client::updateUsers(QVector<QString> userList)
+{
+    ui->connectedWidget->clear();
+    for(auto& user : userList){
+       ui->connectedWidget->addItem(user);
+    }
 }

@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -213,7 +213,7 @@
       <number>24</number>
      </property>
     </widget>
-    <widget class="QListWidget" name="listWidget_2">
+    <widget class="QListWidget" name="downloadFileWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -369,6 +369,19 @@
      </property>
      <property name="text">
       <string>Downloaded Songs</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="updateSongButton">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>250</y>
+       <width>201</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Update Song List</string>
      </property>
     </widget>
    </widget>
@@ -547,7 +560,7 @@
       <string>Upload Status:</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_8">
+    <widget class="QPushButton" name="uploadButton">
      <property name="geometry">
       <rect>
        <x>240</x>
@@ -577,7 +590,7 @@
      <property name="title">
       <string>Online Users:</string>
      </property>
-     <widget class="QListWidget" name="listWidget">
+     <widget class="QListWidget" name="connectedWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -779,7 +792,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QPushButton" name="pushButton_6">
+    <widget class="QPushButton" name="voiceChatButton">
      <property name="geometry">
       <rect>
        <x>170</x>

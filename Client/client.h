@@ -18,12 +18,17 @@ class client : public QWidget
 public:
     explicit client(QWidget *parent = 0);
     ~client();
-    void client::toggleInput(bool state);
+    void toggleInput(bool state);
+
+public slots:
+    void updateUsers(QVector<QString> userList);
 
 private slots:
     void on_connectButton_clicked();
-
     void on_disconnectButton_clicked();
+    void on_updateSongButton_clicked();
+    void on_uploadButton_clicked();
+    void on_voiceChatButton_clicked();
 
 private:
     Ui::client *ui;

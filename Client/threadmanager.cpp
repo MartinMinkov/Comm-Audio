@@ -57,17 +57,13 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     }
 
     //Get and send name
-    /*if(username != "") {
+    if(username != "") {
         sendDataTCP(sd, username.toStdString().c_str());
         qDebug() << username;
     }
     else {
         qDebug() << "No name";
-    }*/
-
-    //Get song list
-
-    //Get user list
+    }
 
     emit finished();
 }
@@ -79,12 +75,9 @@ void ThreadManager::handleRequest()
     {
         int bytesToRead = PACKET_LEN;
         char *bp = buf;
-        if ((BytesRead = recv(sd, bp, bytesToRead, 0)) < PACKET_LEN)
+        if ((BytesRead = recv(sd, bp, bytesToRead, 0)) > 0)
         {
-            if (BytesRead == 0)
-                break;
             bytesToRead -= BytesRead;
-            bp += BytesRead;
         }
 
         /* recv() failed */
@@ -96,29 +89,34 @@ void ThreadManager::handleRequest()
         /* client disconnected */
         if(BytesRead == 0)
         {
-          emit signalDisconnect();
+            qDebug() << "CLIENT DISCONNECTED";
+            emit signalDisconnect();
         }
 
-        if(buf[0] == REQ_DOWNLOAD)
+        if (buf[0] == REFRESH_CLIENT)
         {
+            qDebug() << "INSIDE REFRESH CLIENT";
 
+            //Refresh client or song list
+            QVector<QString> userList;
+            std::string s(bp);
+            size_t pos = 0;
+            std::string userDelimiter = "&";
+            if(s.find(userDelimiter) != std::string::npos)
+            {
+                pos = s.find(userDelimiter);
+                s.erase(pos, userDelimiter.length());
+            }
+            std::stringstream ss(s);
+            std::string token;
+            while(std::getline(ss, token, ' '))
+            {
+                QString tokenString = QString::fromUtf8(token.c_str());
+                userList.push_back(tokenString);
+            }
+            emit updateUserList(userList);
         }
-        if (buf[0] == REQ_UPLOAD)
-        {
 
-        }
-        if (buf[0] == REQ_STREAM)
-        {
-
-        }
-        if (buf[0] == REQ_CHAT)
-        {
-
-        }
-        if (buf[0] == REQ_REFRESH)
-        {
-
-        }
         qDebug() << buf;
     }
 }
@@ -127,4 +125,34 @@ void ThreadManager::disconnect()
     closesocket(sd);
     WSACleanup();
     emit finished();
+}
+void ThreadManager::SendDownloadRequest()
+{
+    std::string temp;
+    temp = REQ_DOWNLOAD;
+    sendDataTCP(sd, temp.c_str());
+}
+void ThreadManager::SendUploadRequest()
+{
+    std::string temp;
+    temp = REQ_UPLOAD;
+    sendDataTCP(sd, temp.c_str());
+}
+void ThreadManager::SendStreamRequest()
+{
+    std::string temp;
+    temp = REQ_STREAM;
+    sendDataTCP(sd, temp.c_str());
+}
+void ThreadManager::SendVoiceRequest()
+{
+    std::string temp;
+    temp = REQ_CHAT;
+    sendDataTCP(sd, temp.c_str());
+}
+void ThreadManager::SendRefreshRequest()
+{
+    std::string temp;
+    temp = REQ_REFRESH;
+    sendDataTCP(sd, temp.c_str());
 }
