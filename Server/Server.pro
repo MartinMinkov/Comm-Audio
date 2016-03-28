@@ -1,4 +1,4 @@
-#-------------------------------------------------
+-------------------------------------------------
 #
 # Project created by QtCreator 2016-03-22T20:23:30
 #
@@ -13,10 +13,16 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        server.cpp
+        server.cpp \
+    controlthread.cpp \
+    clienthandlerthread.cpp
 
-HEADERS  += server.h
+HEADERS  += server.h \
+    controlthread.h \
+    clienthandlerthread.h
 
 FORMS    += server.ui
 
 RESOURCES += qdarkstyle/style.qrc
+
+LIBS += -lws2_32
