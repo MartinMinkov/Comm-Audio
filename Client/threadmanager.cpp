@@ -12,7 +12,7 @@ ThreadManager::~ThreadManager()
     WSACleanup();
 }
 
-/*void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
+void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
 {
     if(sd != 0) {
         qDebug() << "Socket not null";
@@ -28,7 +28,6 @@ ThreadManager::~ThreadManager()
     {
         qDebug() << "WSAStartup failed";
         return;
-        //ExitThread(1);
     }
 
     //TCP Socket
@@ -36,10 +35,7 @@ ThreadManager::~ThreadManager()
     {
         qDebug() << "Cannot create TCP socket";
         return;
-        //ExitThread(1);
     }
-
-
 
     // Initialize and set up the address structure
     memset((char *)&server, 0, sizeof(struct sockaddr_in));
@@ -49,7 +45,6 @@ ThreadManager::~ThreadManager()
     {
         formatMessage("Unknown server address");
         return;
-        //ExitThread(1);
     }
     // Copy the server address
     memcpy((char *)&server.sin_addr, hp->h_addr, hp->h_length);
@@ -59,26 +54,77 @@ ThreadManager::~ThreadManager()
     {
         formatMessage("Can't connect to server");
         return;
-        //ExitThread(1);
     }
 
     //Get and send name
-    if(username != "") {
-        sendDataTCP(SI, username.toStdString().c_str());
+    /*if(username != "") {
+        sendDataTCP(sd, username.toStdString().c_str());
         qDebug() << username;
     }
     else {
         qDebug() << "No name";
-    }
+    }*/
 
     //Get song list
 
     //Get user list
 
-
-}*/
-
-void ThreadManager::formatMessage(const char* message)
+    emit finished();
+}
+void ThreadManager::handleRequest()
 {
-    qDebug() << message;
+    int BytesRead;
+    char *bp, buf[PACKET_LEN];
+    while (true)
+    {
+        int bytesToRead = PACKET_LEN;
+        char *bp = buf;
+        if ((BytesRead = recv(sd, bp, bytesToRead, 0)) < PACKET_LEN)
+        {
+            if (BytesRead == 0)
+                break;
+            bytesToRead -= BytesRead;
+            bp += BytesRead;
+        }
+
+        /* recv() failed */
+        if(BytesRead < 0)
+        {
+            qDebug() << "recv() failed";
+            emit signalDisconnect();
+        }
+        /* client disconnected */
+        if(BytesRead == 0)
+        {
+          emit signalDisconnect();
+        }
+
+        if(buf[0] == REQ_DOWNLOAD)
+        {
+
+        }
+        if (buf[0] == REQ_UPLOAD)
+        {
+
+        }
+        if (buf[0] == REQ_STREAM)
+        {
+
+        }
+        if (buf[0] == REQ_CHAT)
+        {
+
+        }
+        if (buf[0] == REQ_REFRESH)
+        {
+
+        }
+        qDebug() << buf;
+    }
+}
+void ThreadManager::disconnect()
+{
+    closesocket(sd);
+    WSACleanup();
+    emit finished();
 }

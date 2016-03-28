@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         client.cpp \
-    threadmanager.cpp
+    threadmanager.cpp \
+    networkutility.cpp
 
 HEADERS  += client.h \
-    threadmanager.h
+    threadmanager.h \
+    networkutility.h
 
 FORMS    += client.ui
 

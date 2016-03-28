@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <QDebug>
-#include <winsock2.h>
-#include <windows.h>
+#include "networkutility.h"
+
 
 class ThreadManager : public QObject
 {
@@ -12,13 +12,17 @@ class ThreadManager : public QObject
 public:
     explicit ThreadManager(QObject *parent = 0);
     ~ThreadManager();
-    void formatMessage(const char* message);
 
 signals:
-    void connect(QString ipaddr, QString portnum, QString username);
+    void signalConnect(QString ipaddr, QString portnum, QString username);
+    void signalDisconnect();
+    void signalHandleRequest();
+    void finished();
 
 public slots:
-
+    void connect(QString ipaddr, QString portnum, QString username);
+    void disconnect();
+    void handleRequest();
 
 private:
     DWORD ret;
@@ -27,7 +31,7 @@ private:
     SOCKET sd;
     struct sockaddr_in server;
     struct hostent *hp;
-    //LPSOCKET_INFORMATION SI;
+    LPSOCKET_INFORMATION SI;
 };
 
 #endif // THREADMANAGER_H
