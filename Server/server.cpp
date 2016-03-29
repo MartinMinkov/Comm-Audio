@@ -1,4 +1,5 @@
 #include "server.h"
+#include "networkutility.h"
 #include "ui_server.h"
 
 server::server(QWidget *parent) :
@@ -40,22 +41,4 @@ int server::getPortNumber(){
         port = DEFAULT_PORT;
     }
     return port;
-}
-
-void server::debugMessage(const char* message){
-    qDebug() << message;
-}
-
-void server::sendDataTCP(SOCKET sd, const char* message){
-    if(send(sd, message, PACKET_LEN, 0) == SOCKET_ERROR){
-        return;
-    }
-    debugMessage("Sending data to client");
-}
-
-bool server::receiveTCP(SOCKET sd, char* message){
-    if(recv(sd, message, PACKET_LEN, 0) == SOCKET_ERROR){
-        return FALSE;
-    }
-    return TRUE;
 }

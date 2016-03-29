@@ -1,5 +1,6 @@
 #include "clienthandlerthread.h"
 #include "server.h"
+#include "networkutility.h"
 
 ClientHandlerThread::ClientHandlerThread(int socket)
 {
@@ -18,16 +19,16 @@ void ClientHandlerThread::receiveRequests(){
 
     while(1){
         if((recvStatus = recv(m_socket, bp, PACKET_LEN, 0)) == SOCKET_ERROR){
-            server::debugMessage("failed recv");
+            networkutility::debugMessage("failed recv");
             return;
         }
 
         if(recvStatus == 0){
-            server::debugMessage("client disconnected");
+            networkutility::debugMessage("client disconnected");
             break;
         }
 
-        server::debugMessage(bp);
+        networkutility::debugMessage(bp);
     }
 
 

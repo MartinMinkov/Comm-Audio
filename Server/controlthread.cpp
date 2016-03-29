@@ -1,5 +1,5 @@
 #include "controlthread.h"
-#include "server.h"
+#include "networkutility.h"
 
 ControlThread::ControlThread(int port)
 {

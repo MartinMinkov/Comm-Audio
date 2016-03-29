@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         server.cpp \
     controlthread.cpp \
-    clienthandlerthread.cpp
+    clienthandlerthread.cpp \
+    networkutility.cpp
 
 HEADERS  += server.h \
     controlthread.h \
-    clienthandlerthread.h
+    clienthandlerthread.h \
+    networkutility.h
 
 FORMS    += server.ui
 
