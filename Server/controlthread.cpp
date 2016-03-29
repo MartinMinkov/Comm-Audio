@@ -12,19 +12,19 @@ ControlThread::~ControlThread(){
 }
 
 void ControlThread::setup(int port){
-    qDebug("inside setup()");
+    networkutility::debugMessage("inside setup()");
 
     //Startup WSA
     wVersionRequested = MAKEWORD(2, 2);
     if (WSAStartup(wVersionRequested, &WSAData) != 0) {
-        qDebug("WSAStartup: DLL not found");
+        networkutility::debugMessage("WSAStartup: DLL not found");
         return;
     }
 
     //Create socket
 
     if ((listen_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET){
-        qDebug("WSASocket: Failed to get a socket");
+        networkutility::debugMessage("WSASocket: Failed to get a socket");
         return;
     }
 
@@ -41,33 +41,36 @@ void ControlThread::setup(int port){
     if (bind(listen_socket, (PSOCKADDR)&server,
         sizeof(server)) == SOCKET_ERROR)
     {
-        qDebug("bind() failed on server");
+        networkutility::debugMessage("bind() failed on server");
         return;
     }
 
     if (listen(listen_socket, MAXCONNECTIONS))
     {
-        qDebug("listen() failed on tcp server");
+        networkutility::debugMessage("listen() failed on tcp server");
         return;
     }
 
-    qDebug("passed listen");
+    networkutility::debugMessage("passed listen");
 
     while(1){
         client_len = sizeof(client);
 
         if((accept_socket = accept(listen_socket, (struct sockaddr *)&client, &client_len)) == -1){
-            qDebug("Can't accept client");
+            networkutility::debugMessage("Can't accept client");
             return;
         }
 
-        qDebug("passed accept");
+        networkutility::debugMessage("passed accept");
 
-        qDebug("create thread here for the new client");
+        networkutility::debugMessage("create thread here for the new client");
         clientHandlerThread = new QThread;
         clientWorker = new ClientHandlerThread(accept_socket);
         clientWorker->moveToThread(clientHandlerThread);
         connect(clientHandlerThread, SIGNAL(started()), clientWorker, SLOT(receiveRequests()));
+        //TODO: connect start signal with a slot to create Colin's thread (update song list)
+
+        connect(clientWorker, SIGNAL(signalDisconnect()), clientWorker, SLOT(disconnect()));
         connect(clientWorker, SIGNAL(finished()), clientHandlerThread, SLOT(quit()));
         connect(clientWorker, SIGNAL(finished()), clientWorker, SLOT(deleteLater()));
         connect(clientHandlerThread, SIGNAL(finished()), clientHandlerThread, SLOT(deleteLater()));

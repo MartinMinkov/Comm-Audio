@@ -16,12 +16,18 @@ SOURCES += main.cpp\
         server.cpp \
     controlthread.cpp \
     clienthandlerthread.cpp \
-    networkutility.cpp
+    networkutility.cpp \
+    filehelper.cpp \
+    streamhelper.cpp \
+    chathelper.cpp
 
 HEADERS  += server.h \
     controlthread.h \
     clienthandlerthread.h \
-    networkutility.h
+    networkutility.h \
+    filehelper.h \
+    streamhelper.h \
+    chathelper.h
 
 FORMS    += server.ui
 

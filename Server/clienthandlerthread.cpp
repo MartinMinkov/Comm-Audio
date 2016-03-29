@@ -1,89 +1,75 @@
 #include "clienthandlerthread.h"
 #include "server.h"
 #include "networkutility.h"
+#include "filehelper.h"
+#include "streamhelper.h"
+#include "chathelper.h"
 
 ClientHandlerThread::ClientHandlerThread(int socket)
 {
     m_socket = socket;
+    fHelper = new filehelper();
+    sHelper = new streamhelper();
+    cHelper = new chathelper();
 }
 
 void ClientHandlerThread::receiveRequests(){
     qDebug("inside receiveRequests");
 
     int bytesRead;
-    char * buf;
-    buf = (char*)malloc(PACKET_LEN);
-    memset(buf, 0, PACKET_LEN);
-    char * bp = buf;
-    int recvStatus;
+    char buf[PACKET_LEN];
 
     while(1){
-        if((recvStatus = recv(m_socket, bp, PACKET_LEN, 0)) == SOCKET_ERROR){
+
+        int bytesToRead = PACKET_LEN;
+        char *bp = buf;
+
+        if((bytesRead = recv(m_socket, bp, bytesToRead, 0)) > 0){
+            bytesToRead -= bytesRead;
+        }
+
+        if(bytesRead < 0){
             networkutility::debugMessage("failed recv");
+            emit signalDisconnect();
             return;
         }
 
-        if(recvStatus == 0){
+        if(bytesRead == 0){
             networkutility::debugMessage("client disconnected");
+            emit signalDisconnect();
             break;
         }
+
+        // download request
+        if(buf[0] == REQ_DOWNLOAD){
+            fHelper->handleDownloadRequest();
+        }
+
+        // upload request
+        if(buf[0] == REQ_UPLOAD){
+            fHelper->handleUploadRequest();
+        }
+
+        // stream request
+        if(buf[0] == REQ_STREAM){
+            sHelper->handleStreamRequest();
+        }
+
+        // chat request
+        if(buf[0] == REQ_CHAT){
+            cHelper->handleChatRequest();
+        }
+
 
         networkutility::debugMessage(bp);
     }
 
+    emit finished();
+}
 
-
-
-//    if((recvStatus = recv(m_socket, bp, PACKET_LEN, 0)) == SOCKET_ERROR){
-//        server::debugMessage("failed recv");
-//        return;
-//    }
-
-//    server::debugMessage(bp);
-
-
-//    while(1){
-//        if((recvStatus = recv(m_socket, bp, PACKET_LEN, 0)) == SOCKET_ERROR){
-//            server::debugMessage("failed recv");
-//            return;
-//        }
-
-//        if(recvStatus == 0)
-//            server::debugMessage("client disconnected");
-//            break;
-
-//        server::debugMessage(bp);
-//    }
-
-
-
-//    while(1){
-//        int bytesToRead = PACKET_LEN;
-//        char * bp = buf;
-//        while((bytesRead = recv(m_socket, bp, bytesToRead, 0)) < PACKET_LEN){
-//            if(bytesRead == 0)
-//                break;
-
-//            bytesToRead -= bytesRead;
-//            bp += bytesRead;
-//        }
-
-//        // recv failed
-//        if(bytesRead < 0){
-//            server::debugMessage("recv() failed");
-//            return;
-//        }
-
-//        // client disconnected
-//        if(bytesRead == 0){
-//            server::debugMessage("client disconnected");
-//            return;
-//        }
-
-//        // handle data received
-//        server::debugMessage(buf);
-//    }
-//    free(buf);
-
+void ClientHandlerThread::disconnect(){
+    networkutility::debugMessage("disconnecting client handler...");
+    closesocket(m_socket);
+    WSACleanup();
     emit finished();
 }
