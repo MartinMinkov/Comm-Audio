@@ -14,7 +14,8 @@
 #define REQ_STREAM "!"
 #define REQ_CHAT "?"
 #define REQ_REFRESH "%"
-#define REFRESH_CLIENT  '&'
+#define REFRESH_USER  '&'
+#define REFRESH_SONG  '*'
 
 typedef struct _SOCKET_INFORMATION {
     OVERLAPPED	Overlapped;
@@ -34,5 +35,4 @@ void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, const char* buffer);
 void sendDataTCP(SOCKET sd, const char* message);
 bool receiveTCP(SOCKET sd, char* message);
 void formatMessage(const char* message);
-
 #endif // NETWORKUTILITY_H

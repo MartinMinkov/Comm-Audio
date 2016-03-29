@@ -6,7 +6,8 @@ client::client(QWidget *parent) :
     ui(new Ui::client)
 {
     ui->setupUi(this);
-    for(int i= 1; i < 5; i++) {
+    for(int i= 1; i < 5; i++)
+    {
         ui->tabWidget->setTabEnabled(i, false);
     }
 }
@@ -31,7 +32,8 @@ void client::on_connectButton_clicked()
     connect(receiveWorker, SIGNAL(signalDisconnect()), receiveWorker, SLOT(disconnect()));
     connect(receiveWorker, SIGNAL(signalRefresh()), receiveWorker, SLOT(SendRefreshRequest()));
     connect(receiveWorker, SIGNAL(signalHandleRequest()), receiveWorker, SLOT(handleRequest()));
-    connect(receiveWorker, SIGNAL(signalUpdateUser()), receiveWorker, SLOT(updateUserList()));
+    connect(receiveWorker, SIGNAL(updateUserList(QVector<QString>)), receiveWorker, SLOT(updateUsers(QVector<QString>)));
+    connect(receiveWorker, SIGNAL(updateSongList(QVector<QString>)), receiveWorker, SLOT(updateSongs(QVector<QString>)));
     connect(receiveWorker, SIGNAL(finished()), receiveThread, SLOT(quit()));
     receiveThread->start();
 
@@ -43,7 +45,6 @@ void client::on_connectButton_clicked()
     }
 
     emit receiveWorker->signalConnect(ipaddr, portnum, username);
-    emit receiveWorker->signalHandleRequest();
 }
 
 void client::on_disconnectButton_clicked()
@@ -83,6 +84,13 @@ void client::toggleInput(bool state)
 void client::updateUsers(QVector<QString> userList)
 {
     ui->connectedWidget->clear();
+    for(auto& user : userList){
+       ui->connectedWidget->addItem(user);
+    }
+}
+void client::updateSongs(QVector<QString> userList)
+{
+    ui->downloadFileWidget->clear();
     for(auto& user : userList){
        ui->connectedWidget->addItem(user);
     }

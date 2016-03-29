@@ -65,6 +65,7 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
         qDebug() << "No name";
     }
 
+    emit signalHandleRequest();
     emit finished();
 }
 void ThreadManager::handleRequest()
@@ -93,30 +94,11 @@ void ThreadManager::handleRequest()
             emit signalDisconnect();
         }
 
-        if (buf[0] == REFRESH_CLIENT)
+        if (buf[0] == REFRESH_USER || buf[0] == REFRESH_SONG)
         {
             qDebug() << "INSIDE REFRESH CLIENT";
-
-            //Refresh client or song list
-            QVector<QString> userList;
-            std::string s(bp);
-            size_t pos = 0;
-            std::string userDelimiter = "&";
-            if(s.find(userDelimiter) != std::string::npos)
-            {
-                pos = s.find(userDelimiter);
-                s.erase(pos, userDelimiter.length());
-            }
-            std::stringstream ss(s);
-            std::string token;
-            while(std::getline(ss, token, ' '))
-            {
-                QString tokenString = QString::fromUtf8(token.c_str());
-                userList.push_back(tokenString);
-            }
-            emit updateUserList(userList);
+            parseUserList(bp);
         }
-
         qDebug() << buf;
     }
 }
@@ -153,6 +135,39 @@ void ThreadManager::SendVoiceRequest()
 void ThreadManager::SendRefreshRequest()
 {
     std::string temp;
-    temp = REQ_REFRESH;
+    temp = REFRESH_SONG;
     sendDataTCP(sd, temp.c_str());
 }
+void ThreadManager::parseUserList(char* bp)
+{
+    //Refresh client
+    bool checkFlag = 0;
+    QVector<QString> userList;
+    std::string s(bp);
+    size_t pos = 0;
+    std::string userDelimiter = "&";
+    std::string songDelimiter = "*";
+    if((s.find(userDelimiter) != std::string::npos))
+    {
+        checkFlag = 0;
+        pos = s.find(userDelimiter);
+        s.erase(pos, userDelimiter.length());
+    } else if ((s.find(songDelimiter) != std::string::npos))
+    {
+        checkFlag = 1;
+        pos = s.find(songDelimiter);
+        s.erase(pos, songDelimiter.length());
+    }
+    std::stringstream ss(s);
+    std::string token;
+    while(std::getline(ss, token, ';'))
+    {
+        QString tokenString = QString::fromUtf8(token.c_str());
+        userList.push_back(tokenString);
+    }
+    if (checkFlag == 0)
+        emit updateUserList(userList);
+    else if (checkFlag == 1)
+        emit updateSongList(userList);
+}
+

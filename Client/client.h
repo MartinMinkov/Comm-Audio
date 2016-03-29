@@ -22,6 +22,7 @@ public:
 
 public slots:
     void updateUsers(QVector<QString> userList);
+    void updateSongs(QVector<QString> userList);
 
 private slots:
     void on_connectButton_clicked();
