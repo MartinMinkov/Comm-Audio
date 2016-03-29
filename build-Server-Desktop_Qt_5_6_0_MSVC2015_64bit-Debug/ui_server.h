@@ -40,39 +40,43 @@ public:
     QLabel *label_4;
     QPushButton *pushButton_3;
     QLineEdit *lineEdit;
+    QGroupBox *groupBox_2;
+    QLineEdit *etPort;
+    QPushButton *bStartServer;
+    QPushButton *bStopServer;
 
     void setupUi(QWidget *server)
     {
         if (server->objectName().isEmpty())
             server->setObjectName(QStringLiteral("server"));
-        server->resize(610, 590);
+        server->resize(610, 709);
         testdisplay = new QTextBrowser(server);
         testdisplay->setObjectName(QStringLiteral("testdisplay"));
-        testdisplay->setGeometry(QRect(320, 210, 271, 321));
+        testdisplay->setGeometry(QRect(320, 340, 271, 321));
         groupBox = new QGroupBox(server);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(20, 20, 571, 151));
+        groupBox->setGeometry(QRect(20, 140, 571, 151));
         textEdit = new QTextEdit(groupBox);
         textEdit->setObjectName(QStringLiteral("textEdit"));
-        textEdit->setGeometry(QRect(100, 30, 451, 31));
+        textEdit->setGeometry(QRect(100, 40, 451, 31));
         label_2 = new QLabel(groupBox);
         label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(20, 40, 71, 16));
+        label_2->setGeometry(QRect(20, 50, 71, 16));
         pushButton = new QPushButton(groupBox);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(20, 70, 91, 41));
+        pushButton->setGeometry(QRect(20, 80, 91, 41));
         pushButton_2 = new QPushButton(groupBox);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(120, 70, 91, 41));
+        pushButton_2->setGeometry(QRect(120, 80, 91, 41));
         label = new QLabel(groupBox);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(20, 120, 131, 16));
+        label->setGeometry(QRect(20, 130, 131, 16));
         listView = new QListView(server);
         listView->setObjectName(QStringLiteral("listView"));
-        listView->setGeometry(QRect(20, 210, 281, 321));
+        listView->setGeometry(QRect(20, 340, 281, 321));
         label_3 = new QLabel(server);
         label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setGeometry(QRect(20, 180, 61, 21));
+        label_3->setGeometry(QRect(20, 310, 61, 21));
         QFont font;
         font.setPointSize(10);
         font.setBold(true);
@@ -80,14 +84,26 @@ public:
         label_3->setFont(font);
         label_4 = new QLabel(server);
         label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(320, 180, 141, 21));
+        label_4->setGeometry(QRect(320, 310, 141, 21));
         label_4->setFont(font);
         pushButton_3 = new QPushButton(server);
         pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        pushButton_3->setGeometry(QRect(20, 540, 111, 23));
+        pushButton_3->setGeometry(QRect(20, 670, 111, 23));
         lineEdit = new QLineEdit(server);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(140, 540, 451, 20));
+        lineEdit->setGeometry(QRect(140, 670, 451, 20));
+        groupBox_2 = new QGroupBox(server);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        groupBox_2->setGeometry(QRect(20, 10, 571, 121));
+        etPort = new QLineEdit(groupBox_2);
+        etPort->setObjectName(QStringLiteral("etPort"));
+        etPort->setGeometry(QRect(20, 30, 61, 20));
+        bStartServer = new QPushButton(groupBox_2);
+        bStartServer->setObjectName(QStringLiteral("bStartServer"));
+        bStartServer->setGeometry(QRect(100, 30, 75, 23));
+        bStopServer = new QPushButton(groupBox_2);
+        bStopServer->setObjectName(QStringLiteral("bStopServer"));
+        bStopServer->setGeometry(QRect(190, 30, 75, 23));
 
         retranslateUi(server);
 
@@ -111,6 +127,10 @@ public:
         label_4->setText(QApplication::translate("server", "Connected Clients", 0));
         pushButton_3->setText(QApplication::translate("server", "Song Location", 0));
         lineEdit->setText(QApplication::translate("server", "C:/Documents/Playlists", 0));
+        groupBox_2->setTitle(QApplication::translate("server", "Server Status", 0));
+        etPort->setPlaceholderText(QApplication::translate("server", "Port", 0));
+        bStartServer->setText(QApplication::translate("server", "Start Server", 0));
+        bStopServer->setText(QApplication::translate("server", "Stop Server", 0));
     } // retranslateUi
 
 };
