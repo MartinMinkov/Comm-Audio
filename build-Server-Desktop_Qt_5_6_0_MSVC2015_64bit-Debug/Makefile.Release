@@ -703,6 +703,7 @@ release\server.obj: ..\Server\server.cpp ../Server/server.h \
 		../Server/controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		../Server/clienthandlerthread.h \
+		../Server/networkutility.h \
 		ui_server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QVariant \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QAction \
@@ -814,7 +815,7 @@ release\controlthread.obj: ..\Server\controlthread.cpp ../Server/controlthread.h
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qcontainerfwd.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qobject_impl.h \
 		../Server/clienthandlerthread.h \
-		../Server/server.h \
+		../Server/networkutility.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QWidget \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qwidget.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qwindowdefs.h \

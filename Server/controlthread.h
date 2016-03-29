@@ -10,13 +10,17 @@ class ControlThread : public QObject
 {
     Q_OBJECT
 public:
-    ControlThread(int port);
+    explicit ControlThread(QObject *parent = 0);
+    ~ControlThread();
 
 signals:
+    void signalSetup(int port);
+    void signalDisconnect();
     void finished();
 
 public slots:
-    void setup();
+    void setup(int port);
+    void disconnect();
 
 private:
     WORD wVersionRequested;
@@ -25,7 +29,6 @@ private:
     SOCKET accept_socket;
     SOCKADDR_IN  server;
     SOCKADDR_IN client;
-    int m_port;
     int client_len;
     QThread* clientHandlerThread;
     ClientHandlerThread* clientWorker;

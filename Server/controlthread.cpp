@@ -1,12 +1,17 @@
 #include "controlthread.h"
 #include "networkutility.h"
 
-ControlThread::ControlThread(int port)
-{
-    m_port = port;
+ControlThread::ControlThread(QObject *parent) : QObject(parent){
+    listen_socket = 0;
 }
 
-void ControlThread::setup(){
+ControlThread::~ControlThread(){
+    closesocket(listen_socket);
+    listen_socket = 0;
+    WSACleanup();
+}
+
+void ControlThread::setup(int port){
     qDebug("inside setup()");
 
     //Startup WSA
@@ -26,11 +31,11 @@ void ControlThread::setup(){
     //Init address structs
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = htonl(INADDR_ANY);
-    if (m_port == 0) {
+    if (port == 0) {
         server.sin_port = htons(DEFAULT_PORT);
     }
     else {
-        server.sin_port = htons(m_port);
+        server.sin_port = htons(port);
     }
 
     if (bind(listen_socket, (PSOCKADDR)&server,
@@ -56,6 +61,8 @@ void ControlThread::setup(){
             return;
         }
 
+        qDebug("passed accept");
+
         qDebug("create thread here for the new client");
         clientHandlerThread = new QThread;
         clientWorker = new ClientHandlerThread(accept_socket);
@@ -72,5 +79,12 @@ void ControlThread::setup(){
         qDebug() << numberOfClients;
     }
 
+    emit finished();
+}
+
+void ControlThread::disconnect(){
+    networkutility::debugMessage("disconnecting...");
+    closesocket(listen_socket);
+    WSACleanup();
     emit finished();
 }

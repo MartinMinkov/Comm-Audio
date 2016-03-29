@@ -20,14 +20,21 @@ public:
     ~server();
     int getPortNumber();
 
+
+signals:
+    void signalSetup(int port);
+
 private:
     Ui::server *ui;
     QThread* controlThread;
     ControlThread* controlWorker;
     void initControlThread();
+    void toggleConnected(bool state);
+
 
 private slots:
     void on_bStartServer_clicked();
+    void on_bStopServer_clicked();
 };
 
 #endif // SERVER_H
