@@ -2,3 +2,4 @@
 #include <QVector>
 
 QVector<std::string> userList;
+QStringListModel *playlistModel;

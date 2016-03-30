@@ -75,6 +75,12 @@ void ClientHandlerThread::receiveRequests(){
             cHelper->handleChatRequest();
         }
 
+        if(buf[0] == REFRESH_SONG){
+            std::string constructedSongList = constructSongListString();
+            networkutility::debugMessage(constructedSongList.c_str());
+            sendDataTCP(m_socket, constructedSongList.c_str());
+        }
+
 
         networkutility::debugMessage(bp);
     }
@@ -90,18 +96,35 @@ void ClientHandlerThread::disconnect(){
 }
 
 std::string ClientHandlerThread::constructUserListString(){
-    std::string temp = "";
-    temp += REFRESH_USER;
+    std::string userListString = "";
+    userListString += REFRESH_USER;
         int i = 0;
 
         for (auto it = userList.cbegin(); it != userList.cend(); it++, i++)
         {
-            temp += *it + ";";
+            userListString += *it + ";";
         }
 
         //erase newline chars
-        temp.erase(std::remove(temp.begin(), temp.end(), '\n'), temp.end());
+        userListString.erase(std::remove(userListString.begin(), userListString.end(), '\n'), userListString.end());
 
-        return temp;
+        return userListString;
+}
+
+std::string ClientHandlerThread::constructSongListString(){
+    std::string songListString = "";
+    songListString += REFRESH_SONG;
+
+    int test = playlistModel->rowCount();
+
+    QString temp;
+    for(int i = 0; i < playlistModel->rowCount(); i++){
+        temp = playlistModel->index(i, 0).data(Qt::DisplayRole).toString();
+        songListString += temp.toUtf8().constData();
+        songListString += ";";
+    }
+    qDebug(songListString.c_str());
+
+    return songListString;
 }
 

@@ -30,6 +30,7 @@ private:
 
     std::string clientUsername;
     std::string constructUserListString();
+    std::string constructSongListString();
 };
 
 #endif // CLIENTHANDLERTHREAD_H

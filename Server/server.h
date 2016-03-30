@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QThread>
 #include <QDebug>
+#include <QFileDialog>
+#include <QStringListModel>
 #include "controlthread.h"
 
 
@@ -30,11 +32,14 @@ private:
     ControlThread* controlWorker;
     void initControlThread();
     void toggleConnected(bool state);
-
+    QStringList playlist;
 
 private slots:
     void on_bStartServer_clicked();
     void on_bStopServer_clicked();
+    void on_bAddSongs_clicked();
 };
+
+
 
 #endif // SERVER_H

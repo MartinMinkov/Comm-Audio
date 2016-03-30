@@ -345,6 +345,14 @@ release\moc_server.cpp: C:\Qt\5.6\msvc2015_64\include\QtWidgets\QWidget \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qdir.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QStringListModel \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		..\Server\controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		..\Server\clienthandlerthread.h \
@@ -483,6 +491,7 @@ release\moc_clienthandlerthread.cpp: C:\Qt\5.6\msvc2015_64\include\QtCore\QObjec
 		..\Server\filehelper.h \
 		..\Server\streamhelper.h \
 		..\Server\chathelper.h \
+		..\Server\globals.h \
 		..\Server\clienthandlerthread.h
 	C:\Qt\5.6\msvc2015_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1900 -D_WIN32 -D_WIN64 -IC:/Qt/5.6/msvc2015_64/mkspecs/win32-msvc2015 -I"E:/qT Projects/githubCommAudio/Comm-Audio/Server" -IC:/Qt/5.6/msvc2015_64/include -IC:/Qt/5.6/msvc2015_64/include/QtWidgets -IC:/Qt/5.6/msvc2015_64/include/QtGui -IC:/Qt/5.6/msvc2015_64/include/QtANGLE -IC:/Qt/5.6/msvc2015_64/include/QtCore -I. ..\Server\clienthandlerthread.h -o release\moc_clienthandlerthread.cpp
 
@@ -614,6 +623,14 @@ release\main.obj: ..\Server\main.cpp ../Server/server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qdir.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QStringListModel \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		../Server/controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		../Server/clienthandlerthread.h \
@@ -739,6 +756,14 @@ release\server.obj: ..\Server\server.cpp ../Server/server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qdir.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QStringListModel \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		../Server/controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		../Server/clienthandlerthread.h \
@@ -770,7 +795,6 @@ release\server.obj: ..\Server\server.cpp ../Server/server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qheaderview.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qabstractitemview.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qabstractscrollarea.h \
-		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qitemselectionmodel.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qabstractitemdelegate.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qstyleoption.h \
@@ -981,6 +1005,7 @@ release\clienthandlerthread.obj: ..\Server\clienthandlerthread.cpp ../Server/cli
 		../Server/filehelper.h \
 		../Server/streamhelper.h \
 		../Server/chathelper.h \
+		../Server/globals.h \
 		../Server/server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QWidget \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qwidget.h \
@@ -1033,8 +1058,15 @@ release\clienthandlerthread.obj: ..\Server\clienthandlerthread.cpp ../Server/cli
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qdir.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QStringListModel \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		../Server/controlthread.h \
-		../Server/globals.h \
 		../Server/networkutility.h
 
 release\networkutility.obj: ..\Server\networkutility.cpp ../Server/networkutility.h \
