@@ -99,6 +99,11 @@ void ThreadManager::handleRequest()
             qDebug() << "INSIDE REFRESH CLIENT";
             parseUserList(bp);
         }
+        if (buf[0] ==  REQ_DOWNLOAD)
+        {
+            //Erase control character
+            //Write buffer to local file
+        }
         qDebug() << buf;
     }
 }
@@ -108,11 +113,9 @@ void ThreadManager::disconnect()
     WSACleanup();
     emit finished();
 }
-void ThreadManager::SendDownloadRequest()
+void ThreadManager::SendDownloadRequest(QString songName)
 {
-    std::string temp;
-    temp = REQ_DOWNLOAD;
-    sendDataTCP(sd, temp.c_str());
+    sendDataTCP(sd, songName.toStdString().c_str());
 }
 void ThreadManager::SendUploadRequest()
 {

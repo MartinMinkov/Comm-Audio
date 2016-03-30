@@ -21,7 +21,7 @@ signals:
     void signalHandleRequest();
     void updateUserList(QVector<QString> userList);
     void updateSongList(QVector<QString> userList);
-    void signalDownload();
+    void signalDownload(QString songName);
     void signalUpload();
     void signalStream();
     void signalVoice();
@@ -32,7 +32,7 @@ public slots:
     void connect(QString ipaddr, QString portnum, QString username);
     void disconnect();
     void handleRequest();
-    void SendDownloadRequest();
+    void SendDownloadRequest(QString songName);
     void SendUploadRequest();
     void SendStreamRequest();
     void SendVoiceRequest();

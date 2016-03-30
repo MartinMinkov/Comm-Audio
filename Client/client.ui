@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -187,7 +187,7 @@
     <attribute name="title">
      <string>File Download</string>
     </attribute>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="downloadSongButton">
      <property name="geometry">
       <rect>
        <x>240</x>

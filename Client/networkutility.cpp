@@ -20,11 +20,11 @@ void sendDataTCP(SOCKET sd, const char* message)
 {
     if(send(sd, message, PACKET_LEN, 0) == SOCKET_ERROR)
     {
-        /*if (WSAGetLastError() != ERROR_IO_PENDING)
+       if (WSAGetLastError())
         {
             formatMessage("Sending TCP data information failed");
-            //ExitThread(1);
-        }*/
+            return;
+        }
     }
     formatMessage("Sending Data to Server");
 }

@@ -9,7 +9,7 @@
 #define DATA_BUFSIZE 65000
 #define PACKET_LEN 1024
 
-#define REQ_DOWNLOAD "v"
+#define REQ_DOWNLOAD 'v'
 #define REQ_UPLOAD "^"
 #define REQ_STREAM "!"
 #define REQ_CHAT "?"
