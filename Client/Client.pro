@@ -16,12 +16,18 @@ SOURCES += main.cpp\
         client.cpp \
     networkutility.cpp \
     udpthreadmanager.cpp \
-    tcpthreadmanager.cpp
+    tcpthreadmanager.cpp \
 
 HEADERS  += client.h \
     networkutility.h \
     udpthreadmanager.h \
-    tcpthreadmanager.h
+    tcpthreadmanager.h \
+    networkutility.cpp \
+    filemanager.cpp
+
+HEADERS  += client.h \
+    networkutility.h \
+    filemanager.h
 
 FORMS    += client.ui
 

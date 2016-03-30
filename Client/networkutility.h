@@ -10,7 +10,7 @@
 #define PACKET_LEN 1024
 #define DEFAULT_VOICE_PORT 8000
 
-#define REQ_DOWNLOAD "v"
+#define REQ_DOWNLOAD 'v'
 #define REQ_UPLOAD "^"
 #define REQ_STREAM "!"
 #define REQ_CHAT "?"

@@ -102,7 +102,7 @@ void ThreadManager::setupVoiceChat()
        return;
     }
     int client_len = sizeof(client);
-    if((VCSocket = accept(AcceptSocket, (struct sockaddr *)&client, &client_len)) == -1)
+    if((VCSocket = accept(AcceptSocket, (struct sockaddr *)&client, &client_len)) == INVALID_SOCKET)
     {
         qDebug() <<  "Can't accept client";
         return;
@@ -142,6 +142,11 @@ void ThreadManager::handleRequest()
             qDebug() << "INSIDE REFRESH CLIENT";
             parseUserList(bp);
         }
+        if (buf[0] ==  REQ_DOWNLOAD)
+        {
+            //Erase control character
+            //Write buffer to local file
+        }
         qDebug() << buf;
     }
 }
@@ -152,11 +157,9 @@ void ThreadManager::disconnect()
     WSACleanup();
     emit finished();
 }
-void ThreadManager::SendDownloadRequest()
+void ThreadManager::SendDownloadRequest(QString songName)
 {
-    std::string temp;
-    temp = REQ_DOWNLOAD;
-    sendDataTCP(TCPSocket, temp.c_str());
+    sendDataTCP(TCPSocket, songName.toStdString().c_str());
 }
 void ThreadManager::SendUploadRequest()
 {

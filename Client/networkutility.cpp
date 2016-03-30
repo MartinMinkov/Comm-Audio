@@ -14,7 +14,7 @@ void sendDataTCP(SOCKET sd, const char* message)
 {
     if(send(sd, message, PACKET_LEN, 0) == SOCKET_ERROR)
     {
-        if (WSAGetLastError())
+       if (WSAGetLastError())
         {
             formatMessage("Sending TCP data information failed");
             return;

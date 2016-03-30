@@ -26,7 +26,6 @@ void client::on_connectButton_clicked()
     //connect
     receiveTCPThread = new QThread;
     receiveVoiceChatThread = new QThread;
-
     receiveTCPWorker = new ThreadManager();
     receiveVoiceChatWorker = new ThreadManager();
 
@@ -86,9 +85,11 @@ void client::on_voiceChatButton_clicked()
 }
 void client::on_downloadSongButton_clicked()
 {
-
+    qDebug() << "Update song button";
+    connect(receiveTCPWorker, SIGNAL(signalDownload(QString)), receiveTCPWorker, SLOT(SendDownloadRequest(QString)));
+    QString songName = QString("%1 %2").arg(REQ_DOWNLOAD).arg(ui->downloadFileWidget->currentItem()->text());
+    emit receiveTCPWorker->signalDownload(songName);
 }
-
 void client::toggleInput(bool state)
 {
     ui->connectButton->setEnabled(state);

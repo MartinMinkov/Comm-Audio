@@ -31,6 +31,8 @@ private slots:
     void on_uploadButton_clicked();
     void on_voiceChatButton_clicked();
 
+    void on_downloadSongButton_clicked();
+
 private:
     Ui::client *ui;
     QThread* receiveTCPThread;
