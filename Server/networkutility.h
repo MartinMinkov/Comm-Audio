@@ -22,11 +22,13 @@
 class networkutility
 {
 private:
-    void sendDataTCP(SOCKET sd, const char* message);
-    bool receiveTCP(SOCKET sd, char* message);
+
 public:
     networkutility();
     static void debugMessage(const char* message);
 };
+
+void sendDataTCP(SOCKET sd, const char* message);
+bool receiveTCP(SOCKET sd, char* message);
 
 #endif // NETWORKUTILITY_H

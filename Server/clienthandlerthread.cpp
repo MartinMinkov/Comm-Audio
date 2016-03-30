@@ -7,6 +7,7 @@
 
 ClientHandlerThread::ClientHandlerThread(int socket)
 {
+
     m_socket = socket;
     fHelper = new filehelper();
     sHelper = new streamhelper();
@@ -14,10 +15,20 @@ ClientHandlerThread::ClientHandlerThread(int socket)
 }
 
 void ClientHandlerThread::receiveRequests(){
+
+//    qRegisterMetaType<QVector<QString>>("userVector");
     qDebug("inside receiveRequests");
 
     int bytesRead;
     char buf[PACKET_LEN];
+    char *username = buf;
+
+    // handle the username that is sent
+    if(receiveTCP(m_socket, username)){
+        networkutility::debugMessage(username);
+        clientUsername = QString::fromUtf8(username);
+        userList.push_back(clientUsername);
+    }
 
     while(1){
 

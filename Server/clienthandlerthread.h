@@ -2,6 +2,7 @@
 #define CLIENTHANDLERTHREAD_H
 
 #include <QObject>
+#include <QVector>
 #include "filehelper.h"
 #include "streamhelper.h"
 #include "chathelper.h"
@@ -25,6 +26,8 @@ private:
     filehelper* fHelper;
     streamhelper* sHelper;
     chathelper* cHelper;
+    QVector<QString> userList;
+    QString clientUsername;
 };
 
 #endif // CLIENTHANDLERTHREAD_H
