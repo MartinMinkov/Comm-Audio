@@ -5,7 +5,6 @@
 #include <winsock2.h>
 #include <windows.h>
 #include "clienthandlerthread.h"
-
 class ControlThread : public QObject
 {
     Q_OBJECT
@@ -25,8 +24,8 @@ public slots:
 private:
     WORD wVersionRequested;
     WSADATA WSAData;
-    SOCKET listen_socket;
-    SOCKET accept_socket;
+
+   // SOCKET accept_socket;
     SOCKADDR_IN  server;
     SOCKADDR_IN client;
     int client_len;

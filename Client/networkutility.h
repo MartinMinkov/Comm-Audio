@@ -32,6 +32,7 @@ public:
 };
 void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, const char* buffer);
 void sendDataTCP(SOCKET sd, const char* message);
+bool WSARead(SOCKET sd, char * message, int timeout, int size);
 bool receiveTCP(SOCKET sd, char* message);
 void formatMessage(const char* message);
 

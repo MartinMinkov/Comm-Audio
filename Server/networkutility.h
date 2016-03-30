@@ -5,7 +5,7 @@
 #include <QThread>
 #include <QDebug>
 #include "controlthread.h"
-
+#include "globals.h"
 #define DEFAULT_PORT 7000
 #define DATA_BUFSIZE 65000
 #define PACKET_LEN 1024
@@ -19,13 +19,17 @@
 
 #define MAXCONNECTIONS 10
 
+
 class networkutility
 {
 private:
-    void sendDataTCP(SOCKET sd, const char* message);
-    bool receiveTCP(SOCKET sd, char* message);
+
 public:
     networkutility();
+
+    void sendDataTCP(SOCKET sd, const char* message);
+    bool WSAS(SOCKET sd, char * message, int size, int timeout);
+    bool receiveTCP(SOCKET sd, char* message);
     static void debugMessage(const char* message);
 };
 

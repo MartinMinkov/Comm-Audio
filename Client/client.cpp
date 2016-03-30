@@ -21,7 +21,7 @@ void client::on_connectButton_clicked()
     QString ipaddr = ui->ipfield->text();
     QString portnum = ui->portfield->text();
     QString username = ui->nameField->text();
-
+    ThreadManager thr;
     //connect
     receiveThread = new QThread;
     receiveWorker = new ThreadManager();
@@ -44,6 +44,8 @@ void client::on_connectButton_clicked()
 
     emit receiveWorker->signalConnect(ipaddr, portnum, username);
     emit receiveWorker->signalHandleRequest();
+
+
 }
 
 void client::on_disconnectButton_clicked()

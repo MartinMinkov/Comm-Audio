@@ -10,7 +10,13 @@ int main(int argc, char *argv[])
     styleFile.open(QFile::ReadOnly | QFile::Text);
     QString style(styleFile.readAll());
     a.setStyleSheet(style);
+    WSADATA data;
+    int ret;
+    if ((ret = WSAStartup(0x0202, &data)) != 0)
+    {
 
+        exit(1);
+    }
     server w;
     w.show();
 

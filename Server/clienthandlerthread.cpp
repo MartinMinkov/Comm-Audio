@@ -26,23 +26,26 @@ void ClientHandlerThread::receiveRequests(){
 
         if((bytesRead = recv(m_socket, bp, bytesToRead, 0)) > 0){
             bytesToRead -= bytesRead;
+            printf("Read something: %s", buf);
         }
 
         if(bytesRead < 0){
             networkutility::debugMessage("failed recv");
+            printf("Error: %d", bytesRead);
             emit signalDisconnect();
             return;
         }
 
         if(bytesRead == 0){
             networkutility::debugMessage("client disconnected");
+            continue;
             emit signalDisconnect();
             break;
         }
 
         // download request
         if(buf[0] == REQ_DOWNLOAD){
-            fHelper->handleDownloadRequest();
+            fHelper->handleDownloadRequest(buf);
         }
 
         // upload request

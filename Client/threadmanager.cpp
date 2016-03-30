@@ -49,7 +49,7 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     // Copy the server address
     memcpy((char *)&server.sin_addr, hp->h_addr, hp->h_length);
 
-    // Connecting to the server
+    // Connectin    g to the server
     if (::connect(sd, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR)
     {
         formatMessage("Can't connect to server");
@@ -71,6 +71,7 @@ void ThreadManager::handleRequest()
 {
     int BytesRead;
     char *bp, buf[PACKET_LEN];
+    SendDownloadRequest();
     while (true)
     {
         int bytesToRead = PACKET_LEN;
@@ -128,9 +129,24 @@ void ThreadManager::disconnect()
 }
 void ThreadManager::SendDownloadRequest()
 {
+    printf("Sending a request!");
+    fflush(stdout);
     std::string temp;
     temp = REQ_DOWNLOAD;
+    temp += "testfile.txt";
     sendDataTCP(sd, temp.c_str());
+    char * rec;
+    char buf[1024] = { 0 };
+    rec = buf;
+    networkutility n;
+    printf("Doing a file request");
+    fflush(stdout);
+    while(WSARead(sd, buf, 2000, 1024)){
+        printf("Doing receive in download");
+        printf("Received: %s", buf);
+        fflush(stdout);
+    }
+
 }
 void ThreadManager::SendUploadRequest()
 {
