@@ -15,7 +15,8 @@
 #define REQ_STREAM '!'
 #define REQ_CHAT '?'
 #define REQ_REFRESH '%'
-#define REFRESH_CLIENT '&'
+#define REFRESH_USER '&'
+#define REFRESH_SONG '*'
 
 #define MAXCONNECTIONS 10
 
@@ -26,6 +27,7 @@ private:
 public:
     networkutility();
     static void debugMessage(const char* message);
+
 };
 
 void sendDataTCP(SOCKET sd, const char* message);

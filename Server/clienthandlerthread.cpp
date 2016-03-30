@@ -1,9 +1,6 @@
 #include "clienthandlerthread.h"
 #include "server.h"
 #include "networkutility.h"
-#include "filehelper.h"
-#include "streamhelper.h"
-#include "chathelper.h"
 
 ClientHandlerThread::ClientHandlerThread(int socket)
 {
@@ -25,10 +22,17 @@ void ClientHandlerThread::receiveRequests(){
 
     // handle the username that is sent
     if(receiveTCP(m_socket, username)){
+        networkutility::debugMessage("username:");
         networkutility::debugMessage(username);
-        clientUsername = QString::fromUtf8(username);
-        userList.push_back(clientUsername);
+//        clientUsername = username;
+        userList.push_back(username);
     }
+
+    // send the server the username list
+    std::string constructedUserList = constructUserListString();
+
+    networkutility::debugMessage(constructedUserList.c_str());
+    sendDataTCP(m_socket, constructedUserList.c_str());
 
     while(1){
 
@@ -84,3 +88,20 @@ void ClientHandlerThread::disconnect(){
     WSACleanup();
     emit finished();
 }
+
+std::string ClientHandlerThread::constructUserListString(){
+    std::string temp = "";
+    temp += REFRESH_USER;
+        int i = 0;
+
+        for (auto it = userList.cbegin(); it != userList.cend(); it++, i++)
+        {
+            temp += *it + ";";
+        }
+
+        //erase newline chars
+        temp.erase(std::remove(temp.begin(), temp.end(), '\n'), temp.end());
+
+        return temp;
+}
+

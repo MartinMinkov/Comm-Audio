@@ -13,7 +13,8 @@ void sendDataTCP(SOCKET sd, const char* message){
     if(send(sd, message, PACKET_LEN, 0) == SOCKET_ERROR){
         return;
     }
-    networkutility::debugMessage("Sending data to client");
+    networkutility::debugMessage("Sending data to client. Sending:");
+    networkutility::debugMessage(message);
 }
 
 bool receiveTCP(SOCKET sd, char* message){

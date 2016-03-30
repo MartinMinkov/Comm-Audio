@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     networkutility.cpp \
     filehelper.cpp \
     streamhelper.cpp \
-    chathelper.cpp
+    chathelper.cpp \
+    globals.cpp
 
 HEADERS  += server.h \
     controlthread.h \
@@ -27,7 +28,8 @@ HEADERS  += server.h \
     networkutility.h \
     filehelper.h \
     streamhelper.h \
-    chathelper.h
+    chathelper.h \
+    globals.h
 
 FORMS    += server.ui
 
