@@ -8,6 +8,7 @@
 
 #define DATA_BUFSIZE 65000
 #define PACKET_LEN 1024
+#define DEFAULT_VOICE_PORT 8000
 
 #define REQ_DOWNLOAD "v"
 #define REQ_UPLOAD "^"
@@ -26,13 +27,11 @@ typedef struct _SOCKET_INFORMATION {
     DWORD		BytesRECV;
 } SOCKET_INFORMATION, *LPSOCKET_INFORMATION;
 
-class networkutility
-{
-public:
-    networkutility();
-};
 void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, const char* buffer);
 void sendDataTCP(SOCKET sd, const char* message);
 bool receiveTCP(SOCKET sd, char* message);
 void formatMessage(const char* message);
+void sendDatalUDP(LPSOCKET_INFORMATION SI, struct	sockaddr_in server, char* message);
+
+
 #endif // NETWORKUTILITY_H

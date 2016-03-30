@@ -24,35 +24,46 @@ void client::on_connectButton_clicked()
     QString username = ui->nameField->text();
 
     //connect
-    receiveThread = new QThread;
-    receiveWorker = new ThreadManager();
-    receiveWorker->moveToThread(receiveThread);
-    connect(receiveWorker, SIGNAL(signalConnect(QString, QString, QString)), receiveWorker, SLOT(connect(QString, QString, QString)));
-    connect(receiveWorker, SIGNAL(updateUserList(QVector<QString>)), this, SLOT(updateUsers(QVector<QString>)));
-    connect(receiveWorker, SIGNAL(signalDisconnect()), receiveWorker, SLOT(disconnect()));
-    connect(receiveWorker, SIGNAL(signalRefresh()), receiveWorker, SLOT(SendRefreshRequest()));
-    connect(receiveWorker, SIGNAL(signalHandleRequest()), receiveWorker, SLOT(handleRequest()));
-    connect(receiveWorker, SIGNAL(updateUserList(QVector<QString>)), receiveWorker, SLOT(updateUsers(QVector<QString>)));
-    connect(receiveWorker, SIGNAL(updateSongList(QVector<QString>)), receiveWorker, SLOT(updateSongs(QVector<QString>)));
-    connect(receiveWorker, SIGNAL(finished()), receiveThread, SLOT(quit()));
-    receiveThread->start();
+    receiveTCPThread = new QThread;
+    receiveVoiceChatThread = new QThread;
+
+    receiveTCPWorker = new ThreadManager();
+    receiveVoiceChatWorker = new ThreadManager();
+
+    receiveTCPWorker->moveToThread(receiveTCPThread);
+    receiveVoiceChatWorker->moveToThread(receiveVoiceChatThread);
+
+    connect(receiveTCPWorker, SIGNAL(signalConnect(QString, QString, QString)), receiveTCPWorker, SLOT(connect(QString, QString, QString)));
+    connect(receiveTCPWorker, SIGNAL(updateUserList(QVector<QString>)), this, SLOT(updateUsers(QVector<QString>)));
+    connect(receiveTCPWorker, SIGNAL(updateSongList(QVector<QString>)), this, SLOT(updateSongs(QVector<QString>)));
+    connect(receiveTCPWorker, SIGNAL(signalHandleRequest()), receiveTCPWorker, SLOT(handleRequest()));
+    connect(receiveTCPWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()));
+
+    connect(receiveVoiceChatWorker, SIGNAL(signalVoiceChat()), receiveVoiceChatWorker, SLOT(setupVoiceChat()));
+    connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()));
+
+    receiveTCPThread->start();
+    receiveVoiceChatThread->start();
 
     client::toggleInput(false);
-
     ui->connectStatus->setText("Connected");
     for(int i= 1; i < 5; i++) {
         ui->tabWidget->setTabEnabled(i, true);
     }
 
-    emit receiveWorker->signalConnect(ipaddr, portnum, username);
+    emit receiveTCPWorker->signalConnect(ipaddr, portnum, username);
 }
 
 void client::on_disconnectButton_clicked()
 {
-    //disconnect
-    client::toggleInput(true);
-    emit receiveWorker->signalDisconnect();
+    connect(receiveTCPWorker, SIGNAL(signalDisconnect()), receiveTCPWorker, SLOT(disconnect()));
+    connect(receiveVoiceChatWorker, SIGNAL(signalDisconnect()), receiveVoiceChatWorker, SLOT(disconnect()));
 
+    //disconnect
+    emit receiveTCPWorker->signalDisconnect();
+    emit receiveVoiceChatWorker->signalDisconnect();
+
+    client::toggleInput(true);
     ui->connectStatus->setText("Disconnected");
     for(int i= 1; i < 5; i++) {
         ui->tabWidget->setTabEnabled(i, false);
@@ -60,7 +71,8 @@ void client::on_disconnectButton_clicked()
 }
 void client::on_updateSongButton_clicked()
 {
-    emit receiveWorker->signalRefresh();
+    connect(receiveTCPWorker, SIGNAL(signalRefresh()), receiveTCPWorker, SLOT(SendRefreshRequest()));
+    emit receiveTCPWorker->signalRefresh();
 }
 
 void client::on_uploadButton_clicked()
@@ -71,6 +83,10 @@ void client::on_uploadButton_clicked()
 void client::on_voiceChatButton_clicked()
 {
     //emit receiveWorker->signalUpload();
+}
+void client::on_downloadSongButton_clicked()
+{
+
 }
 
 void client::toggleInput(bool state)

@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QThread>
-#include "threadmanager.h"
+#include "tcpthreadmanager.h"
 
 namespace Ui {
     class client;
@@ -33,8 +33,12 @@ private slots:
 
 private:
     Ui::client *ui;
-    QThread* receiveThread;
-    ThreadManager* receiveWorker;
+    QThread* receiveTCPThread;
+    ThreadManager* receiveTCPWorker;
+    QThread* receiveUDPThread;
+    ThreadManager* receiveUDPWorker;
+    QThread* receiveVoiceChatThread;
+    ThreadManager* receiveVoiceChatWorker;
 };
 
 #endif // CLIENT_H

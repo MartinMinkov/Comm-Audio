@@ -45,24 +45,30 @@ OBJECTS_DIR   = debug
 
 SOURCES       = ..\Client\main.cpp \
 		..\Client\client.cpp \
-		..\Client\threadmanager.cpp \
-		..\Client\networkutility.cpp debug\qrc_style.cpp \
+		..\Client\networkutility.cpp \
+		..\Client\udpthreadmanager.cpp \
+		..\Client\tcpthreadmanager.cpp debug\qrc_style.cpp \
 		debug\moc_client.cpp \
-		debug\moc_threadmanager.cpp
+		debug\moc_udpthreadmanager.cpp \
+		debug\moc_tcpthreadmanager.cpp
 OBJECTS       = debug\main.obj \
 		debug\client.obj \
-		debug\threadmanager.obj \
 		debug\networkutility.obj \
+		debug\udpthreadmanager.obj \
+		debug\tcpthreadmanager.obj \
 		debug\qrc_style.obj \
 		debug\moc_client.obj \
-		debug\moc_threadmanager.obj
+		debug\moc_udpthreadmanager.obj \
+		debug\moc_tcpthreadmanager.obj
 
 DIST          =  ..\Client\client.h \
-		..\Client\threadmanager.h \
-		..\Client\networkutility.h ..\Client\main.cpp \
+		..\Client\networkutility.h \
+		..\Client\udpthreadmanager.h \
+		..\Client\tcpthreadmanager.h ..\Client\main.cpp \
 		..\Client\client.cpp \
-		..\Client\threadmanager.cpp \
-		..\Client\networkutility.cpp
+		..\Client\networkutility.cpp \
+		..\Client\udpthreadmanager.cpp \
+		..\Client\tcpthreadmanager.cpp
 QMAKE_TARGET  = Client
 DESTDIR        = debug\ #avoid trailing-slash linebreak
 TARGET         = Client.exe
@@ -151,7 +157,7 @@ dist:
 	$(ZIP) Client.zip $(SOURCES) $(DIST) ..\Client\Client.pro ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\spec_pre.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\common\angle.conf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\common\msvc-base.conf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\common\msvc-desktop.conf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\qconfig.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dcore.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dcore_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dinput.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dinput_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dlogic.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dlogic_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquick.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquick_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquickinput.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquickinput_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquickrender.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquickrender_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3drender.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3drender_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axbase.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axbase_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axcontainer.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axserver.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axserver_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_bluetooth.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_clucene_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_core.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_core_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_dbus.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_dbus_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_designer.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_gui.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_help.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_help_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_labscontrols_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_labstemplates_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_location.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_location_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_multimedia.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_network.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_network_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_nfc.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_nfc_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_opengl.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_openglextensions.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_platformsupport_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_positioning.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_positioning_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qml.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quick.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_script.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_script_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_scripttools.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_sensors.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_sensors_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_serialbus.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_serialbus_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_serialport.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_serialport_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_sql.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_svg.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_testlib.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_uiplugin.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_uitools.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webchannel.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webengine.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webengine_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginecore.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginecore_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginecoreheaders_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginewidgets.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginewidgets_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_websockets.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_websockets_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webview.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webview_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_widgets.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_winextras.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_winextras_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_xml.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_zlib_private.pri ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\qt_functions.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\qt_config.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\win32\qt_config.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\win32-msvc2015\qmake.conf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\spec_post.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\exclusive_builds.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\default_pre.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\win32\default_pre.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\resolve_config.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\exclusive_builds_post.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\default_post.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\build_pass.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\qml_debug.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\win32\rtti.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\precompile_header.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\warn_on.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\qt.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\resources.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\moc.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\win32\opengl.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\uic.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\win32\windows.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\testcase_targets.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\exceptions.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\yacc.prf ..\..\..\Qt\5.6\msvc2015_64\mkspecs\features\lex.prf ..\Client\Client.pro ..\Client\qdarkstyle\style.qrc ..\..\..\Qt\5.6\msvc2015_64\lib\qtmaind.prl ..\..\..\Qt\5.6\msvc2015_64\lib\Qt5Widgetsd.prl ..\..\..\Qt\5.6\msvc2015_64\lib\Qt5Guid.prl ..\..\..\Qt\5.6\msvc2015_64\lib\Qt5Cored.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug\main.obj debug\client.obj debug\threadmanager.obj debug\networkutility.obj debug\qrc_style.obj debug\moc_client.obj debug\moc_threadmanager.obj
+	-$(DEL_FILE) debug\main.obj debug\client.obj debug\networkutility.obj debug\udpthreadmanager.obj debug\tcpthreadmanager.obj debug\qrc_style.obj debug\moc_client.obj debug\moc_udpthreadmanager.obj debug\moc_tcpthreadmanager.obj
 	-$(DEL_FILE) debug\Client.exp debug\Client.ilk debug\Client.idb
 
 distclean: clean 
@@ -213,9 +219,9 @@ debug\qrc_style.cpp: ..\Client\qdarkstyle\style.qrc \
 		..\Client\qdarkstyle\style.qss
 	G:\Qt\5.6\msvc2015_64\bin\rcc.exe -name style ..\Client\qdarkstyle\style.qrc -o debug\qrc_style.cpp
 
-compiler_moc_header_make_all: debug\moc_client.cpp debug\moc_threadmanager.cpp
+compiler_moc_header_make_all: debug\moc_client.cpp debug\moc_udpthreadmanager.cpp debug\moc_tcpthreadmanager.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) debug\moc_client.cpp debug\moc_threadmanager.cpp
+	-$(DEL_FILE) debug\moc_client.cpp debug\moc_udpthreadmanager.cpp debug\moc_tcpthreadmanager.cpp
 debug\moc_client.cpp: ..\..\..\Qt\5.6\msvc2015_64\include\QtWidgets\QWidget \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtWidgets\qwidget.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtGui\qwindowdefs.h \
@@ -324,12 +330,70 @@ debug\moc_client.cpp: ..\..\..\Qt\5.6\msvc2015_64\include\QtWidgets\QWidget \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
-		..\Client\threadmanager.h \
+		..\Client\tcpthreadmanager.h \
 		..\Client\networkutility.h \
 		..\Client\client.h
 	G:\Qt\5.6\msvc2015_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1900 -D_WIN32 -D_WIN64 -IG:/Qt/5.6/msvc2015_64/mkspecs/win32-msvc2015 -IG:/GitHub/Comm-Audio/Client -IG:/Qt/5.6/msvc2015_64/include -IG:/Qt/5.6/msvc2015_64/include/QtWidgets -IG:/Qt/5.6/msvc2015_64/include/QtGui -IG:/Qt/5.6/msvc2015_64/include/QtANGLE -IG:/Qt/5.6/msvc2015_64/include/QtCore -I. ..\Client\client.h -o debug\moc_client.cpp
 
-debug\moc_threadmanager.cpp: ..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QObject \
+debug\moc_udpthreadmanager.cpp: ..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QObject \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qnamespace.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qglobal.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qconfig.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qfeatures.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qsystemdetection.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qprocessordetection.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcompilerdetection.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtypeinfo.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtypetraits.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qisenum.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qsysinfo.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlogging.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qflags.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbasicatomic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_bootstrap.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qgenericatomic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_cxx11.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_gcc.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_msvc.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv7.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv6.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv5.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_ia64.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_x86.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_unix.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qglobalstatic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmutex.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qnumeric.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qversiontagging.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs_impl.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstring.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qchar.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbytearray.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qrefcount.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qarraydata.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringbuilder.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlist.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qalgorithms.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qiterator.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qhashfunctions.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qpair.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbytearraylist.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringlist.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qregexp.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringmatcher.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcoreevent.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qscopedpointer.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmetatype.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qvarlengtharray.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcontainerfwd.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject_impl.h \
+		..\Client\udpthreadmanager.h
+	G:\Qt\5.6\msvc2015_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1900 -D_WIN32 -D_WIN64 -IG:/Qt/5.6/msvc2015_64/mkspecs/win32-msvc2015 -IG:/GitHub/Comm-Audio/Client -IG:/Qt/5.6/msvc2015_64/include -IG:/Qt/5.6/msvc2015_64/include/QtWidgets -IG:/Qt/5.6/msvc2015_64/include/QtGui -IG:/Qt/5.6/msvc2015_64/include/QtANGLE -IG:/Qt/5.6/msvc2015_64/include/QtCore -I. ..\Client\udpthreadmanager.h -o debug\moc_udpthreadmanager.cpp
+
+debug\moc_tcpthreadmanager.cpp: ..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qnamespace.h \
@@ -436,8 +500,8 @@ debug\moc_threadmanager.cpp: ..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QObject 
 		..\..\..\Qt\5.6\msvc2015_64\include\QtGui\qvector2d.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtGui\qtouchdevice.h \
 		..\Client\networkutility.h \
-		..\Client\threadmanager.h
-	G:\Qt\5.6\msvc2015_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1900 -D_WIN32 -D_WIN64 -IG:/Qt/5.6/msvc2015_64/mkspecs/win32-msvc2015 -IG:/GitHub/Comm-Audio/Client -IG:/Qt/5.6/msvc2015_64/include -IG:/Qt/5.6/msvc2015_64/include/QtWidgets -IG:/Qt/5.6/msvc2015_64/include/QtGui -IG:/Qt/5.6/msvc2015_64/include/QtANGLE -IG:/Qt/5.6/msvc2015_64/include/QtCore -I. ..\Client\threadmanager.h -o debug\moc_threadmanager.cpp
+		..\Client\tcpthreadmanager.h
+	G:\Qt\5.6\msvc2015_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1900 -D_WIN32 -D_WIN64 -IG:/Qt/5.6/msvc2015_64/mkspecs/win32-msvc2015 -IG:/GitHub/Comm-Audio/Client -IG:/Qt/5.6/msvc2015_64/include -IG:/Qt/5.6/msvc2015_64/include/QtWidgets -IG:/Qt/5.6/msvc2015_64/include/QtGui -IG:/Qt/5.6/msvc2015_64/include/QtANGLE -IG:/Qt/5.6/msvc2015_64/include/QtCore -I. ..\Client\tcpthreadmanager.h -o debug\moc_tcpthreadmanager.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -568,7 +632,7 @@ debug\main.obj: ..\Client\main.cpp ../Client/client.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
-		../Client/threadmanager.h \
+		../Client/tcpthreadmanager.h \
 		../Client/networkutility.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtWidgets\QApplication \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtWidgets\qapplication.h \
@@ -688,7 +752,7 @@ debug\client.obj: ..\Client\client.cpp ../Client/client.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
-		../Client/threadmanager.h \
+		../Client/tcpthreadmanager.h \
 		../Client/networkutility.h \
 		ui_client.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QVariant \
@@ -749,7 +813,133 @@ debug\client.obj: ..\Client\client.cpp ../Client/client.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtWidgets\QSlider \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtWidgets\QTabWidget
 
-debug\threadmanager.obj: ..\Client\threadmanager.cpp ../Client/threadmanager.h \
+debug\networkutility.obj: ..\Client\networkutility.cpp ../Client/networkutility.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qdebug.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qalgorithms.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qglobal.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qconfig.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qfeatures.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qsystemdetection.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qprocessordetection.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcompilerdetection.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtypeinfo.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtypetraits.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qisenum.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qsysinfo.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlogging.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qflags.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbasicatomic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_bootstrap.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qgenericatomic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_cxx11.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_gcc.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_msvc.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv7.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv6.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv5.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_ia64.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_x86.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_unix.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qglobalstatic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmutex.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qnumeric.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qversiontagging.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qhash.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qchar.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qiterator.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlist.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qrefcount.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qarraydata.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qhashfunctions.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qpair.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbytearraylist.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbytearray.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qnamespace.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstring.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringbuilder.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringlist.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qregexp.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringmatcher.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmap.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtextstream.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qiodevice.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs_impl.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcoreevent.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qscopedpointer.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmetatype.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qvarlengtharray.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcontainerfwd.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject_impl.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlocale.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qvariant.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qshareddata.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qvector.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qpoint.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qset.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcontiguouscache.h
+
+debug\udpthreadmanager.obj: ..\Client\udpthreadmanager.cpp ../Client/udpthreadmanager.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QObject \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qnamespace.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qglobal.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qconfig.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qfeatures.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qsystemdetection.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qprocessordetection.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcompilerdetection.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtypeinfo.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtypetraits.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qisenum.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qsysinfo.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlogging.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qflags.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbasicatomic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_bootstrap.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qgenericatomic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_cxx11.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_gcc.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_msvc.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv7.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv6.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv5.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_ia64.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_x86.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_unix.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qglobalstatic.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmutex.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qnumeric.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qversiontagging.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs_impl.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstring.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qchar.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbytearray.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qrefcount.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qarraydata.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringbuilder.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlist.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qalgorithms.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qiterator.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qhashfunctions.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qpair.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbytearraylist.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringlist.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qregexp.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringmatcher.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcoreevent.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qscopedpointer.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmetatype.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qvarlengtharray.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcontainerfwd.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject_impl.h
+
+debug\tcpthreadmanager.obj: ..\Client\tcpthreadmanager.cpp ../Client/tcpthreadmanager.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs.h \
@@ -858,80 +1048,13 @@ debug\threadmanager.obj: ..\Client\threadmanager.cpp ../Client/threadmanager.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtGui\qtouchdevice.h \
 		../Client/networkutility.h
 
-debug\networkutility.obj: ..\Client\networkutility.cpp ../Client/networkutility.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qdebug.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qalgorithms.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qglobal.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qconfig.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qfeatures.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qsystemdetection.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qprocessordetection.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcompilerdetection.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtypeinfo.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtypetraits.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qisenum.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qsysinfo.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlogging.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qflags.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbasicatomic.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_bootstrap.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qgenericatomic.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_cxx11.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_gcc.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_msvc.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv7.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv6.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv5.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_ia64.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_x86.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qatomic_unix.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qglobalstatic.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmutex.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qnumeric.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qversiontagging.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qhash.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qchar.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qiterator.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlist.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qrefcount.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qarraydata.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qhashfunctions.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qpair.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbytearraylist.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qbytearray.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qnamespace.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstring.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringbuilder.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringlist.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qregexp.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qstringmatcher.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmap.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qtextstream.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qiodevice.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobjectdefs_impl.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcoreevent.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qscopedpointer.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qmetatype.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qvarlengtharray.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcontainerfwd.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qobject_impl.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qlocale.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qvariant.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qshareddata.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qvector.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qpoint.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qset.h \
-		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qcontiguouscache.h
-
 debug\qrc_style.obj: debug\qrc_style.cpp 
 
 debug\moc_client.obj: debug\moc_client.cpp 
 
-debug\moc_threadmanager.obj: debug\moc_threadmanager.cpp 
+debug\moc_udpthreadmanager.obj: debug\moc_udpthreadmanager.cpp 
+
+debug\moc_tcpthreadmanager.obj: debug\moc_tcpthreadmanager.cpp 
 
 ####### Install
 
