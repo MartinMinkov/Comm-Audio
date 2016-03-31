@@ -45,7 +45,7 @@ public:
     QPushButton *connectButton;
     QPushButton *disconnectButton;
     QWidget *downloadTab;
-    QPushButton *pushButton_2;
+    QPushButton *downloadSongButton;
     QProgressBar *downloadProgress;
     QListWidget *downloadFileWidget;
     QPushButton *pushButton;
@@ -161,9 +161,9 @@ public:
         tabWidget->addTab(connectTab, QString());
         downloadTab = new QWidget();
         downloadTab->setObjectName(QStringLiteral("downloadTab"));
-        pushButton_2 = new QPushButton(downloadTab);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-        pushButton_2->setGeometry(QRect(240, 280, 201, 23));
+        downloadSongButton = new QPushButton(downloadTab);
+        downloadSongButton->setObjectName(QStringLiteral("downloadSongButton"));
+        downloadSongButton->setGeometry(QRect(240, 280, 201, 23));
         downloadProgress = new QProgressBar(downloadTab);
         downloadProgress->setObjectName(QStringLiteral("downloadProgress"));
         downloadProgress->setGeometry(QRect(102, 311, 341, 21));
@@ -388,7 +388,7 @@ public:
 
         retranslateUi(client);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(client);
@@ -398,16 +398,19 @@ public:
     {
         client->setWindowTitle(QApplication::translate("client", "Form", 0));
         groupBox_13->setTitle(QApplication::translate("client", "Server Details", 0));
+        ipfield->setText(QApplication::translate("client", "127.0.0.1", 0));
         label_18->setText(QApplication::translate("client", "IP:", 0));
         label_19->setText(QApplication::translate("client", "Port:", 0));
+        portfield->setText(QApplication::translate("client", "7000", 0));
         label_22->setText(QApplication::translate("client", "Name:", 0));
+        nameField->setText(QApplication::translate("client", "SpenserLee", 0));
         groupBox_14->setTitle(QApplication::translate("client", "Status", 0));
         connectStatus->setText(QApplication::translate("client", "Disconnected", 0));
         label_21->setText(QApplication::translate("client", "Duration: 15:02:22", 0));
         connectButton->setText(QApplication::translate("client", "Connect", 0));
         disconnectButton->setText(QApplication::translate("client", "Disconnect", 0));
         tabWidget->setTabText(tabWidget->indexOf(connectTab), QApplication::translate("client", "Connect", 0));
-        pushButton_2->setText(QApplication::translate("client", "Download Songs", 0));
+        downloadSongButton->setText(QApplication::translate("client", "Download Songs", 0));
 
         const bool __sortingEnabled = downloadFileWidget->isSortingEnabled();
         downloadFileWidget->setSortingEnabled(false);

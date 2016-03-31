@@ -105,7 +105,7 @@ p, li { white-space: pre-wrap; }
     </property>
    </widget>
   </widget>
-  <widget class="QListView" name="listView">
+  <widget class="QListView" name="playlistView">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -155,7 +155,7 @@ p, li { white-space: pre-wrap; }
     <string>Connected Clients</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="bAddSongs">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -165,20 +165,7 @@ p, li { white-space: pre-wrap; }
     </rect>
    </property>
    <property name="text">
-    <string>Song Location</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>670</y>
-     <width>451</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>C:/Documents/Playlists</string>
+    <string>Add Songs</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">

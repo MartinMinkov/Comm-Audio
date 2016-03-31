@@ -2,9 +2,11 @@
 #define CLIENTHANDLERTHREAD_H
 
 #include <QObject>
+#include <QVector>
 #include "filehelper.h"
 #include "streamhelper.h"
 #include "chathelper.h"
+#include "globals.h"
 
 class ClientHandlerThread : public QObject
 {
@@ -25,6 +27,10 @@ private:
     filehelper* fHelper;
     streamhelper* sHelper;
     chathelper* cHelper;
+
+    std::string clientUsername;
+    std::string constructUserListString();
+    std::string constructSongListString();
 };
 
 #endif // CLIENTHANDLERTHREAD_H

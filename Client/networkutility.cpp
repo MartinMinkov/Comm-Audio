@@ -48,6 +48,49 @@ bool receiveTCP(SOCKET sd, char* message)
     }
     return TRUE;
 }
+bool WSARead(SOCKET sd, char * message, int timeout, int size){
+    WSAOVERLAPPED ov;
+    DWORD recvBytes;
+    DWORD recvErr;
+    DWORD flags = 0;
+    WSABUF dbuf;
+    dbuf.buf = message;
+    dbuf.len = size;
+    ov.hEvent = WSACreateEvent();
+    if ((recvErr = WSARecv(sd, &dbuf, 1, &recvBytes,
+                &flags, &ov, NULL)) == SOCKET_ERROR)
+            {
+                recvErr = WSAGetLastError();
+                if (recvErr != WSA_IO_PENDING) {
+
+                    return false;
+                }
+            }
+
+
+            recvErr = WSAWaitForMultipleEvents(1, &ov.hEvent, FALSE, timeout, FALSE);
+            switch (recvErr) {
+            case WAIT_TIMEOUT:
+
+                wchar_t buf[256];
+
+                return false;
+                break;
+            case WAIT_FAILED:
+
+                exit(1);
+                // call GetLastError( )
+                break;
+            default:
+                break;
+            }
+            printf("Done reading in WSARead: %s", message);
+            fflush(stdout);
+            return true;
+
+
+}
+
 void formatMessage(const char* message)
 {
     qDebug() << message;

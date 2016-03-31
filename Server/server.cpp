@@ -45,6 +45,24 @@ void server::on_bStopServer_clicked(){
     toggleConnected(false);
 }
 
+void server::on_bAddSongs_clicked(){
+    QFileDialog addSongDialog(this);
+    addSongDialog.setFileMode(QFileDialog::ExistingFiles);
+
+    playlist = addSongDialog.getOpenFileNames(this, tr("Add Songs"), QDir::currentPath(), tr("Song Types (*.wav *.mp3)"));
+
+    for(QStringList::iterator it = playlist.begin(); it != playlist.end(); ++it){
+        QFileInfo fi(*it);
+        *it = fi.fileName();
+    }
+
+    playlistModel = new QStringListModel(this);
+    playlistModel->setStringList(playlist);
+    ui->playlistView->setModel(playlistModel);
+
+    int test = playlistModel->rowCount();
+}
+
 
 int server::getPortNumber(){
     int port = ui->etPort->text().toInt();

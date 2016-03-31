@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -49,6 +49,9 @@
         <width>181</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="text">
+       <string>127.0.0.1</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_18">
@@ -86,6 +89,9 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="text">
+       <string>7000</string>
+      </property>
      </widget>
      <widget class="QLabel" name="label_22">
       <property name="geometry">
@@ -108,6 +114,9 @@
         <width>113</width>
         <height>20</height>
        </rect>
+      </property>
+      <property name="text">
+       <string>SpenserLee</string>
       </property>
      </widget>
     </widget>
