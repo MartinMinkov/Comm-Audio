@@ -5,6 +5,8 @@
 #include <winsock2.h>
 #include <windows.h>
 #include "clienthandlerthread.h"
+#include "globals.h"
+
 class ControlThread : public QObject
 {
     Q_OBJECT

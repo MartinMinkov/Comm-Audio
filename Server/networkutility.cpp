@@ -9,13 +9,15 @@ void networkutility::debugMessage(const char* message){
     qDebug() << message;
 }
 
-void networkutility::sendDataTCP(SOCKET sd, const char* message){
+void sendDataTCP(SOCKET sd, const char* message){
     int sent;
     if((sent = send(sd, message, PACKET_LEN, 0)) == SOCKET_ERROR){
         return;
     }
-    debugMessage("Sending data to client");
+    networkutility::debugMessage("Sending data to client. Sending:");
+    networkutility::debugMessage(message);
 }
+
 bool networkutility::WSAS(SOCKET sd, char * message, int size, int timeout){
     WSABUF buf;
     WSAOVERLAPPED ov;
@@ -45,7 +47,7 @@ bool networkutility::WSAS(SOCKET sd, char * message, int size, int timeout){
 
 }
 
-bool networkutility::receiveTCP(SOCKET sd, char* message){
+bool receiveTCP(SOCKET sd, char* message){
     if(recv(sd, message, PACKET_LEN, 0) == SOCKET_ERROR){
         return FALSE;
     }

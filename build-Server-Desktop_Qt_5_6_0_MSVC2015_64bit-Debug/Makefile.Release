@@ -50,7 +50,8 @@ SOURCES       = ..\Server\main.cpp \
 		..\Server\networkutility.cpp \
 		..\Server\filehelper.cpp \
 		..\Server\streamhelper.cpp \
-		..\Server\chathelper.cpp release\qrc_style.cpp \
+		..\Server\chathelper.cpp \
+		..\Server\globals.cpp release\qrc_style.cpp \
 		release\moc_server.cpp \
 		release\moc_controlthread.cpp \
 		release\moc_clienthandlerthread.cpp
@@ -62,6 +63,7 @@ OBJECTS       = release\main.obj \
 		release\filehelper.obj \
 		release\streamhelper.obj \
 		release\chathelper.obj \
+		release\globals.obj \
 		release\qrc_style.obj \
 		release\moc_server.obj \
 		release\moc_controlthread.obj \
@@ -73,14 +75,16 @@ DIST          =  ..\Server\server.h \
 		..\Server\networkutility.h \
 		..\Server\filehelper.h \
 		..\Server\streamhelper.h \
-		..\Server\chathelper.h ..\Server\main.cpp \
+		..\Server\chathelper.h \
+		..\Server\globals.h ..\Server\main.cpp \
 		..\Server\server.cpp \
 		..\Server\controlthread.cpp \
 		..\Server\clienthandlerthread.cpp \
 		..\Server\networkutility.cpp \
 		..\Server\filehelper.cpp \
 		..\Server\streamhelper.cpp \
-		..\Server\chathelper.cpp
+		..\Server\chathelper.cpp \
+		..\Server\globals.cpp
 QMAKE_TARGET  = Server
 DESTDIR        = release\ #avoid trailing-slash linebreak
 TARGET         = Server.exe
@@ -169,7 +173,7 @@ dist:
 	$(ZIP) Server.zip $(SOURCES) $(DIST) ..\Server\Server.pro C:\Qt\5.6\msvc2015_64\mkspecs\features\spec_pre.prf C:\Qt\5.6\msvc2015_64\mkspecs\common\angle.conf C:\Qt\5.6\msvc2015_64\mkspecs\common\msvc-base.conf C:\Qt\5.6\msvc2015_64\mkspecs\common\msvc-desktop.conf C:\Qt\5.6\msvc2015_64\mkspecs\qconfig.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquickinput.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquickinput_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquickrender.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3dquickrender_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3drender.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_3drender_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_core.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_help.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_labscontrols_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_labstemplates_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_location.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_network.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_script.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_script_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_serialbus.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_serialbus_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webengine.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webengine_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginecore.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginecore_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginecoreheaders_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginewidgets.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webenginewidgets_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webview.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\modules\qt_lib_zlib_private.pri C:\Qt\5.6\msvc2015_64\mkspecs\features\qt_functions.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\qt_config.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\win32\qt_config.prf C:\Qt\5.6\msvc2015_64\mkspecs\win32-msvc2015\qmake.conf C:\Qt\5.6\msvc2015_64\mkspecs\features\spec_post.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\exclusive_builds.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\default_pre.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\win32\default_pre.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\resolve_config.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\default_post.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\build_pass.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\qml_debug.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\win32\rtti.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\precompile_header.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\warn_on.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\qt.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\resources.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\moc.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\win32\opengl.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\uic.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\win32\windows.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\testcase_targets.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\exceptions.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\yacc.prf C:\Qt\5.6\msvc2015_64\mkspecs\features\lex.prf ..\Server\Server.pro ..\Server\qdarkstyle\style.qrc C:\Qt\5.6\msvc2015_64\lib\qtmain.prl C:\Qt\5.6\msvc2015_64\lib\Qt5Widgets.prl C:\Qt\5.6\msvc2015_64\lib\Qt5Gui.prl C:\Qt\5.6\msvc2015_64\lib\Qt5Core.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\main.obj release\server.obj release\controlthread.obj release\clienthandlerthread.obj release\networkutility.obj release\filehelper.obj release\streamhelper.obj release\chathelper.obj release\qrc_style.obj release\moc_server.obj release\moc_controlthread.obj release\moc_clienthandlerthread.obj
+	-$(DEL_FILE) release\main.obj release\server.obj release\controlthread.obj release\clienthandlerthread.obj release\networkutility.obj release\filehelper.obj release\streamhelper.obj release\chathelper.obj release\globals.obj release\qrc_style.obj release\moc_server.obj release\moc_controlthread.obj release\moc_clienthandlerthread.obj
 	-$(DEL_FILE) release\Server.exp
 
 distclean: clean 
@@ -341,12 +345,22 @@ release\moc_server.cpp: C:\Qt\5.6\msvc2015_64\include\QtWidgets\QWidget \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qdir.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QStringListModel \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		..\Server\controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		..\Server\clienthandlerthread.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
 		..\Server\filehelper.h \
 		..\Server\streamhelper.h \
 		..\Server\chathelper.h \
+		..\Server\globals.h \
 		..\Server\server.h
 	C:\Qt\5.6\msvc2015_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1900 -D_WIN32 -D_WIN64 -IC:/Qt/5.6/msvc2015_64/mkspecs/win32-msvc2015 -I"E:/qT Projects/githubCommAudio/Comm-Audio/Server" -IC:/Qt/5.6/msvc2015_64/include -IC:/Qt/5.6/msvc2015_64/include/QtWidgets -IC:/Qt/5.6/msvc2015_64/include/QtGui -IC:/Qt/5.6/msvc2015_64/include/QtANGLE -IC:/Qt/5.6/msvc2015_64/include/QtCore -I. ..\Server\server.h -o release\moc_server.cpp
 
@@ -406,9 +420,13 @@ release\moc_controlthread.cpp: C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qcontainerfwd.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qobject_impl.h \
 		..\Server\clienthandlerthread.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qvector.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qpoint.h \
 		..\Server\filehelper.h \
 		..\Server\streamhelper.h \
 		..\Server\chathelper.h \
+		..\Server\globals.h \
 		..\Server\controlthread.h
 	C:\Qt\5.6\msvc2015_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1900 -D_WIN32 -D_WIN64 -IC:/Qt/5.6/msvc2015_64/mkspecs/win32-msvc2015 -I"E:/qT Projects/githubCommAudio/Comm-Audio/Server" -IC:/Qt/5.6/msvc2015_64/include -IC:/Qt/5.6/msvc2015_64/include/QtWidgets -IC:/Qt/5.6/msvc2015_64/include/QtGui -IC:/Qt/5.6/msvc2015_64/include/QtANGLE -IC:/Qt/5.6/msvc2015_64/include/QtCore -I. ..\Server\controlthread.h -o release\moc_controlthread.cpp
 
@@ -467,9 +485,13 @@ release\moc_clienthandlerthread.cpp: C:\Qt\5.6\msvc2015_64\include\QtCore\QObjec
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qvarlengtharray.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qcontainerfwd.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qobject_impl.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qvector.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qpoint.h \
 		..\Server\filehelper.h \
 		..\Server\streamhelper.h \
 		..\Server\chathelper.h \
+		..\Server\globals.h \
 		..\Server\clienthandlerthread.h
 	C:\Qt\5.6\msvc2015_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1900 -D_WIN32 -D_WIN64 -IC:/Qt/5.6/msvc2015_64/mkspecs/win32-msvc2015 -I"E:/qT Projects/githubCommAudio/Comm-Audio/Server" -IC:/Qt/5.6/msvc2015_64/include -IC:/Qt/5.6/msvc2015_64/include/QtWidgets -IC:/Qt/5.6/msvc2015_64/include/QtGui -IC:/Qt/5.6/msvc2015_64/include/QtANGLE -IC:/Qt/5.6/msvc2015_64/include/QtCore -I. ..\Server\clienthandlerthread.h -o release\moc_clienthandlerthread.cpp
 
@@ -601,12 +623,22 @@ release\main.obj: ..\Server\main.cpp ../Server/server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qdir.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QStringListModel \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		../Server/controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		../Server/clienthandlerthread.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
 		../Server/filehelper.h \
 		../Server/streamhelper.h \
 		../Server/chathelper.h \
+		../Server/globals.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QApplication \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qapplication.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qcoreapplication.h \
@@ -724,12 +756,22 @@ release\server.obj: ..\Server\server.cpp ../Server/server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qdir.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QStringListModel \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		../Server/controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		../Server/clienthandlerthread.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
 		../Server/filehelper.h \
 		../Server/streamhelper.h \
 		../Server/chathelper.h \
+		../Server/globals.h \
 		../Server/networkutility.h \
 		ui_server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QVariant \
@@ -753,7 +795,6 @@ release\server.obj: ..\Server\server.cpp ../Server/server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qheaderview.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qabstractitemview.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qabstractscrollarea.h \
-		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qitemselectionmodel.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qabstractitemdelegate.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qstyleoption.h \
@@ -842,9 +883,13 @@ release\controlthread.obj: ..\Server\controlthread.cpp ../Server/controlthread.h
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qcontainerfwd.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qobject_impl.h \
 		../Server/clienthandlerthread.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qvector.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qpoint.h \
 		../Server/filehelper.h \
 		../Server/streamhelper.h \
 		../Server/chathelper.h \
+		../Server/globals.h \
 		../Server/networkutility.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QWidget \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qwidget.h \
@@ -854,13 +899,11 @@ release\controlthread.obj: ..\Server\controlthread.cpp ../Server/controlthread.h
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qpaintdevice.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qrect.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qsize.h \
-		C:\Qt\5.6\msvc2015_64\include\QtCore\qpoint.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qpalette.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qcolor.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qrgb.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qrgba64.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qbrush.h \
-		C:\Qt\5.6\msvc2015_64\include\QtCore\qvector.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qmatrix.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qpolygon.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qregion.h \
@@ -956,9 +999,13 @@ release\clienthandlerthread.obj: ..\Server\clienthandlerthread.cpp ../Server/cli
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qvarlengtharray.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qcontainerfwd.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qobject_impl.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qvector.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qpoint.h \
 		../Server/filehelper.h \
 		../Server/streamhelper.h \
 		../Server/chathelper.h \
+		../Server/globals.h \
 		../Server/server.h \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QWidget \
 		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qwidget.h \
@@ -968,13 +1015,11 @@ release\clienthandlerthread.obj: ..\Server\clienthandlerthread.cpp ../Server/cli
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qpaintdevice.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qrect.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qsize.h \
-		C:\Qt\5.6\msvc2015_64\include\QtCore\qpoint.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qpalette.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qcolor.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qrgb.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qrgba64.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qbrush.h \
-		C:\Qt\5.6\msvc2015_64\include\QtCore\qvector.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qmatrix.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qpolygon.h \
 		C:\Qt\5.6\msvc2015_64\include\QtGui\qregion.h \
@@ -1013,6 +1058,14 @@ release\clienthandlerthread.obj: ..\Server\clienthandlerthread.cpp ../Server/cli
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QThread \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QDebug \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qdir.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QStringListModel \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qabstractitemmodel.h \
 		../Server/controlthread.h \
 		../Server/networkutility.h
 
@@ -1127,9 +1180,11 @@ release\networkutility.obj: ..\Server\networkutility.cpp ../Server/networkutilit
 		../Server/controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		../Server/clienthandlerthread.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
 		../Server/filehelper.h \
 		../Server/streamhelper.h \
-		../Server/chathelper.h
+		../Server/chathelper.h \
+		../Server/globals.h
 
 release\filehelper.obj: ..\Server\filehelper.cpp ../Server/filehelper.h \
 		../Server/networkutility.h \
@@ -1243,8 +1298,10 @@ release\filehelper.obj: ..\Server\filehelper.cpp ../Server/filehelper.h \
 		../Server/controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		../Server/clienthandlerthread.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
 		../Server/streamhelper.h \
-		../Server/chathelper.h
+		../Server/chathelper.h \
+		../Server/globals.h
 
 release\streamhelper.obj: ..\Server\streamhelper.cpp ../Server/streamhelper.h \
 		../Server/networkutility.h \
@@ -1358,8 +1415,10 @@ release\streamhelper.obj: ..\Server\streamhelper.cpp ../Server/streamhelper.h \
 		../Server/controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		../Server/clienthandlerthread.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
 		../Server/filehelper.h \
-		../Server/chathelper.h
+		../Server/chathelper.h \
+		../Server/globals.h
 
 release\chathelper.obj: ..\Server\chathelper.cpp ../Server/chathelper.h \
 		../Server/networkutility.h \
@@ -1473,8 +1532,60 @@ release\chathelper.obj: ..\Server\chathelper.cpp ../Server/chathelper.h \
 		../Server/controlthread.h \
 		C:\Qt\5.6\msvc2015_64\include\QtCore\QObject \
 		../Server/clienthandlerthread.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
 		../Server/filehelper.h \
-		../Server/streamhelper.h
+		../Server/streamhelper.h \
+		../Server/globals.h
+
+release\globals.obj: ..\Server\globals.cpp ../Server/globals.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\QVector \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qvector.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qalgorithms.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qglobal.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qconfig.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qfeatures.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qsystemdetection.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qprocessordetection.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qcompilerdetection.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qtypeinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qtypetraits.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qisenum.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qsysinfo.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qlogging.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qflags.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qbasicatomic.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_bootstrap.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qgenericatomic.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_cxx11.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_gcc.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_msvc.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv7.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv6.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_armv5.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_ia64.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_x86.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qatomic_unix.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qglobalstatic.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qmutex.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qnumeric.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qversiontagging.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qiterator.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qlist.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qrefcount.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qarraydata.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qhashfunctions.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qchar.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qpair.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qbytearraylist.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qbytearray.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qnamespace.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstring.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringbuilder.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringlist.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qregexp.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qstringmatcher.h \
+		C:\Qt\5.6\msvc2015_64\include\QtCore\qpoint.h
 
 release\qrc_style.obj: release\qrc_style.cpp 
 
