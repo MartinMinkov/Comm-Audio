@@ -24,7 +24,7 @@ void ClientHandlerThread::receiveRequests(){
     if(receiveTCP(m_socket, username)){
         networkutility::debugMessage("username:");
         networkutility::debugMessage(username);
-//        clientUsername = username;
+        clientUsername = username;
         userList.push_back(username);
     }
 
@@ -94,6 +94,9 @@ void ClientHandlerThread::receiveRequests(){
 
 void ClientHandlerThread::disconnect(){
     networkutility::debugMessage("disconnecting client handler...");
+//    QVector<std::string>::iterator it = std::find(userList.begin(), userList.end(), clientUsername);
+
+    removeUserFromList();
     closesocket(m_socket);
     WSACleanup();
     emit finished();
@@ -130,5 +133,21 @@ std::string ClientHandlerThread::constructSongListString(){
     qDebug(songListString.c_str());
 
     return songListString;
+}
+
+void ClientHandlerThread::removeUserFromList(){
+    //logic to find the username in the userlist and remove it if a client disconnects
+    int i = 0;
+    for (auto it = userList.cbegin(); it != userList.cend(); it++, i++)
+    {
+        if(*it == clientUsername){
+            networkutility::debugMessage("found it");
+            qDebug() << i;
+            userList.remove(i);
+            std::string constructedUserList = constructUserListString();
+            networkutility::debugMessage(constructedUserList.c_str());
+            break;
+        }
+    }
 }
 

@@ -28,6 +28,8 @@ private:
     WSADATA WSAData;
 
    // SOCKET accept_socket;
+    SOCKET listen_socket;
+    SOCKET accept_socket;
     SOCKADDR_IN  server;
     SOCKADDR_IN client;
     int client_len;

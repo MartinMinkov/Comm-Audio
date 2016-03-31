@@ -60,6 +60,8 @@ void ControlThread::setup(int port){
         if((accept_socket = accept(listen_socket, (struct sockaddr *)&client, &client_len)) == -1){
             networkutility::debugMessage("Can't accept client");
             return;
+//            continue;
+//            networkutility::debugMessage("continuuing");
         }
 
         networkutility::debugMessage("passed accept");
