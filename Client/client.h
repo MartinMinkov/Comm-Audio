@@ -37,10 +37,15 @@ private:
     Ui::client *ui;
     QThread* receiveTCPThread;
     ThreadManager* receiveTCPWorker;
+
     QThread* receiveUDPThread;
     ThreadManager* receiveUDPWorker;
+
     QThread* receiveVoiceChatThread;
     ThreadManager* receiveVoiceChatWorker;
+
+    QThread* sendTCPThread;
+    ThreadManager* sendTCPWorker;
 };
 
 #endif // CLIENT_H

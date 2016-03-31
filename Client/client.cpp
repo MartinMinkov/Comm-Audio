@@ -25,12 +25,17 @@ void client::on_connectButton_clicked()
 
     //connect
     receiveTCPThread = new QThread;
-    receiveVoiceChatThread = new QThread;
     receiveTCPWorker = new ThreadManager();
+
+    receiveVoiceChatThread = new QThread;
     receiveVoiceChatWorker = new ThreadManager();
+
+    sendTCPThread = new QThread;
+    sendTCPWorker = new ThreadManager();
 
     receiveTCPWorker->moveToThread(receiveTCPThread);
     receiveVoiceChatWorker->moveToThread(receiveVoiceChatThread);
+    sendTCPWorker->moveToThread(sendTCPThread);
 
     //Not sure why this is done, but its something to do with passing objects in threads.
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
@@ -41,11 +46,14 @@ void client::on_connectButton_clicked()
     connect(receiveTCPWorker, SIGNAL(signalHandleRequest()), receiveTCPWorker, SLOT(handleRequest()));
     connect(receiveTCPWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()));
 
+    connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()));
+
     connect(receiveVoiceChatWorker, SIGNAL(signalVoiceChat()), receiveVoiceChatWorker, SLOT(setupVoiceChat()));
     connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()));
 
     receiveTCPThread->start();
     receiveVoiceChatThread->start();
+    sendTCPThread->start();
 
     client::toggleInput(false);
     ui->connectStatus->setText("Connected");
@@ -78,8 +86,8 @@ void client::on_disconnectButton_clicked()
 void client::on_updateSongButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
-    connect(receiveTCPWorker, SIGNAL(signalRefresh()), receiveTCPWorker, SLOT(SendRefreshRequest()));
-    emit receiveTCPWorker->signalRefresh();
+    connect(sendTCPWorker, SIGNAL(signalRefresh()), sendTCPWorker, SLOT(SendRefreshRequest()));
+    emit sendTCPWorker->signalRefresh();
 }
 
 void client::on_uploadButton_clicked()
