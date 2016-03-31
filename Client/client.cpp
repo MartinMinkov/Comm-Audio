@@ -32,6 +32,9 @@ void client::on_connectButton_clicked()
     receiveTCPWorker->moveToThread(receiveTCPThread);
     receiveVoiceChatWorker->moveToThread(receiveVoiceChatThread);
 
+    //Not sure why this is done, but its something to do with passing objects in threads.
+    qRegisterMetaType<QVector<QString>>("QVector<QString>");
+
     connect(receiveTCPWorker, SIGNAL(signalConnect(QString, QString, QString)), receiveTCPWorker, SLOT(connect(QString, QString, QString)));
     connect(receiveTCPWorker, SIGNAL(updateUserList(QVector<QString>)), this, SLOT(updateUsers(QVector<QString>)));
     connect(receiveTCPWorker, SIGNAL(updateSongList(QVector<QString>)), this, SLOT(updateSongs(QVector<QString>)));
@@ -70,6 +73,7 @@ void client::on_disconnectButton_clicked()
 }
 void client::on_updateSongButton_clicked()
 {
+    qDebug() << "Send Refresh Button is clicked";
     connect(receiveTCPWorker, SIGNAL(signalRefresh()), receiveTCPWorker, SLOT(SendRefreshRequest()));
     emit receiveTCPWorker->signalRefresh();
 }

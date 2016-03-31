@@ -79,6 +79,7 @@ void ClientHandlerThread::receiveRequests(){
         }
 
         if(buf[0] == REFRESH_SONG){
+            qDebug() << "Send Refresh is caught";
             std::string constructedSongList = constructSongListString();
             networkutility::debugMessage(constructedSongList.c_str());
             sendDataTCP(m_socket, constructedSongList.c_str());

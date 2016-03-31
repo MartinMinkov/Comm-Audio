@@ -159,6 +159,7 @@ void ThreadManager::disconnect()
 }
 void ThreadManager::SendDownloadRequest(QString songName)
 {
+    qDebug() << "Send Download Request is called";
     sendDataTCP(TCPSocket, songName.toStdString().c_str());
 }
 void ThreadManager::SendUploadRequest()
@@ -181,6 +182,7 @@ void ThreadManager::SendVoiceRequest()
 }
 void ThreadManager::SendRefreshRequest()
 {
+    qDebug() << "Send Refresh Request is called";
     std::string temp;
     temp = REFRESH_SONG;
     sendDataTCP(TCPSocket, temp.c_str());

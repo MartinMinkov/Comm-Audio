@@ -265,10 +265,6 @@ public:
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
         groupBox_2->setGeometry(QRect(10, 10, 151, 321));
         connectedWidget = new QListWidget(groupBox_2);
-        new QListWidgetItem(connectedWidget);
-        new QListWidgetItem(connectedWidget);
-        new QListWidgetItem(connectedWidget);
-        new QListWidgetItem(connectedWidget);
         connectedWidget->setObjectName(QStringLiteral("connectedWidget"));
         connectedWidget->setGeometry(QRect(10, 30, 131, 281));
         pushButton_3 = new QPushButton(chatTab);
@@ -462,19 +458,6 @@ public:
         uploadButton->setText(QApplication::translate("client", "Upload Songs", 0));
         tabWidget->setTabText(tabWidget->indexOf(uploadTab), QApplication::translate("client", "File Upload", 0));
         groupBox_2->setTitle(QApplication::translate("client", "Online Users:", 0));
-
-        const bool __sortingEnabled2 = connectedWidget->isSortingEnabled();
-        connectedWidget->setSortingEnabled(false);
-        QListWidgetItem *___qlistwidgetitem10 = connectedWidget->item(0);
-        ___qlistwidgetitem10->setText(QApplication::translate("client", "Alvin Man", 0));
-        QListWidgetItem *___qlistwidgetitem11 = connectedWidget->item(1);
-        ___qlistwidgetitem11->setText(QApplication::translate("client", "Colin Bose", 0));
-        QListWidgetItem *___qlistwidgetitem12 = connectedWidget->item(2);
-        ___qlistwidgetitem12->setText(QApplication::translate("client", "Martin Minkov", 0));
-        QListWidgetItem *___qlistwidgetitem13 = connectedWidget->item(3);
-        ___qlistwidgetitem13->setText(QApplication::translate("client", "Allen Tsang", 0));
-        connectedWidget->setSortingEnabled(__sortingEnabled2);
-
         pushButton_3->setText(QApplication::translate("client", "End Chat", 0));
         groupBox_3->setTitle(QApplication::translate("client", "Selected User:", 0));
         label_6->setText(QApplication::translate("client", "Martin Minkov", 0));

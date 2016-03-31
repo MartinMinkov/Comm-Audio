@@ -608,26 +608,6 @@
         <height>281</height>
        </rect>
       </property>
-      <item>
-       <property name="text">
-        <string>Alvin Man</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Colin Bose</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Martin Minkov</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Allen Tsang</string>
-       </property>
-      </item>
      </widget>
     </widget>
     <widget class="QPushButton" name="pushButton_3">
