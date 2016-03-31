@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QWidget>
+#include <QThread>
 #include "networkutility.h"
 
 class ThreadManager : public QObject
@@ -44,9 +45,6 @@ private:
     DWORD ret;
     WSADATA stWSAData;
     WORD wVersionRequested = MAKEWORD(2, 2);
-    SOCKET TCPSocket;
-    SOCKET AcceptSocket;
-    SOCKET VCSocket;
     struct sockaddr_in server;
     struct sockaddr_in client;
     struct hostent *hp;

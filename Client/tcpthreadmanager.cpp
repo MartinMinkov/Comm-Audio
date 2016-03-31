@@ -6,13 +6,17 @@ ThreadManager::ThreadManager(QObject *parent) : QObject(parent)
     VCSocket = 0;
 }
 
+
 ThreadManager::~ThreadManager()
 {
+    /*
     closesocket(TCPSocket);
     TCPSocket = 0;
     VCSocket = 0;
     WSACleanup();
+    */
 }
+
 
 void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
 {
@@ -128,7 +132,8 @@ void ThreadManager::handleRequest()
         if(BytesRead < 0)
         {
             qDebug() << "recv() failed";
-            emit signalDisconnect();
+            //emit signalDisconnect();
+            return;
         }
         /* client disconnected */
         if(BytesRead == 0)
@@ -155,7 +160,8 @@ void ThreadManager::disconnect()
     closesocket(TCPSocket);
     closesocket(VCSocket);
     WSACleanup();
-    emit finished();
+    this->thread()->quit();
+    //emit finished();
 }
 void ThreadManager::SendDownloadRequest(QString songName)
 {

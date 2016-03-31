@@ -1,5 +1,9 @@
 #include "networkutility.h"
 
+SOCKET TCPSocket;
+SOCKET AcceptSocket;
+SOCKET VCSocket;
+
 void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, const char* buffer)
 {
     /* zero out overlapped structure	*/

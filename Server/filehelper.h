@@ -5,8 +5,8 @@ class filehelper
 {
 public:
     filehelper();
-    void filehelper::handleDownloadRequest(QString title);
-    void filehelper::handleUploadRequest();
+    void handleDownloadRequest(QString title);
+    void handleUploadRequest();
 };
 
 #endif // FILEHELPER_H
