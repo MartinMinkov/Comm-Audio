@@ -123,6 +123,7 @@ void ThreadManager::handleRequest()
     {
         int bytesToRead = PACKET_LEN;
         char *bp = buf;
+        qDebug() << "BEFORE RECV";
         if ((BytesRead = recv(TCPSocket, bp, bytesToRead, 0)) > 0)
         {
             bytesToRead -= BytesRead;
@@ -133,13 +134,14 @@ void ThreadManager::handleRequest()
         {
             qDebug() << "recv() failed";
             //emit signalDisconnect();
-            return;
+            break;
         }
         /* client disconnected */
         if(BytesRead == 0)
         {
             qDebug() << "CLIENT DISCONNECTED";
-            emit signalDisconnect();
+            //emit signalDisconnect();
+            break;
         }
 
         if (buf[0] == REFRESH_USER || buf[0] == REFRESH_SONG)
@@ -157,9 +159,6 @@ void ThreadManager::handleRequest()
 }
 void ThreadManager::disconnect()
 {
-    closesocket(TCPSocket);
-    closesocket(VCSocket);
-    WSACleanup();
     this->thread()->quit();
     //emit finished();
 }

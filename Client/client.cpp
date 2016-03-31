@@ -65,6 +65,10 @@ void client::on_disconnectButton_clicked()
     emit receiveTCPWorker->signalDisconnect();
     emit receiveVoiceChatWorker->signalDisconnect();
 
+    closesocket(TCPSocket);
+    closesocket(VCSocket);
+    WSACleanup();
+
     client::toggleInput(true);
     ui->connectStatus->setText("Disconnected");
     for(int i= 1; i < 5; i++) {
