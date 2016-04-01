@@ -18,6 +18,10 @@
 #define REFRESH_USER  '&'
 #define REFRESH_SONG  '*'
 
+extern SOCKET TCPSocket;
+extern SOCKET AcceptSocket;
+extern SOCKET VCSocket;
+
 typedef struct _SOCKET_INFORMATION {
     OVERLAPPED	Overlapped;
     SOCKET		Socket;

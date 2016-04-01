@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QWidget>
+#include <QThread>
 #include "networkutility.h"
 
 class ThreadManager : public QObject
@@ -25,9 +26,11 @@ signals:
     void signalUpload();
     void signalStream();
     void signalVoice();
-    void signalRefresh();
+    void signalSongRefresh();
+    void signalVoiceRefresh();
     void finished();
     void signalVoiceChat();
+    void updateCaller(QString);
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);
@@ -37,16 +40,14 @@ public slots:
     void SendUploadRequest();
     void SendStreamRequest();
     void SendVoiceRequest();
-    void SendRefreshRequest();
+    void SendSongRefreshRequest();
+    void SendVoiceRefreshRequest();
     void setupVoiceChat();
 
 private:
     DWORD ret;
     WSADATA stWSAData;
     WORD wVersionRequested = MAKEWORD(2, 2);
-    SOCKET TCPSocket;
-    SOCKET AcceptSocket;
-    SOCKET VCSocket;
     struct sockaddr_in server;
     struct sockaddr_in client;
     struct hostent *hp;
