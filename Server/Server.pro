@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     filehelper.cpp \
     streamhelper.cpp \
     chathelper.cpp \
-    globals.cpp
+    globals.cpp \
+    circlebuff.cpp
 
 HEADERS  += server.h \
     controlthread.h \
@@ -29,7 +30,8 @@ HEADERS  += server.h \
     filehelper.h \
     streamhelper.h \
     chathelper.h \
-    globals.h
+    globals.h \
+    circlebuff.h
 
 FORMS    += server.ui
 

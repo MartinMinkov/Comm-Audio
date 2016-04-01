@@ -33,6 +33,7 @@ public slots:
     void SendDownloadRequest();
     void SendUploadRequest();
     void SendStreamRequest();
+    //DWORD WINAPI readStuff(LPVOID param);
     void SendVoiceRequest();
     void SendRefreshRequest();
 

@@ -1,7 +1,7 @@
 #include "server.h"
 #include <QApplication>
 #include <QFile>
-
+#include "circlebuff.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 
         exit(1);
     }
+
     server w;
     w.show();
 

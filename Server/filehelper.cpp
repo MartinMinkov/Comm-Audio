@@ -3,8 +3,12 @@
 #include <QFile>
 #include <QString>
 #include <QIODevice>
+#include <fstream>
 #include <QDebug>
-#define FILEMAX 10000
+#include <iostream>
+#include <QByteArray>
+#define FILEMAX 20000
+using namespace std;
 filehelper::filehelper()
 {
 
@@ -15,26 +19,44 @@ void filehelper::handleDownloadRequest(QString title){
     char * fileName;
     char buff[FILEMAX] = { 0 };
     fileName = buff;
+    char * ff;
     qint64 left;
     networkutility n;
-    //n.receiveTCP(accept_socket,fileName);
+    int bytesRead;
+    //receiveTCP(accept_socket,fileName);
     title = title.remove(0, 1);
     qDebug() << title;
     printf("starting to open file");
     qDebug() << "starting to open file";
-    QFile f(title);
+    /*QFile f(title);
     if(!f.open(QIODevice::ReadOnly | QIODevice::Text)){
         printf("Invalid file name");
         fflush(stdout);
         return;
-    }
-    printf("File opened ?");
+    }*/
+    FILE * fqt;
+    fqt = fopen(title.toStdString().c_str(), "rb+");
+    //ifstream fs;
+    //fs.open(title.toStdString().c_str(), ios::binary);
+    int total = 0;
     fflush(stdout);
-    while(!f.atEnd()){
-        left = f.read(buff, FILEMAX);
-        printf("Sending some data ok");
+    while((bytesRead = fread(buff, sizeof(char), FILEMAX, fqt))){
+    //while(!fs.eof()){
+      //  fs.read(buff,FILEMAX);
+    //while(!f.atEnd()){
+        //q = f.read(FILEMAX);
+        //bytesRead = q.size();
+        //ff = q.data();
+    //left = f.read(buff, FILEMAX);
+       //bytesRead =  fs.gcount();
+        total += bytesRead;
+        printf("Sending some data ok %d", total);
         fflush(stdout);
-        n.WSAS(accept_socket, buff, 1000, 1000);
+        if(bytesRead != FILEMAX){
+            n.WSAS(accept_socket, buff, bytesRead, 1000);
+            break;
+        }
+        n.WSAS(accept_socket, buff, 20000, 1000);
     }
 }
 

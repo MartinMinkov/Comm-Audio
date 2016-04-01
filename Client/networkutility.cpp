@@ -1,5 +1,5 @@
 #include "networkutility.h"
-
+#include <QDebug>
 
 networkutility::networkutility()
 {
@@ -31,6 +31,7 @@ void sendDataTCP(SOCKET sd, const char* message)
 
 bool receiveTCP(SOCKET sd, char* message)
 {
+    qDebug() << "CALLING RECEIVE TCP DONT EAT MY PAACKETS";
     if(recv(sd, message, PACKET_LEN, 0) == SOCKET_ERROR)
     {
         if (WSAGetLastError())
@@ -40,7 +41,37 @@ bool receiveTCP(SOCKET sd, char* message)
     }
     return TRUE;
 }
-bool WSARead(SOCKET sd, char * message, int timeout, int size){
+bool WSAS(SOCKET sd, char * message, int size, int timeout){
+    WSABUF buf;
+    WSAOVERLAPPED ov;
+    ov.hEvent = WSACreateEvent();
+    buf.buf = message;
+    buf.len = size;
+    DWORD sendBytes;
+    DWORD sendErr;
+    sendErr = WSASend(sd, &buf, 1, &sendBytes, 0, &ov,0);
+    if((sendErr == SOCKET_ERROR) && (WSA_IO_PENDING != WSAGetLastError())) {
+        sendErr = WSAGetLastError();
+        WSACleanup();
+            exit(0);
+     }
+
+    fflush(stdout);
+    sendErr = WSAGetLastError();
+
+    if (sendErr == WSA_IO_PENDING) {
+
+        sendErr = WSAWaitForMultipleEvents(1, &ov.hEvent, FALSE, 1000, FALSE);
+        if (sendErr == WSA_WAIT_FAILED) {
+            printf("WSAWaitForMultipleEvents failed with error: %d\n",
+                WSAGetLastError());
+            exit(0);
+        }
+    }
+
+}
+
+int WSARead(SOCKET sd, char * message, int timeout, int size){
     WSAOVERLAPPED ov;
     DWORD recvBytes;
     DWORD recvErr;
@@ -55,33 +86,26 @@ bool WSARead(SOCKET sd, char * message, int timeout, int size){
                 recvErr = WSAGetLastError();
                 if (recvErr != WSA_IO_PENDING) {
 
-                    return false;
+                    return 0;
                 }
             }
-
 
             recvErr = WSAWaitForMultipleEvents(1, &ov.hEvent, FALSE, timeout, FALSE);
             switch (recvErr) {
             case WAIT_TIMEOUT:
-
-                wchar_t buf[256];
-
-                return false;
+                return 0;
                 break;
             case WAIT_FAILED:
-
                 exit(1);
-                // call GetLastError( )
                 break;
             default:
                 break;
             }
-            printf("Done reading in WSARead: %s", message);
-            fflush(stdout);
-            return true;
+        int x = strlen(dbuf.buf);
+        int rc = WSAGetOverlappedResult(sd, &ov, &recvBytes, FALSE, &flags);
+        return recvBytes;
 
-
-}
+    }
 
 void formatMessage(const char* message)
 {
