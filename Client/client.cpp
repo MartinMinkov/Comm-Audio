@@ -127,7 +127,7 @@ void client::updateSongs(QVector<QString> userList)
 {
     ui->downloadFileWidget->clear();
     for(auto& user : userList){
-       ui->connectedWidget->addItem(user);
+       ui->downloadFileWidget->addItem(user);
     }
 }
 void client::updateCallLabel(QString caller)

@@ -122,13 +122,13 @@ std::string ClientHandlerThread::constructSongListString(){
     std::string songListString = "";
     songListString += REFRESH_SONG;
 
-    int test = playlistModel->rowCount();
-
     QString temp;
-    for(int i = 0; i < playlistModel->rowCount(); i++){
-        temp = playlistModel->index(i, 0).data(Qt::DisplayRole).toString();
-        songListString += temp.toUtf8().constData();
-        songListString += ";";
+    if(playlistModel){
+        for(int i = 0; i < playlistModel->rowCount(); i++){
+            temp = playlistModel->index(i, 0).data(Qt::DisplayRole).toString();
+            songListString += temp.toUtf8().constData();
+            songListString += ";";
+        }
     }
     qDebug(songListString.c_str());
 
