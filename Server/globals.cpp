@@ -8,5 +8,5 @@ globals::globals()
 }
 #include <QVector>
 
-QVector<std::string> userList;
+QVector<QString> userList;
 QStringListModel *playlistModel;

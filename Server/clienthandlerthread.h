@@ -16,6 +16,7 @@ public:
 
 signals:
     void signalDisconnect();
+    void signalUpdateUserList(QVector<QString> userList);
     void finished();
 
 public slots:
@@ -29,7 +30,7 @@ private:
     chathelper* cHelper;
 
     char * clientUsername;
-    std::string constructUserListString();
+    QString constructUserListString();
     std::string constructSongListString();
     void removeUserFromList();
 };

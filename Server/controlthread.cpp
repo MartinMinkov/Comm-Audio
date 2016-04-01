@@ -67,18 +67,9 @@ void ControlThread::setup(int port){
         networkutility::debugMessage("passed accept");
 
         networkutility::debugMessage("create thread here for the new client");
-        clientHandlerThread = new QThread;
-        clientWorker = new ClientHandlerThread(accept_socket);
-        clientWorker->moveToThread(clientHandlerThread);
-        connect(clientHandlerThread, SIGNAL(started()), clientWorker, SLOT(receiveRequests()));
-        //TODO: connect start signal with a slot to create Colin's thread (update song list)
 
-        connect(clientWorker, SIGNAL(signalDisconnect()), clientWorker, SLOT(disconnect()));
-        connect(clientWorker, SIGNAL(finished()), clientHandlerThread, SLOT(quit()));
-        connect(clientWorker, SIGNAL(finished()), clientWorker, SLOT(deleteLater()));
-        connect(clientHandlerThread, SIGNAL(finished()), clientHandlerThread, SLOT(deleteLater()));
-
-        clientHandlerThread->start();
+        //send a signal here to the main thread to create the handler thread, instead of creating it here
+        emit signalCreateClientThread(accept_socket);
 
         //keep track of clients?
         numberOfClients++;

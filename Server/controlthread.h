@@ -17,6 +17,7 @@ public:
 signals:
     void signalSetup(int port);
     void signalDisconnect();
+    void signalCreateClientThread(int socket);
     void finished();
 
 public slots:
@@ -33,8 +34,7 @@ private:
     SOCKADDR_IN  server;
     SOCKADDR_IN client;
     int client_len;
-    QThread* clientHandlerThread;
-    ClientHandlerThread* clientWorker;
+
     int numberOfClients = 0;
 };
 

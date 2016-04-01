@@ -26,13 +26,13 @@ void ClientHandlerThread::receiveRequests(){
         networkutility::debugMessage(username);
         clientUsername = username;
         userList.push_back(username);
+        //add client to gui
+        emit signalUpdateUserList(userList);
     }
 
     // send the server the username list
-    std::string constructedUserList = constructUserListString();
-
-    networkutility::debugMessage(constructedUserList.c_str());
-    sendDataTCP(m_socket, constructedUserList.c_str());
+    QString constructedUserList = constructUserListString();
+    sendDataTCP(m_socket, constructedUserList.toLocal8Bit().data());
 
     while(1){
 
@@ -97,23 +97,26 @@ void ClientHandlerThread::disconnect(){
 //    QVector<std::string>::iterator it = std::find(userList.begin(), userList.end(), clientUsername);
 
     removeUserFromList();
+    emit signalUpdateUserList(userList);
     closesocket(m_socket);
     WSACleanup();
     emit finished();
 }
 
-std::string ClientHandlerThread::constructUserListString(){
-    std::string userListString = "";
-    userListString += REFRESH_USER;
+QString ClientHandlerThread::constructUserListString(){
+    QString userListString = "";
+    userListString.append(REFRESH_USER);
         int i = 0;
 
         for (auto it = userList.cbegin(); it != userList.cend(); it++, i++)
         {
-            userListString += *it + ";";
+            userListString.append(*it).append(";");
         }
 
         //erase newline chars
-        userListString.erase(std::remove(userListString.begin(), userListString.end(), '\n'), userListString.end());
+//        userListString.erase(std::remove(userListString.begin(), userListString.end(), '\n'), userListString.end());
+
+        userListString.remove('\n');
 
         return userListString;
 }
@@ -141,11 +144,9 @@ void ClientHandlerThread::removeUserFromList(){
     for (auto it = userList.cbegin(); it != userList.cend(); it++, i++)
     {
         if(*it == clientUsername){
-            networkutility::debugMessage("found it");
-            qDebug() << i;
             userList.remove(i);
-            std::string constructedUserList = constructUserListString();
-            networkutility::debugMessage(constructedUserList.c_str());
+            QString constructedUserList = constructUserListString();
+            networkutility::debugMessage(constructedUserList.toLocal8Bit().data());
             break;
         }
     }
