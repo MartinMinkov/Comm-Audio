@@ -38,3 +38,5 @@ FORMS    += server.ui
 RESOURCES += qdarkstyle/style.qrc
 
 LIBS += -lws2_32
+
+CONFIG += c++11

@@ -14,17 +14,26 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         client.cpp \
-    threadmanager.cpp \
-    networkutility.cpp \
-    circlebuff.cpp
+        networkutility.cpp \
+        circlebuff.cpp \
+        filemanager.cpp \
+        udpthreadmanager.cpp \
+        tcpthreadmanager.cpp
 
 HEADERS  += client.h \
-    threadmanager.h \
     networkutility.h \
-    circlebuff.h
+    circlebuff.h \
+    udpthreadmanager.h \
+    tcpthreadmanager.h \
+    filemanager.h
+
+
+
 
 FORMS    += client.ui
 
 RESOURCES += qdarkstyle/style.qrc
 
 LIBS += -lws2_32
+
+CONFIG += c++11

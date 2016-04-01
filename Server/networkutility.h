@@ -17,7 +17,7 @@
 #define REQ_REFRESH '%'
 #define REFRESH_USER '&'
 #define REFRESH_SONG '*'
-
+#define ERROR_BIT "$"
 #define MAXCONNECTIONS 10
 
 

@@ -24,15 +24,15 @@ void ClientHandlerThread::receiveRequests(){
     if(receiveTCP(m_socket, username)){
         networkutility::debugMessage("username:");
         networkutility::debugMessage(username);
-//        clientUsername = username;
+        clientUsername = username;
         userList.push_back(username);
+        //add client to gui
+        emit signalUpdateUserList(userList);
     }
 
     // send the server the username list
-    std::string constructedUserList = constructUserListString();
-
-    networkutility::debugMessage(constructedUserList.c_str());
-    sendDataTCP(m_socket, constructedUserList.c_str());
+    QString constructedUserList = constructUserListString();
+    sendDataTCP(m_socket, constructedUserList.toLocal8Bit().data());
 
     while(1){
 
@@ -60,7 +60,7 @@ void ClientHandlerThread::receiveRequests(){
 
         // download request
         if(buf[0] == REQ_DOWNLOAD){
-            fHelper->handleDownloadRequest(buf);
+            fHelper->handleDownloadRequest(buf, m_socket);
         }
 
         // upload request
@@ -79,6 +79,7 @@ void ClientHandlerThread::receiveRequests(){
         }
 
         if(buf[0] == REFRESH_SONG){
+            qDebug() << "Send Refresh is caught";
             std::string constructedSongList = constructSongListString();
             networkutility::debugMessage(constructedSongList.c_str());
             sendDataTCP(m_socket, constructedSongList.c_str());
@@ -93,23 +94,29 @@ void ClientHandlerThread::receiveRequests(){
 
 void ClientHandlerThread::disconnect(){
     networkutility::debugMessage("disconnecting client handler...");
+//    QVector<std::string>::iterator it = std::find(userList.begin(), userList.end(), clientUsername);
+
+    removeUserFromList();
+    emit signalUpdateUserList(userList);
     closesocket(m_socket);
     WSACleanup();
     emit finished();
 }
 
-std::string ClientHandlerThread::constructUserListString(){
-    std::string userListString = "";
-    userListString += REFRESH_USER;
+QString ClientHandlerThread::constructUserListString(){
+    QString userListString = "";
+    userListString.append(REFRESH_USER);
         int i = 0;
 
         for (auto it = userList.cbegin(); it != userList.cend(); it++, i++)
         {
-            userListString += *it + ";";
+            userListString.append(*it).append(";");
         }
 
         //erase newline chars
-        userListString.erase(std::remove(userListString.begin(), userListString.end(), '\n'), userListString.end());
+//        userListString.erase(std::remove(userListString.begin(), userListString.end(), '\n'), userListString.end());
+
+        userListString.remove('\n');
 
         return userListString;
 }
@@ -118,16 +125,30 @@ std::string ClientHandlerThread::constructSongListString(){
     std::string songListString = "";
     songListString += REFRESH_SONG;
 
-    int test = playlistModel->rowCount();
-
     QString temp;
-    for(int i = 0; i < playlistModel->rowCount(); i++){
-        temp = playlistModel->index(i, 0).data(Qt::DisplayRole).toString();
-        songListString += temp.toUtf8().constData();
-        songListString += ";";
+    if(playlistModel){
+        for(int i = 0; i < playlistModel->rowCount(); i++){
+            temp = playlistModel->index(i, 0).data(Qt::DisplayRole).toString();
+            songListString += temp.toUtf8().constData();
+            songListString += ";";
+        }
     }
     qDebug(songListString.c_str());
 
     return songListString;
+}
+
+void ClientHandlerThread::removeUserFromList(){
+    //logic to find the username in the userlist and remove it if a client disconnects
+    int i = 0;
+    for (auto it = userList.cbegin(); it != userList.cend(); it++, i++)
+    {
+        if(*it == clientUsername){
+            userList.remove(i);
+            QString constructedUserList = constructUserListString();
+            networkutility::debugMessage(constructedUserList.toLocal8Bit().data());
+            break;
+        }
+    }
 }
 

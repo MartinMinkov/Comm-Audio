@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QThread>
-#include "threadmanager.h"
+#include "tcpthreadmanager.h"
 
 namespace Ui {
     class client;
@@ -22,6 +22,8 @@ public:
 
 public slots:
     void updateUsers(QVector<QString> userList);
+    void updateSongs(QVector<QString> userList);
+    void updateCallLabel(QString);
 
 private slots:
     void on_connectButton_clicked();
@@ -29,11 +31,23 @@ private slots:
     void on_updateSongButton_clicked();
     void on_uploadButton_clicked();
     void on_voiceChatButton_clicked();
+    void on_downloadSongButton_clicked();
+
+    void on_updateVoiceUsersButton_clicked();
 
 private:
     Ui::client *ui;
-    QThread* receiveThread;
-    ThreadManager* receiveWorker;
+    QThread* receiveTCPThread;
+    ThreadManager* receiveTCPWorker;
+
+    QThread* receiveUDPThread;
+    ThreadManager* receiveUDPWorker;
+
+    QThread* receiveVoiceChatThread;
+    ThreadManager* receiveVoiceChatWorker;
+
+    QThread* sendTCPThread;
+    ThreadManager* sendTCPWorker;
 };
 
 #endif // CLIENT_H

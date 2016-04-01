@@ -5,10 +5,12 @@
 #include <QStringListModel>
 #include <winsock2.h>
 #include <windows.h>
+#include "clienthandlerthread.h"
+
 extern SOCKET listen_socket;
 extern SOCKET accept_socket;
 
-extern QVector<std::string> userList;
+extern QVector<QString> userList;
 extern QStringListModel *playlistModel;
 
 class globals

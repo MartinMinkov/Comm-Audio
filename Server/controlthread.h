@@ -17,6 +17,7 @@ public:
 signals:
     void signalSetup(int port);
     void signalDisconnect();
+    void signalCreateClientThread(int socket);
     void finished();
 
 public slots:
@@ -28,11 +29,12 @@ private:
     WSADATA WSAData;
 
    // SOCKET accept_socket;
+    SOCKET listen_socket;
+    SOCKET accept_socket;
     SOCKADDR_IN  server;
     SOCKADDR_IN client;
     int client_len;
-    QThread* clientHandlerThread;
-    ClientHandlerThread* clientWorker;
+
     int numberOfClients = 0;
 };
 

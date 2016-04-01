@@ -2,11 +2,12 @@
 
 SOCKET listen_socket = 0;
 SOCKET accept_socket = 0;
+
 globals::globals()
 {
 
 }
 #include <QVector>
 
-QVector<std::string> userList;
+QVector<QString> userList;
 QStringListModel *playlistModel;

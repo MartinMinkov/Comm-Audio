@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QStringListModel>
 #include "controlthread.h"
+#include "clienthandlerthread.h"
 
 
 namespace Ui {
@@ -22,17 +23,24 @@ public:
     ~server();
     int getPortNumber();
 
+public slots:
+    void updateUserList(QVector<QString> userList);
+    void createClientThread(int socket);
 
 signals:
     void signalSetup(int port);
 
 private:
     Ui::server *ui;
-    QThread* controlThread;
-    ControlThread* controlWorker;
     void initControlThread();
     void toggleConnected(bool state);
     QStringList playlist;
+
+    QThread* controlThread;
+    ControlThread* controlWorker;
+    QThread* clientHandlerThread;
+    ClientHandlerThread* clientWorker;
+
 
 private slots:
     void on_bStartServer_clicked();

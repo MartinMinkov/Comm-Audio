@@ -1,15 +1,7 @@
-#include "threadmanager.h"
-#include <windows.h>
-#include "circlebuff.h"
-#include "networkutility.h"
-#include <QFile>
-#include <QDataStream>
+
 #define FILEMAX 20000
 
-HANDLE newData;
-HANDLE readDone;
-HANDLE fileDone;
-circlebuff c;
+
 ThreadManager::ThreadManager(QObject *parent) : QObject(parent)
 {
     sd = 0;

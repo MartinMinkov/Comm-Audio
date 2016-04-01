@@ -14,7 +14,7 @@ filehelper::filehelper()
 
 }
 
-void filehelper::handleDownloadRequest(QString title){
+void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
     networkutility::debugMessage("download requested");
     char * fileName;
     char buff[FILEMAX] = { 0 };
@@ -23,40 +23,31 @@ void filehelper::handleDownloadRequest(QString title){
     qint64 left;
     networkutility n;
     int bytesRead;
-    //receiveTCP(accept_socket,fileName);
-    title = title.remove(0, 1);
     qDebug() << title;
-    printf("starting to open file");
-    qDebug() << "starting to open file";
-    /*QFile f(title);
-    if(!f.open(QIODevice::ReadOnly | QIODevice::Text)){
-        printf("Invalid file name");
-        fflush(stdout);
-        return;
-    }*/
     FILE * fqt;
-    fqt = fopen(title.toStdString().c_str(), "rb+");
+    title = title.remove(0, 1);
+    if(!(fqt = fopen(title.toStdString().c_str(), "rb+"))){
+        sendDataTCP(m_socket, ERROR_BIT);
+        return;
+    }
+
+    char * success = "MARTINMINKOV";
+    sendDataTCP(m_socket, success);
+
+
+
+
+
     //ifstream fs;
     //fs.open(title.toStdString().c_str(), ios::binary);
     int total = 0;
     fflush(stdout);
     while((bytesRead = fread(buff, sizeof(char), FILEMAX, fqt))){
-    //while(!fs.eof()){
-      //  fs.read(buff,FILEMAX);
-    //while(!f.atEnd()){
-        //q = f.read(FILEMAX);
-        //bytesRead = q.size();
-        //ff = q.data();
-    //left = f.read(buff, FILEMAX);
-       //bytesRead =  fs.gcount();
-        total += bytesRead;
-        printf("Sending some data ok %d", total);
-        fflush(stdout);
-        if(bytesRead != FILEMAX){
-            n.WSAS(accept_socket, buff, bytesRead, 1000);
+            if(bytesRead != FILEMAX){
+            n.WSAS(m_socket, buff, bytesRead, 1000);
             break;
         }
-        n.WSAS(accept_socket, buff, 20000, 1000);
+        n.WSAS(m_socket, buff, 20000, 1000);
     }
 }
 

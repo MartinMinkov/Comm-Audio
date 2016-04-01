@@ -13,16 +13,6 @@
   <property name="windowTitle">
    <string>commAudio</string>
   </property>
-  <widget class="QTextBrowser" name="testdisplay">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>340</y>
-     <width>271</width>
-     <height>321</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
@@ -219,6 +209,16 @@ p, li { white-space: pre-wrap; }
      <string>Stop Server</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QListWidget" name="userView">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>340</y>
+     <width>256</width>
+     <height>321</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
