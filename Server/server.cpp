@@ -49,18 +49,21 @@ void server::on_bAddSongs_clicked(){
     QFileDialog addSongDialog(this);
     addSongDialog.setFileMode(QFileDialog::ExistingFiles);
 
-    playlist = addSongDialog.getOpenFileNames(this, tr("Add Songs"), QDir::currentPath(), tr("Song Types (*.wav *.mp3)"));
+    //get the currently selected songs
+    QStringList newSongsList;
+    newSongsList = addSongDialog.getOpenFileNames(this, tr("Add Songs"), QDir::currentPath(), tr("Song Types (*.wav *.mp3)"));
 
-    for(QStringList::iterator it = playlist.begin(); it != playlist.end(); ++it){
+    for(QStringList::iterator it = newSongsList.begin(); it != newSongsList.end(); ++it){
         QFileInfo fi(*it);
         *it = fi.fileName();
+        //add new songs to existing playlist
+        playlist.push_back(*it);
     }
 
     playlistModel = new QStringListModel(this);
+
     playlistModel->setStringList(playlist);
     ui->playlistView->setModel(playlistModel);
-
-    int test = playlistModel->rowCount();
 }
 
 
