@@ -26,9 +26,11 @@ signals:
     void signalUpload();
     void signalStream();
     void signalVoice();
-    void signalRefresh();
+    void signalSongRefresh();
+    void signalVoiceRefresh();
     void finished();
     void signalVoiceChat();
+    void updateCaller(QString);
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);
@@ -38,7 +40,8 @@ public slots:
     void SendUploadRequest();
     void SendStreamRequest();
     void SendVoiceRequest();
-    void SendRefreshRequest();
+    void SendSongRefreshRequest();
+    void SendVoiceRefreshRequest();
     void setupVoiceChat();
 
 private:

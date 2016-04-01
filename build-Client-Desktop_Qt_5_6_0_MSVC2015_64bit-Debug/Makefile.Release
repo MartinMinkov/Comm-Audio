@@ -504,6 +504,8 @@ release\moc_tcpthreadmanager.cpp: ..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QOb
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qfiledevice.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtGui\qvector2d.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtGui\qtouchdevice.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QThread \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		..\Client\networkutility.h \
 		..\Client\tcpthreadmanager.h
 	G:\Qt\5.6\msvc2015_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1900 -D_WIN32 -D_WIN64 -IG:/Qt/5.6/msvc2015_64/mkspecs/win32-msvc2015 -IG:/GitHub/Comm-Audio/Client -IG:/Qt/5.6/msvc2015_64/include -IG:/Qt/5.6/msvc2015_64/include/QtWidgets -IG:/Qt/5.6/msvc2015_64/include/QtGui -IG:/Qt/5.6/msvc2015_64/include/QtANGLE -IG:/Qt/5.6/msvc2015_64/include/QtCore -I. ..\Client\tcpthreadmanager.h -o release\moc_tcpthreadmanager.cpp
@@ -1164,6 +1166,8 @@ release\tcpthreadmanager.obj: ..\Client\tcpthreadmanager.cpp ../Client/tcpthread
 		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qfiledevice.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtGui\qvector2d.h \
 		..\..\..\Qt\5.6\msvc2015_64\include\QtGui\qtouchdevice.h \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\QThread \
+		..\..\..\Qt\5.6\msvc2015_64\include\QtCore\qthread.h \
 		../Client/networkutility.h
 
 release\qrc_style.obj: release\qrc_style.cpp 

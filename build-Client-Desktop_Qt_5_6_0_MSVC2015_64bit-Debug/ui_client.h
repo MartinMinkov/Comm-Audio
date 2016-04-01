@@ -74,7 +74,7 @@ public:
     QWidget *chatTab;
     QGroupBox *groupBox_2;
     QListWidget *connectedWidget;
-    QPushButton *pushButton_3;
+    QPushButton *endChatButton;
     QGroupBox *groupBox_3;
     QLabel *label_6;
     QGroupBox *groupBox_4;
@@ -83,10 +83,11 @@ public:
     QGroupBox *groupBox_5;
     QSlider *horizontalSlider;
     QGroupBox *groupBox_6;
-    QLabel *label_9;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_5;
+    QLabel *voiceCallLabel;
+    QPushButton *acceptVoiceButton;
+    QPushButton *rejectVoiceButton;
     QPushButton *voiceChatButton;
+    QPushButton *updateVoiceUsersButton;
     QWidget *streamTab;
     QGroupBox *groupBox_8;
     QPushButton *pushButton_9;
@@ -267,9 +268,9 @@ public:
         connectedWidget = new QListWidget(groupBox_2);
         connectedWidget->setObjectName(QStringLiteral("connectedWidget"));
         connectedWidget->setGeometry(QRect(10, 30, 131, 281));
-        pushButton_3 = new QPushButton(chatTab);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-        pushButton_3->setGeometry(QRect(170, 120, 201, 31));
+        endChatButton = new QPushButton(chatTab);
+        endChatButton->setObjectName(QStringLiteral("endChatButton"));
+        endChatButton->setGeometry(QRect(170, 130, 201, 31));
         groupBox_3 = new QGroupBox(chatTab);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
         groupBox_3->setGeometry(QRect(170, 10, 141, 61));
@@ -298,18 +299,21 @@ public:
         groupBox_6 = new QGroupBox(chatTab);
         groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
         groupBox_6->setGeometry(QRect(380, 10, 231, 321));
-        label_9 = new QLabel(groupBox_6);
-        label_9->setObjectName(QStringLiteral("label_9"));
-        label_9->setGeometry(QRect(20, 30, 111, 16));
-        pushButton_4 = new QPushButton(groupBox_6);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
-        pushButton_4->setGeometry(QRect(20, 60, 91, 23));
-        pushButton_5 = new QPushButton(groupBox_6);
-        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
-        pushButton_5->setGeometry(QRect(120, 60, 91, 23));
+        voiceCallLabel = new QLabel(groupBox_6);
+        voiceCallLabel->setObjectName(QStringLiteral("voiceCallLabel"));
+        voiceCallLabel->setGeometry(QRect(20, 30, 111, 16));
+        acceptVoiceButton = new QPushButton(groupBox_6);
+        acceptVoiceButton->setObjectName(QStringLiteral("acceptVoiceButton"));
+        acceptVoiceButton->setGeometry(QRect(20, 60, 91, 23));
+        rejectVoiceButton = new QPushButton(groupBox_6);
+        rejectVoiceButton->setObjectName(QStringLiteral("rejectVoiceButton"));
+        rejectVoiceButton->setGeometry(QRect(120, 60, 91, 23));
         voiceChatButton = new QPushButton(chatTab);
         voiceChatButton->setObjectName(QStringLiteral("voiceChatButton"));
-        voiceChatButton->setGeometry(QRect(170, 80, 141, 23));
+        voiceChatButton->setGeometry(QRect(170, 70, 141, 23));
+        updateVoiceUsersButton = new QPushButton(chatTab);
+        updateVoiceUsersButton->setObjectName(QStringLiteral("updateVoiceUsersButton"));
+        updateVoiceUsersButton->setGeometry(QRect(170, 100, 141, 23));
         tabWidget->addTab(chatTab, QString());
         streamTab = new QWidget();
         streamTab->setObjectName(QStringLiteral("streamTab"));
@@ -384,7 +388,7 @@ public:
 
         retranslateUi(client);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(client);
@@ -458,7 +462,7 @@ public:
         uploadButton->setText(QApplication::translate("client", "Upload Songs", 0));
         tabWidget->setTabText(tabWidget->indexOf(uploadTab), QApplication::translate("client", "File Upload", 0));
         groupBox_2->setTitle(QApplication::translate("client", "Online Users:", 0));
-        pushButton_3->setText(QApplication::translate("client", "End Chat", 0));
+        endChatButton->setText(QApplication::translate("client", "End Chat", 0));
         groupBox_3->setTitle(QApplication::translate("client", "Selected User:", 0));
         label_6->setText(QApplication::translate("client", "Martin Minkov", 0));
         groupBox_4->setTitle(QApplication::translate("client", "Status", 0));
@@ -466,10 +470,11 @@ public:
         label_8->setText(QApplication::translate("client", "Duration: 15:02:22", 0));
         groupBox_5->setTitle(QApplication::translate("client", "Call volume", 0));
         groupBox_6->setTitle(QApplication::translate("client", "Incoming Voice Chats", 0));
-        label_9->setText(QApplication::translate("client", "From: Alvin Man", 0));
-        pushButton_4->setText(QApplication::translate("client", "Accept", 0));
-        pushButton_5->setText(QApplication::translate("client", "Reject", 0));
+        voiceCallLabel->setText(QString());
+        acceptVoiceButton->setText(QApplication::translate("client", "Accept", 0));
+        rejectVoiceButton->setText(QApplication::translate("client", "Reject", 0));
         voiceChatButton->setText(QApplication::translate("client", "Call", 0));
+        updateVoiceUsersButton->setText(QApplication::translate("client", "Update Users", 0));
         tabWidget->setTabText(tabWidget->indexOf(chatTab), QApplication::translate("client", "Voice Chat", 0));
         groupBox_8->setTitle(QApplication::translate("client", "Stream Controls", 0));
         pushButton_9->setText(QApplication::translate("client", "Play/Pause", 0));

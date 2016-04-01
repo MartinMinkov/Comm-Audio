@@ -44,11 +44,12 @@ void client::on_connectButton_clicked()
     connect(receiveTCPWorker, SIGNAL(updateUserList(QVector<QString>)), this, SLOT(updateUsers(QVector<QString>)));
     connect(receiveTCPWorker, SIGNAL(updateSongList(QVector<QString>)), this, SLOT(updateSongs(QVector<QString>)));
     connect(receiveTCPWorker, SIGNAL(signalHandleRequest()), receiveTCPWorker, SLOT(handleRequest()));
-    connect(receiveTCPWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()));
+    connect(receiveTCPWorker, SIGNAL(finished()), receiveVoiceChatThread, SLOT(quit()));
 
     connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()));
 
     connect(receiveVoiceChatWorker, SIGNAL(signalVoiceChat()), receiveVoiceChatWorker, SLOT(setupVoiceChat()));
+    connect(receiveVoiceChatWorker, SIGNAL(updateCaller(QString)), this, SLOT(updateCallLabel(QString)));
     connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()));
 
     receiveTCPThread->start();
@@ -61,6 +62,7 @@ void client::on_connectButton_clicked()
         ui->tabWidget->setTabEnabled(i, true);
     }
 
+    emit receiveVoiceChatWorker->signalVoiceChat();
     emit receiveTCPWorker->signalConnect(ipaddr, portnum, username);
 }
 
@@ -86,8 +88,8 @@ void client::on_disconnectButton_clicked()
 void client::on_updateSongButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
-    connect(sendTCPWorker, SIGNAL(signalRefresh()), sendTCPWorker, SLOT(SendRefreshRequest()));
-    emit sendTCPWorker->signalRefresh();
+    connect(sendTCPWorker, SIGNAL(signalSongRefresh()), sendTCPWorker, SLOT(SendSongRefreshRequest()));
+    emit sendTCPWorker->signalSongRefresh();
 }
 
 void client::on_uploadButton_clicked()
@@ -127,4 +129,17 @@ void client::updateSongs(QVector<QString> userList)
     for(auto& user : userList){
        ui->connectedWidget->addItem(user);
     }
+}
+void client::updateCallLabel(QString caller)
+{
+    if (caller == NULL || caller == "")
+        return;
+    ui->voiceCallLabel->setText("From: " + caller);
+}
+
+void client::on_updateVoiceUsersButton_clicked()
+{
+    qDebug() << "Send Refresh Button is clicked";
+    connect(sendTCPWorker, SIGNAL(signalVoiceRefresh()), sendTCPWorker, SLOT(SendVoiceRefreshRequest()));
+    emit sendTCPWorker->SendVoiceRefreshRequest();
 }

@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -610,11 +610,11 @@
       </property>
      </widget>
     </widget>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="endChatButton">
      <property name="geometry">
       <rect>
        <x>170</x>
-       <y>120</y>
+       <y>130</y>
        <width>201</width>
        <height>31</height>
       </rect>
@@ -741,7 +741,7 @@
      <property name="title">
       <string>Incoming Voice Chats</string>
      </property>
-     <widget class="QLabel" name="label_9">
+     <widget class="QLabel" name="voiceCallLabel">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -751,10 +751,10 @@
        </rect>
       </property>
       <property name="text">
-       <string>From: Alvin Man</string>
+       <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="acceptVoiceButton">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -767,7 +767,7 @@
        <string>Accept</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QPushButton" name="rejectVoiceButton">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -785,13 +785,26 @@
      <property name="geometry">
       <rect>
        <x>170</x>
-       <y>80</y>
+       <y>70</y>
        <width>141</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
       <string>Call</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="updateVoiceUsersButton">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>100</y>
+       <width>141</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Update Users</string>
      </property>
     </widget>
    </widget>

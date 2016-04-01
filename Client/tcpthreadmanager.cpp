@@ -74,11 +74,15 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     }
 
     emit signalHandleRequest();
-    emit signalVoiceChat();
     emit finished();
 }
 void ThreadManager::setupVoiceChat()
 {
+    int BytesRead;
+    char buf[PACKET_LEN];
+    int bytesToRead = PACKET_LEN;
+    char *bp = buf;
+
     qDebug() << "Setup Voice Chat Thread Created";
 
     if(VCSocket != 0 && AcceptSocket != 0) {
@@ -112,13 +116,21 @@ void ThreadManager::setupVoiceChat()
         return;
     }
 
+    //Get username from connecting client
+    if ((BytesRead = recv(VCSocket, bp, bytesToRead, 0)) > 0)
+    {
+        bytesToRead -= BytesRead;
+    }
     // emit voice chat GUI signal
+    QString callerName(bp);
+    emit updateCaller(callerName);
+
     // emit voice chat recv thread
 }
 void ThreadManager::handleRequest()
 {
     int BytesRead;
-    char *bp, buf[PACKET_LEN];
+    char buf[PACKET_LEN];
     while (true)
     {
         int bytesToRead = PACKET_LEN;
@@ -185,11 +197,18 @@ void ThreadManager::SendVoiceRequest()
     temp = REQ_CHAT;
     sendDataTCP(TCPSocket, temp.c_str());
 }
-void ThreadManager::SendRefreshRequest()
+void ThreadManager::SendSongRefreshRequest()
 {
-    qDebug() << "Send Refresh Request is called";
+    qDebug() << "Send Song Refresh Request is called";
     std::string temp;
     temp = REFRESH_SONG;
+    sendDataTCP(TCPSocket, temp.c_str());
+}
+void ThreadManager::SendVoiceRefreshRequest()
+{
+    qDebug() << "Send Voice Refresh Request is called";
+    std::string temp;
+    temp = REFRESH_USER;
     sendDataTCP(TCPSocket, temp.c_str());
 }
 void ThreadManager::parseUserList(char* bp)
