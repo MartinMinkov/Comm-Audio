@@ -128,7 +128,7 @@ std::string ClientHandlerThread::constructSongListString(){
     QString temp;
     if(playlistModel){
         for(int i = 0; i < playlistModel->rowCount(); i++){
-            temp = playlistModel->index(i, 0).data(Qt::DisplayRole).toString();
+            temp = playlistModel->index(i, 1).data(Qt::DisplayRole).toString();
             songListString += temp.toUtf8().constData();
             songListString += ";";
         }

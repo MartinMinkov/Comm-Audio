@@ -8,6 +8,7 @@ server::server(QWidget *parent) :
     ui(new Ui::server)
 {
     ui->setupUi(this);
+    setupPlaylistTable();
     toggleConnected(false);
 }
 
@@ -63,10 +64,19 @@ void server::on_bAddSongs_clicked(){
         playlist.push_back(*it);
     }
 
-    playlistModel = new QStringListModel(this);
+    //repopulate the model with new songs
+    int number = 0;
+    for(auto it = playlist.begin(); it != playlist.end(); ++it, number++){
+        playlistModel->setItem(number, 0, new QStandardItem(QString::number(number+1)));
+        playlistModel->setItem(number, 1, new QStandardItem(*it));
+        //add duration of the song to column 2
+    }
 
-    playlistModel->setStringList(playlist);
     ui->playlistView->setModel(playlistModel);
+    //not sure why it only works if i resize the width here
+    ui->playlistView->setColumnWidth(0, 70);
+    ui->playlistView->setColumnWidth(1, 350);
+    ui->playlistView->setColumnWidth(2, 90);
 }
 
 
@@ -103,6 +113,30 @@ void server::createClientThread(int socket){
 void server::updateUserList(QVector<QString> userList){
     ui->userView->clear();
     for(auto& user : userList){
+        user.remove('\n');
         ui->userView->addItem(user);
     }
+    ui->label_server_client_number->setText(QString::number(userList.size()));
+}
+
+void server::setupPlaylistTable(){
+    playlistModel = new QStandardItemModel();
+    playlistModel->setColumnCount(3);
+
+    QStandardItem* header0 = new QStandardItem("Number");
+    QStandardItem* header1 = new QStandardItem("Song Name");
+    QStandardItem* header2 = new QStandardItem("Duration");
+
+
+
+    playlistModel->setHorizontalHeaderItem(0,header0);
+    playlistModel->setHorizontalHeaderItem(1,header1);
+    playlistModel->setHorizontalHeaderItem(2,header2);
+
+    playlistModel->setHeaderData(0, Qt::Horizontal, Qt::AlignLeft, Qt::TextAlignmentRole);
+    playlistModel->setHeaderData(1, Qt::Horizontal, Qt::AlignLeft, Qt::TextAlignmentRole);
+    playlistModel->setHeaderData(2, Qt::Horizontal, Qt::AlignLeft, Qt::TextAlignmentRole);
+
+    ui->playlistView->verticalHeader()->hide();
+
 }

@@ -34,6 +34,7 @@ private:
     Ui::server *ui;
     void initControlThread();
     void toggleConnected(bool state);
+    void setupPlaylistTable();
     QStringList playlist;
 
     QThread* controlThread;

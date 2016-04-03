@@ -10,4 +10,4 @@ globals::globals()
 #include <QVector>
 
 QVector<QString> userList;
-QStringListModel *playlistModel;
+QStandardItemModel *playlistModel;
