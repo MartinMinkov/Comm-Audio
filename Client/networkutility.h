@@ -3,12 +3,15 @@
 
 #include <winsock2.h>
 #include <windows.h>
+#include <ws2tcpip.h>
 #include <QDebug>
 #include <sstream>
 
 #define DATA_BUFSIZE 65000
 #define PACKET_LEN 1024
 #define DEFAULT_VOICE_PORT 8000
+#define DEFUALT_STREAM_PORT 9000
+#define MULTICAST_ADDRESS "234.5.6.7"
 #define ERROR_BIT '$'
 #define REQ_DOWNLOAD 'v'
 #define REQ_UPLOAD "^"
@@ -21,6 +24,7 @@
 extern SOCKET TCPSocket;
 extern SOCKET AcceptSocket;
 extern SOCKET VCSocket;
+extern SOCKET StreamSocket;
 
 typedef struct _SOCKET_INFORMATION {
     OVERLAPPED	Overlapped;

@@ -15,6 +15,8 @@ public:
     explicit ThreadManager(QObject *parent = 0);
     ~ThreadManager();
      void parseUserList(char* bp);
+     void initMultiCastSock();
+     void receiveStream();
 
 signals:
     void signalConnect(QString ipaddr, QString portnum, QString username);
@@ -53,6 +55,7 @@ private:
     struct sockaddr_in client;
     struct hostent *hp;
     LPSOCKET_INFORMATION SI;
+    struct ip_mreq stMreq;         /* Multicast interface structure */
 };
 
 DWORD WINAPI readStuff(LPVOID param);

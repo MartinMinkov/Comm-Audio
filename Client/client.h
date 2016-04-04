@@ -35,6 +35,8 @@ private slots:
 
     void on_updateVoiceUsersButton_clicked();
 
+    void on_playStreamButton_clicked();
+
 private:
     Ui::client *ui;
     QThread* receiveTCPThread;
