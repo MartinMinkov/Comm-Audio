@@ -315,8 +315,13 @@ void ThreadManager::SendStreamRequest()
     temp = REQ_STREAM;
     sendDataTCP(TCPSocket, temp.c_str());
     initMultiCastSock();
-    qDebug() << "Starting to listen";
 
+    //Check if StreamSocket socket is not null
+    if (StreamSocket == 0)
+        return;
+
+    qDebug() << "Starting to listen";
+    receiveStream();
 }
 
 DWORD WINAPI uploadStuff(LPVOID param){

@@ -8,10 +8,10 @@
 #include <QStringListModel>
 #include "controlthread.h"
 #include "clienthandlerthread.h"
-
+#include "streamhandlerthread.h"
 
 namespace Ui {
-class server;
+    class server;
 }
 
 class server : public QWidget
@@ -41,6 +41,8 @@ private:
     ControlThread* controlWorker;
     QThread* clientHandlerThread;
     ClientHandlerThread* clientWorker;
+    QThread* streamThread;
+    streamhandlerthread* streamHandlerWorker;
 
 
 private slots:

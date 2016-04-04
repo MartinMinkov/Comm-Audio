@@ -23,7 +23,6 @@ void ControlThread::setup(int port){
     }
 
     //Create socket
-
     if ((listen_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET){
         networkutility::debugMessage("WSASocket: Failed to get a socket");
         return;

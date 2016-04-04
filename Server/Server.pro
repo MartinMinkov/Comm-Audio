@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     streamhelper.cpp \
     chathelper.cpp \
     globals.cpp \
-    circlebuff.cpp
+    circlebuff.cpp \
+    streamhandlerthread.cpp
 
 HEADERS  += server.h \
     controlthread.h \
@@ -31,7 +32,8 @@ HEADERS  += server.h \
     streamhelper.h \
     chathelper.h \
     globals.h \
-    circlebuff.h
+    circlebuff.h \
+    streamhandlerthread.h
 
 FORMS    += server.ui
 

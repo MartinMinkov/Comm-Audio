@@ -108,8 +108,8 @@
   <widget class="QFrame" name="panel_bg_server_stream">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>161</y>
+     <x>-10</x>
+     <y>160</y>
      <width>591</width>
      <height>191</height>
     </rect>

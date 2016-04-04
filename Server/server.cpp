@@ -42,6 +42,18 @@ void server::initControlThread(){
 
 void server::on_bStartServer_clicked(){
     initControlThread();
+
+    streamThread = new QThread;
+    streamHandlerWorker = new streamhandlerthread();
+    streamHandlerWorker->moveToThread(streamThread);
+
+    //emit
+    connect(streamHandlerWorker, SIGNAL(signalInitMutliCast()), streamHandlerWorker, SLOT(initMultiCast()));
+
+    //start
+    streamThread->start();
+    emit streamHandlerWorker->signalInitMutliCast();
+
 }
 
 void server::on_bStopServer_clicked(){
@@ -126,8 +138,6 @@ void server::setupPlaylistTable(){
     QStandardItem* header0 = new QStandardItem("Number");
     QStandardItem* header1 = new QStandardItem("Song Name");
     QStandardItem* header2 = new QStandardItem("Duration");
-
-
 
     playlistModel->setHorizontalHeaderItem(0,header0);
     playlistModel->setHorizontalHeaderItem(1,header1);
