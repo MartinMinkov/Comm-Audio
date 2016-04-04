@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QThread>
 #include "tcpthreadmanager.h"
-
+#include <QAudio>
 namespace Ui {
     class client;
 }
@@ -24,6 +24,7 @@ public slots:
     void updateUsers(QVector<QString> userList);
     void updateSongs(QVector<QString> userList);
     void updateCallLabel(QString);
+    void handleStateChanged(QAudio::State newState);
 
 private slots:
     void on_connectButton_clicked();
@@ -32,8 +33,13 @@ private slots:
     void on_uploadButton_clicked();
     void on_voiceChatButton_clicked();
     void on_downloadSongButton_clicked();
-
     void on_updateVoiceUsersButton_clicked();
+
+    void on_pushButton_9_clicked();
+
+    void on_pushButton_10_clicked();
+
+    void on_pushButton_11_clicked();
 
 private:
     Ui::client *ui;

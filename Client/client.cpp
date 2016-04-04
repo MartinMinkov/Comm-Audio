@@ -1,6 +1,19 @@
 #include "client.h"
 #include "ui_client.h"
-
+#include "circlebuff.h"
+#include <QObject>
+#include <QAudioOutput>
+#include <QBuffer>
+#include <QAudioFormat>
+#include <QFile>
+#include "mybuffer.h"
+circlebuff music;
+QFile sourceFile;
+QBuffer playBuffer;
+myBuffer play;
+QAudioOutput * testPlayer;
+QFile testFile;
+char musicBuff[20000] = { 0 };
 client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
@@ -135,10 +148,47 @@ void client::updateCallLabel(QString caller)
         return;
     ui->voiceCallLabel->setText("From: " + caller);
 }
+void client::handleStateChanged(QAudio::State newState){
+    switch(newState){
+    case QAudio::IdleState:
+            printf("Audio in idle");
+            fflush(stdout);
+
+            break;
+
+    case QAudio::StoppedState:
+        printf("Audio is stopped");
+        fflush(stdout);
+        break;
+    }
+
+    printf("State changed");
+    fflush(stdout);
+}
 
 void client::on_updateVoiceUsersButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
     connect(sendTCPWorker, SIGNAL(signalVoiceRefresh()), sendTCPWorker, SLOT(SendVoiceRefreshRequest()));
     emit sendTCPWorker->SendVoiceRefreshRequest();
+}
+
+void client::on_pushButton_9_clicked()
+{
+    //PLAY
+    play.startPlayer();
+
+}
+
+void client::on_pushButton_10_clicked()
+{
+    //STOP
+}
+
+void client::on_pushButton_11_clicked()
+{
+
+    play.cData.tail -= 20;
+    if(play.cData.tail < 0)
+        play.cData.tail = 0;
 }
