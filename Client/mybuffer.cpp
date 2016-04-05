@@ -1,5 +1,5 @@
 #include "mybuffer.h"
-#include "networkutility.h"
+
 int totalRet = 0;
 bool newCirc = true;
 SOCKET mySocket;

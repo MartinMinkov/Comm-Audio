@@ -1,8 +1,4 @@
 #include "tcpthreadmanager.h"
-#include <windows.h>
-#include "circlebuff.h"
-#include "networkutility.h"
-#define FILEMAX 20000
 
 HANDLE newData;
 HANDLE readDone;

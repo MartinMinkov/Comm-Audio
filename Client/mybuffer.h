@@ -1,11 +1,14 @@
 #ifndef MYBUFFER_H
 #define MYBUFFER_H
+
 #include <QDebug>
 #include <QAudioOutput>
 #include <QIODevice>
 #include "circlebuff.h"
-#include <windows.h>
+#include "networkutility.h"
+
 #define BUFFSIZE 60000
+
 class myBuffer : public QIODevice
 {
 public:
@@ -24,10 +27,7 @@ public:
     void getSong(char * songName);
     void startPlayer();
     void setSocket(int socket);
-   // void fillUp();
-
-
-
+    //void fillUp();
 
 };
 

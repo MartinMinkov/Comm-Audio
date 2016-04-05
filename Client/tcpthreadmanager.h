@@ -5,7 +5,10 @@
 #include <QDebug>
 #include <QWidget>
 #include <QThread>
+#include "circlebuff.h"
 #include "networkutility.h"
+
+#define FILEMAX 20000
 
 class ThreadManager : public QObject
 {

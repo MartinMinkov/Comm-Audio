@@ -5,9 +5,18 @@
 #include <QObject>
 #include <QDebug>
 #include <QThread>
+#include <QAudioOutput>
+#include <QBuffer>
+#include <QAudioFormat>
+#include <QFile>
+#include <QAudio>
+
 #include "tcpthreadmanager.h"
 #include "udpthreadmanager.h"
-#include <QAudio>
+
+#include "ui_client.h"
+#include "circlebuff.h"
+#include "mybuffer.h"
 
 namespace Ui {
     class client;

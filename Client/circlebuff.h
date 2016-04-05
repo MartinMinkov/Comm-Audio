@@ -1,9 +1,12 @@
 #ifndef CIRCLEBUFF_H
 #define CIRCLEBUFF_H
+
 #include "qplatformdefs.h"
 #include <stdlib.h>
+
 #define MAXLEN 500
 #define BLOCKSIZE 60000
+
 class circlebuff
 {
 public:

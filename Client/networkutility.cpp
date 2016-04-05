@@ -1,8 +1,5 @@
 #include "networkutility.h"
 
-#include <QDebug>
-
-
 SOCKET TCPSocket;
 SOCKET AcceptSocket;
 SOCKET VCSocket;

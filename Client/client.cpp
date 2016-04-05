@@ -1,12 +1,5 @@
 #include "client.h"
-#include "ui_client.h"
-#include "circlebuff.h"
-#include <QObject>
-#include <QAudioOutput>
-#include <QBuffer>
-#include <QAudioFormat>
-#include <QFile>
-#include "mybuffer.h"
+
 circlebuff music;
 QFile sourceFile;
 QBuffer playBuffer;
@@ -14,6 +7,7 @@ myBuffer play;
 QAudioOutput * testPlayer;
 QFile testFile;
 char musicBuff[20000] = { 0 };
+
 client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
