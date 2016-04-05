@@ -1,6 +1,12 @@
 #include "mybuffer.h"
+#include "networkutility.h"
 int totalRet = 0;
 bool newCirc = true;
+SOCKET mySocket;
+HANDLE fillBuff;
+char fillerC[BUFFSIZE] = { 0 };
+
+char * fillerP;
 myBuffer::myBuffer()
 {
     QAudioFormat format;
@@ -16,12 +22,13 @@ myBuffer::myBuffer()
     testOutput = fopen("out.txt", "wb+");
     filler.resize(BUFFSIZE);
     loader = buff;
-    getSong("stress.wav");
+    //getSong("stress.wav");
+    fillerP = fillerC;
     this->open(QIODevice::ReadOnly);
 }
 void myBuffer::getSong(char * songName){
     FILE * fqt;
-    fqt = fopen("stress.wav", "rb");
+    fqt = fopen("ec1.wav", "rb");
    // fqt = fopen("warpeace.txt", "rb");
     char arrBuff[BUFFSIZE] = { 0 };
     char * ok = arrBuff;
@@ -62,6 +69,30 @@ qint64 myBuffer::readData(char * data, qint64 len){
         return len;
     }
 }
+
+DWORD WINAPI fillUp(LPVOID param){
+    myBuffer * player = (myBuffer *)param;
+    int len;
+    while(1){
+        len = WSARead(mySocket, fillerP, 10000000, BUFFSIZE);
+        player->cData.push(fillerP, len);
+    }
+}
+
+void myBuffer::setSocket(int socket){
+    mySocket = socket;
+    DWORD id;
+    fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
+    while(1){
+        if(cData.tail < cData.headBuff){
+            startPlayer();
+            break;
+        }
+
+    }
+}
+
+
 qint64 myBuffer::writeData(const char *data, qint64 len){
 
 }

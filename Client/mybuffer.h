@@ -4,6 +4,7 @@
 #include <QAudioOutput>
 #include <QIODevice>
 #include "circlebuff.h"
+#include <windows.h>
 #define BUFFSIZE 60000
 class myBuffer : public QIODevice
 {
@@ -22,6 +23,8 @@ public:
     qint64 bytesAvailable();
     void getSong(char * songName);
     void startPlayer();
+    void setSocket(int socket);
+   // void fillUp();
 
 
 

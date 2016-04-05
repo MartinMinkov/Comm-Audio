@@ -179,7 +179,8 @@ void client::on_playStreamButton_clicked()
      qDebug() << "Play Stream Button is clicked";
    //  connect(receiveTCPWorker, SIGNAL(signalStream()), receiveTCPWorker, SLOT(SendStreamRequest()));
      //emit receiveTCPWorker->SendStreamRequest();
-     play.startPlayer();
+     play.setSocket(TCPSocket);
+    //play.startPlayer();
 }
 
 void client::on_pushButton_9_clicked()

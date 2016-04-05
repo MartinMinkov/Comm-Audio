@@ -15,6 +15,7 @@ public:
     QAudioFormat form;
     QByteArray filler;
     int realPos;
+
     HANDLE fileReader;
     char buff[BUFFSIZE];
     bool loadSong();
@@ -25,10 +26,11 @@ public:
     qint64 bytesAvailable();
     void getSong(char * songName);
     void startPlayer();
-
+    void setSocket(int socket);
 
 
 };
 DWORD WINAPI readFromFile(LPVOID param);
 //bool loadSong();
+
 #endif // MYBUFFER_H
