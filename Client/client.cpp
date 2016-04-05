@@ -176,6 +176,8 @@ void client::on_updateVoiceUsersButton_clicked()
 
 void client::on_playStreamButton_clicked()
 {
+    //PLAY
+    printf("I hate alvin");
 	qDebug() << "Play Stream Button is clicked";
 	connect(receiveTCPWorker, SIGNAL(signalStream()), receiveTCPWorker, SLOT(SendStreamRequest()));
 	emit receiveTCPWorker->SendStreamRequest();
@@ -194,23 +196,14 @@ void client::on_playStreamButton_clicked()
 	play.setSocket(TCPSocket);
 }
 
-void client::on_pushButton_9_clicked()
-{
-    //PLAY
-    printf("I hate alvin");
-    fflush(stdout);
-    play.startPlayer();
-
-}
-
-void client::on_pushButton_10_clicked()
+void client::on_stopStreamButton_clicked()
 {
     //STOP
 }
 
-void client::on_pushButton_11_clicked()
+void client::on_rewindStreamButton_clicked()
 {
-
+    //REWIND
     play.cData.tail -= 20;
     if(play.cData.tail < 0)
         play.cData.tail = 0;
