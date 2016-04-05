@@ -91,6 +91,9 @@ void client::on_disconnectButton_clicked()
     closesocket(TCPSocket);
     closesocket(VCSocket);
     closesocket(StreamSocket);
+    closesocket(SI->Socket);
+    if (SI == NULL)
+        GlobalFree(SI);
     WSACleanup();
 
     client::toggleInput(true);

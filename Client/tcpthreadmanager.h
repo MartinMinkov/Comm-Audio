@@ -52,7 +52,6 @@ private:
     struct sockaddr_in server;
     struct sockaddr_in voiceChatClient;
     struct hostent *hp;
-    LPSOCKET_INFORMATION SI;
 };
 
 DWORD WINAPI readStuff(LPVOID param);

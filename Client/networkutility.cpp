@@ -2,11 +2,11 @@
 
 #include <QDebug>
 
-
 SOCKET TCPSocket;
 SOCKET AcceptSocket;
 SOCKET VCSocket;
 SOCKET StreamSocket;
+LPSOCKET_INFORMATION SI;
 
 void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, const char* buffer)
 {
@@ -121,8 +121,7 @@ int WSARead(SOCKET sd, char * message, int timeout, int size){
         int rc = WSAGetOverlappedResult(sd, &ov, &recvBytes, FALSE, &flags);
         return recvBytes;
 
-    }
-
+}
 void formatMessage(const char* message)
 {
     qDebug() << message;

@@ -21,11 +21,6 @@
 #define REFRESH_USER  '&'
 #define REFRESH_SONG  '*'
 
-extern SOCKET TCPSocket;
-extern SOCKET AcceptSocket;
-extern SOCKET VCSocket;
-extern SOCKET StreamSocket;
-
 typedef struct _SOCKET_INFORMATION {
     OVERLAPPED	Overlapped;
     SOCKET		Socket;
@@ -35,6 +30,12 @@ typedef struct _SOCKET_INFORMATION {
     DWORD		BytesRECV;
 } SOCKET_INFORMATION, *LPSOCKET_INFORMATION;
 
+extern SOCKET TCPSocket;
+extern SOCKET AcceptSocket;
+extern SOCKET VCSocket;
+extern SOCKET StreamSocket;
+extern LPSOCKET_INFORMATION SI;
+
 void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, const char* buffer);
 void sendDataTCP(SOCKET sd, const char* message);
 int WSARead(SOCKET sd, char * message, int timeout, int size);
@@ -42,4 +43,5 @@ bool receiveTCP(SOCKET sd, char* message);
 void formatMessage(const char* message);
 bool WSAS(SOCKET sd, char * message, int size, int timeout);
 void sendDatalUDP(LPSOCKET_INFORMATION SI, struct	sockaddr_in server, char* message);
+
 #endif // NETWORKUTILITY_H
