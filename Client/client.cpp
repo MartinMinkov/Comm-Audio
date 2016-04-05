@@ -90,6 +90,7 @@ void client::on_disconnectButton_clicked()
 
     closesocket(TCPSocket);
     closesocket(VCSocket);
+    closesocket(StreamSocket);
     WSACleanup();
 
     client::toggleInput(true);
@@ -101,8 +102,8 @@ void client::on_disconnectButton_clicked()
 void client::on_updateSongButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
-    connect(sendTCPWorker, SIGNAL(signalSongRefresh()), sendTCPWorker, SLOT(SendSongRefreshRequest()));
-    emit sendTCPWorker->signalSongRefresh();
+    connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+    emit receiveTCPWorker->signalSongRefresh();
 }
 
 void client::on_uploadButton_clicked()
@@ -169,13 +170,23 @@ void client::handleStateChanged(QAudio::State newState){
 void client::on_updateVoiceUsersButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
-    connect(sendTCPWorker, SIGNAL(signalVoiceRefresh()), sendTCPWorker, SLOT(SendVoiceRefreshRequest()));
-    emit sendTCPWorker->SendVoiceRefreshRequest();
+    connect(receiveTCPWorker, SIGNAL(signalVoiceRefresh()), receiveTCPWorker, SLOT(SendVoiceRefreshRequest()));
+    emit receiveTCPWorker->SendVoiceRefreshRequest();
+}
+
+void client::on_playStreamButton_clicked()
+{
+     qDebug() << "Play Stream Button is clicked";
+   //  connect(receiveTCPWorker, SIGNAL(signalStream()), receiveTCPWorker, SLOT(SendStreamRequest()));
+     //emit receiveTCPWorker->SendStreamRequest();
+     play.startPlayer();
 }
 
 void client::on_pushButton_9_clicked()
 {
     //PLAY
+    printf("I hate alvin");
+    fflush(stdout);
     play.startPlayer();
 
 }

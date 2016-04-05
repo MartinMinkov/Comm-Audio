@@ -1,8 +1,17 @@
 #include "mybuffer.h"
+#include "networkutility.h"
+#include "globals.h"
+#define MAXLEN 60000
 int totalRet = 0;
 bool newCirc = true;
-myBuffer::myBuffer()
-{
+FILE * curSong;
+char * fileLoader;
+HANDLE needData;
+bool needNew = true;
+char fileBuff[MAXLEN];
+SOCKET m_socket;
+myBuffer::myBuffer(int sock)
+{   m_socket = sock;
     QAudioFormat format;
     realPos = 0;
     format.setSampleRate(44100); // Usually this is specified through an UI option
@@ -13,11 +22,18 @@ myBuffer::myBuffer()
     format.setSampleType(QAudioFormat::UnSignedInt);
     player = new QAudioOutput(format, this);
     cData.init();
-    testOutput = fopen("out.txt", "wb+");
     filler.resize(BUFFSIZE);
     loader = buff;
-    getSong("stress.wav");
+    DWORD id;
+    fileLoader = fileBuff;
+    //getSong("stress.wav");
+    fileReader = CreateThread(NULL, 0, readFromFile, (void *)this, 0, &id);
+    SetEvent(needData);
+    //loadSong();
+    printf("CONSTRUCTOR CALLED");
+    fflush(stdout);
     this->open(QIODevice::ReadOnly);
+    player->start(this);
 }
 void myBuffer::getSong(char * songName){
     FILE * fqt;
@@ -37,10 +53,14 @@ void myBuffer::getSong(char * songName){
 qint64 myBuffer::readData(char * data, qint64 len){
     int endSong;
     if(newCirc){
+        if(cData.tail <= cData.buffHead){
+            SetEvent(needData);
+        }
         if(!(endSong = cData.pop(loader))){
             printf("End of song/buffer");
             return -1;
         }
+        sendDataTCP(m_socket, loader);
         newCirc = false;
     }
 
@@ -62,6 +82,45 @@ qint64 myBuffer::readData(char * data, qint64 len){
         return len;
     }
 }
+bool myBuffer::loadSong(){
+    if(needNew){
+        needNew = false;
+        if(!(curSong = fopen("stress.wav", "rb")))
+            exit(1);
+    }
+    int len;
+    for(int i = 0; i < 10; i++){
+        len = fread(fileLoader, sizeof(char), MAXLEN, curSong);
+        if(!len){
+            needNew = true;
+            return false;
+        }
+        cData.push(fileLoader, len);
+        if(len < MAXLEN){
+            needNew = true;
+            return false;
+        }
+    }
+    return true;
+}
+
+DWORD WINAPI readFromFile(LPVOID param){
+    myBuffer * f = (myBuffer *)param;
+    bool needASong;
+    while(1){
+        WaitForSingleObject(needData, INFINITE);
+        needASong = f->loadSong();
+        ResetEvent(needData);
+        if(needASong){
+            //SetEvent(loadUpSong);
+        }
+    }
+
+}
+
+
+
+
 qint64 myBuffer::writeData(const char *data, qint64 len){
 
 }

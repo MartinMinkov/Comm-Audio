@@ -6,6 +6,7 @@
 SOCKET TCPSocket;
 SOCKET AcceptSocket;
 SOCKET VCSocket;
+SOCKET StreamSocket;
 
 void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, const char* buffer)
 {

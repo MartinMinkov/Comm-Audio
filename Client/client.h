@@ -34,12 +34,10 @@ private slots:
     void on_voiceChatButton_clicked();
     void on_downloadSongButton_clicked();
     void on_updateVoiceUsersButton_clicked();
-
     void on_pushButton_9_clicked();
-
     void on_pushButton_10_clicked();
-
     void on_pushButton_11_clicked();
+    void on_playStreamButton_clicked();
 
 private:
     Ui::client *ui;

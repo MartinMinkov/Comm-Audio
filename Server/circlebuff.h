@@ -3,14 +3,14 @@
 #include "qplatformdefs.h"
 #include <stdlib.h>
 #define MAXLEN 1000
-#define BLOCKSIZE 20000
+#define BLOCKSIZE 60000
 class circlebuff
 {
 public:
     circlebuff();
     int byteLen[MAXLEN];
     char * buff[MAXLEN];
-    int head, tail;
+    int head, tail, buffHead;
     void init(){
         int i = 0;
         for(i = 0; i < MAXLEN; i++){
@@ -38,6 +38,7 @@ public:
         byteLen[head % MAXLEN] = len;
         memcpy(buff[head % MAXLEN], add, len);
         head++;
+        buffHead++;
     }
 };
 

@@ -47,6 +47,7 @@ private slots:
     void on_bStartServer_clicked();
     void on_bStopServer_clicked();
     void on_bAddSongs_clicked();
+    void on_button_start_stream_clicked();
 };
 
 

@@ -3,14 +3,17 @@
 #include "circlebuff.h"
 #include "networkutility.h"
 #define FILEMAX 20000
+
 HANDLE newData;
 HANDLE readDone;
 HANDLE fileDone;
 circlebuff c;
+
 ThreadManager::ThreadManager(QObject *parent) : QObject(parent)
 {
     TCPSocket = 0;
     VCSocket = 0;
+    StreamSocket = 0;
 }
 
 
@@ -83,6 +86,58 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     emit signalHandleRequest();
     emit finished();
 }
+void ThreadManager::initMultiCastSock()
+{
+    int nRet;
+    bool fFlag;
+    StreamSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if (StreamSocket == INVALID_SOCKET)
+    {
+        qDebug() << "Cannot create UDP socket";
+        return;
+    }
+    fFlag = true;
+    nRet = setsockopt(StreamSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&fFlag, sizeof(fFlag));
+    if (nRet == SOCKET_ERROR)
+    {
+        qDebug() << "Set SockOpt Failed";
+        return;
+    }
+    server.sin_family      = AF_INET;
+    server.sin_addr.s_addr = htonl(INADDR_ANY);
+    server.sin_port        = htons(DEFUALT_STREAM_PORT);
+    nRet = bind(StreamSocket, (struct sockaddr*) &server, sizeof(server));
+    if (nRet == SOCKET_ERROR)
+    {
+        qDebug() << "bind( failed";
+        return;
+    }
+    //Join Multicast Group
+    stMreq.imr_multiaddr.s_addr = inet_addr(MULTICAST_ADDRESS);
+    stMreq.imr_interface.s_addr = INADDR_ANY;
+    nRet = setsockopt(StreamSocket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq));
+    if (nRet == SOCKET_ERROR)
+    {
+        qDebug() << "setsockopt() IP_ADD_MEMBERSHIP address failed";
+        return;
+    }
+}
+void ThreadManager::receiveStream()
+{
+    int nRet;
+    char bp [PACKET_LEN];
+    while (1)
+    {
+        int addr_size = sizeof(struct sockaddr_in);
+        nRet = recvfrom(StreamSocket, bp, PACKET_LEN, 0, (struct sockaddr*)&server, &addr_size);
+        if (nRet < 0)
+        {
+            qDebug() << "recvfrom() failed";
+            return;
+        }
+        qDebug() << "Received in multi cast : " << bp;
+    }
+}
 void ThreadManager::setupVoiceChat()
 {
     int BytesRead;
@@ -98,13 +153,13 @@ void ThreadManager::setupVoiceChat()
     }
     if ((AcceptSocket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
     {
-           qDebug() << "WSASocket: Failed to get a socket";
-           return;
+        qDebug() << "WSASocket: Failed to get a socket";
+        return;
     }
     //Init address structs
-    server.sin_family = AF_INET;
-    server.sin_addr.s_addr = htonl(INADDR_ANY);
-    server.sin_port = htons(DEFAULT_VOICE_PORT);
+    client.sin_family = AF_INET;
+    client.sin_addr.s_addr = htonl(INADDR_ANY);
+    client.sin_port = htons(DEFAULT_VOICE_PORT);
 
     if (bind(AcceptSocket, (PSOCKADDR)&server, sizeof(server)) == SOCKET_ERROR)
     {
@@ -145,20 +200,18 @@ bool ThreadManager::handleRequest()
     {
         bytesToRead -= BytesRead;
     }
-*/
+    */
      BytesRead = WSARead(TCPSocket, bp, 5000, 1024);
     /* recv() failed */
     if(BytesRead < 0)
     {
         qDebug() << "recv() failed";
-        //emit signalDisconnect();
         return false;
     }
     /* client disconnected */
     if(BytesRead == 0)
     {
         qDebug() << "CLIENT DISCONNECTED";
-        //emit signalDisconnect();
         return false;
     }
 
@@ -174,7 +227,6 @@ bool ThreadManager::handleRequest()
 void ThreadManager::disconnect()
 {
     this->thread()->quit();
-    //emit finished();
 }
 void ThreadManager::SendDownloadRequest(QString songName)
 {
@@ -235,12 +287,6 @@ void ThreadManager::SendUploadRequest(QString songName)
 
 }
 
-void ThreadManager::SendStreamRequest()
-{
-    std::string temp;
-    temp = REQ_STREAM;
-    sendDataTCP(TCPSocket, temp.c_str());
-}
 void ThreadManager::SendVoiceRequest()
 {
     std::string temp;
@@ -261,6 +307,16 @@ void ThreadManager::SendVoiceRefreshRequest()
     std::string temp;
     temp = REFRESH_USER;
     sendDataTCP(TCPSocket, temp.c_str());
+}
+void ThreadManager::SendStreamRequest()
+{
+    qDebug() << "Send Voice Refresh Request is called";
+    std::string temp;
+    temp = REQ_STREAM;
+    sendDataTCP(TCPSocket, temp.c_str());
+    initMultiCastSock();
+    qDebug() << "Starting to listen";
+
 }
 
 DWORD WINAPI uploadStuff(LPVOID param){
@@ -311,6 +367,7 @@ DWORD WINAPI readStuff(LPVOID param){
         }
 
     }
+    return 0;
 }
 
 

@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Server
 TEMPLATE = app
-
+QT += multimedia
 
 SOURCES += main.cpp\
         server.cpp \
@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     streamhelper.cpp \
     chathelper.cpp \
     globals.cpp \
-    circlebuff.cpp
+    circlebuff.cpp \
+    mybuffer.cpp
 
 HEADERS  += server.h \
     controlthread.h \
@@ -31,7 +32,8 @@ HEADERS  += server.h \
     streamhelper.h \
     chathelper.h \
     globals.h \
-    circlebuff.h
+    circlebuff.h \
+    mybuffer.h
 
 FORMS    += server.ui
 

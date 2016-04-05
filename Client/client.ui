@@ -824,7 +824,7 @@
      <property name="title">
       <string>Stream Controls</string>
      </property>
-     <widget class="QPushButton" name="pushButton_9">
+     <widget class="QPushButton" name="playStreamButton">
       <property name="geometry">
        <rect>
         <x>20</x>
