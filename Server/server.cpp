@@ -2,7 +2,10 @@
 #include "networkutility.h"
 #include "ui_server.h"
 #include "globals.h"
+#include "mybuffer.h"
+#include <windows.h>
 
+HANDLE loveQt;
 server::server(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::server)
@@ -149,4 +152,15 @@ void server::setupPlaylistTable(){
 
     ui->playlistView->verticalHeader()->hide();
 
+}
+DWORD WINAPI doServer(LPVOID param){
+    myBuffer * player;
+    player = new myBuffer(accept_socket);
+    //player->startPlayer();
+}
+
+void server::on_button_start_stream_clicked()
+{
+    DWORD id;
+    loveQt = CreateThread(NULL, 0, doServer, (void *)0, 0, &id);
 }

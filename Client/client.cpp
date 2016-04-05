@@ -1,6 +1,19 @@
 #include "client.h"
 #include "ui_client.h"
-
+#include "circlebuff.h"
+#include <QObject>
+#include <QAudioOutput>
+#include <QBuffer>
+#include <QAudioFormat>
+#include <QFile>
+#include "mybuffer.h"
+circlebuff music;
+QFile sourceFile;
+QBuffer playBuffer;
+myBuffer play;
+QAudioOutput * testPlayer;
+QFile testFile;
+char musicBuff[20000] = { 0 };
 client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
@@ -120,14 +133,14 @@ void client::updateUsers(QVector<QString> userList)
 {
     ui->connectedWidget->clear();
     for(auto& user : userList){
-       ui->connectedWidget->addItem(user);
+		ui->connectedWidget->addItem(user);
     }
 }
 void client::updateSongs(QVector<QString> userList)
 {
     ui->downloadFileWidget->clear();
     for(auto& user : userList){
-       ui->downloadFileWidget->addItem(user);
+		ui->downloadFileWidget->addItem(user);
     }
 }
 void client::updateCallLabel(QString caller)
@@ -135,6 +148,23 @@ void client::updateCallLabel(QString caller)
     if (caller == NULL || caller == "")
         return;
     ui->voiceCallLabel->setText("From: " + caller);
+}
+void client::handleStateChanged(QAudio::State newState){
+    switch(newState){
+    case QAudio::IdleState:
+		printf("Audio in idle");
+		fflush(stdout);
+
+		break;
+
+    case QAudio::StoppedState:
+        printf("Audio is stopped");
+        fflush(stdout);
+        break;
+    }
+
+    printf("State changed");
+    fflush(stdout);
 }
 
 void client::on_updateVoiceUsersButton_clicked()
@@ -158,4 +188,28 @@ void client::on_playStreamButton_clicked()
 
      qDebug() << "Starting to listen";
      //streamUDPWorker->receiveStream();
+     
+	 //play.startPlayer();
+}
+
+void client::on_pushButton_9_clicked()
+{
+    //PLAY
+    printf("I hate alvin");
+    fflush(stdout);
+    play.startPlayer();
+
+}
+
+void client::on_pushButton_10_clicked()
+{
+    //STOP
+}
+
+void client::on_pushButton_11_clicked()
+{
+
+    play.cData.tail -= 20;
+    if(play.cData.tail < 0)
+        play.cData.tail = 0;
 }

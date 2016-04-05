@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Client
 TEMPLATE = app
-
+QT += multimedia
 
 SOURCES += main.cpp\
         client.cpp \
@@ -18,14 +18,16 @@ SOURCES += main.cpp\
         circlebuff.cpp \
         filemanager.cpp \
         udpthreadmanager.cpp \
-        tcpthreadmanager.cpp
+        tcpthreadmanager.cpp \
+    mybuffer.cpp
 
 HEADERS  += client.h \
     networkutility.h \
     circlebuff.h \
     udpthreadmanager.h \
     tcpthreadmanager.h \
-    filemanager.h
+    filemanager.h \
+    mybuffer.h
 
 
 

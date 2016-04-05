@@ -33,6 +33,7 @@ private:
     QString constructUserListString();
     std::string constructSongListString();
     void removeUserFromList();
+    void setupStream();
+    void startStream();
 };
-
 #endif // CLIENTHANDLERTHREAD_H

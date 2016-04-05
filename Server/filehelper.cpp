@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <iostream>
 #include <QByteArray>
-#define FILEMAX 20000
+#define FILEMAX 60000
 using namespace std;
 filehelper::filehelper()
 {
@@ -47,7 +47,7 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
             n.WSAS(m_socket, buff, bytesRead, 1000);
             break;
         }
-        n.WSAS(m_socket, buff, 20000, 1000);
+        n.WSAS(m_socket, buff, 60000, 1000);
     }
 }
 

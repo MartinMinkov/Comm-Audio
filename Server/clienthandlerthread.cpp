@@ -1,7 +1,8 @@
 #include "clienthandlerthread.h"
 #include "server.h"
 #include "networkutility.h"
-
+#include "mybuffer.h"
+myBuffer * playBuff;
 ClientHandlerThread::ClientHandlerThread(int socket)
 {
 
@@ -90,6 +91,12 @@ void ClientHandlerThread::receiveRequests(){
     }
 
     emit finished();
+}
+void ClientHandlerThread::setupStream(){
+    playBuff = new myBuffer(m_socket);
+}
+void ClientHandlerThread::startStream(){
+    playBuff->startPlayer();
 }
 
 void ClientHandlerThread::disconnect(){
