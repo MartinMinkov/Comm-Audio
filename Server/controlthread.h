@@ -6,6 +6,7 @@
 #include <windows.h>
 #include "clienthandlerthread.h"
 #include "globals.h"
+#include "networkutility.h"
 
 class ControlThread : public QObject
 {

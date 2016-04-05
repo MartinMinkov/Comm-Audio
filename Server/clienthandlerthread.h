@@ -3,11 +3,17 @@
 
 #include <QObject>
 #include <QVector>
+
+#include "globals.h"
+
 #include "filehelper.h"
 #include "streamhelper.h"
 #include "chathelper.h"
-#include "globals.h"
+
+#include "server.h"
+#include "networkutility.h"
 #include "mybuffer.h"
+
 class ClientHandlerThread : public QObject
 {
     Q_OBJECT

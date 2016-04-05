@@ -1,4 +1,5 @@
 #include "networkutility.h"
+
 int sentBytes = 0;
 networkutility::networkutility()
 {

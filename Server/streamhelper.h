@@ -1,6 +1,7 @@
 #ifndef STREAMHELPER_H
 #define STREAMHELPER_H
 
+#include "networkutility.h"
 
 class streamhelper
 {

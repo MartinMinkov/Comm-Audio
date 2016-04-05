@@ -1,5 +1,4 @@
 #include "streamhelper.h"
-#include "networkutility.h"
 
 streamhelper::streamhelper()
 {

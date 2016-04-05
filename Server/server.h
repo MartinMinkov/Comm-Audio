@@ -6,9 +6,16 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QStringListModel>
+#include "globals.h"
 #include "controlthread.h"
 #include "clienthandlerthread.h"
 #include "streamhandlerthread.h"
+
+#include "networkutility.h"
+#include "ui_server.h"
+
+#include "mybuffer.h"
+#include <windows.h>
 
 namespace Ui {
     class server;

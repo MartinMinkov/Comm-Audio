@@ -1,7 +1,5 @@
 #include "mybuffer.h"
-#include "networkutility.h"
-#include "globals.h"
-#define MAXLEN 60000
+
 int totalRet = 0;
 bool newCirc = true;
 FILE * curSong;

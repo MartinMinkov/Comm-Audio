@@ -1,7 +1,5 @@
 #include "clienthandlerthread.h"
-#include "server.h"
-#include "networkutility.h"
-#include "mybuffer.h"
+
 myBuffer * playBuff;
 ClientHandlerThread::ClientHandlerThread(int socket, myBuffer * player)
 {

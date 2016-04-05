@@ -1,5 +1,4 @@
 #include "streamhandlerthread.h"
-#include "networkutility.h"
 
 streamhandlerthread::streamhandlerthread(QObject *parent) : QObject(parent)
 {

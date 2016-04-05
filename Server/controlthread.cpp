@@ -1,6 +1,4 @@
 #include "controlthread.h"
-#include "networkutility.h"
-#include "globals.h"
 
 ControlThread::ControlThread(QObject *parent) : QObject(parent){
     listen_socket = 0;

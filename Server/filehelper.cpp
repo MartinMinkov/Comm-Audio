@@ -1,12 +1,5 @@
 #include "filehelper.h"
-#include "networkutility.h"
-#include <QFile>
-#include <QString>
-#include <QIODevice>
-#include <fstream>
-#include <QDebug>
-#include <iostream>
-#include <QByteArray>
+
 #define FILEMAX 60000
 using namespace std;
 filehelper::filehelper()

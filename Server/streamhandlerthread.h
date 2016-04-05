@@ -6,6 +6,7 @@
 #include <ws2tcpip.h>
 #include <windows.h>
 #include "globals.h"
+#include "networkutility.h"
 
 class streamhandlerthread : public QObject
 {

@@ -3,9 +3,14 @@
 #include <QDebug>
 #include <QAudioOutput>
 #include <QIODevice>
+#include "globals.h"
+
+#include "networkutility.h"
 #include "circlebuff.h"
-#include <Windows.h>
+
+#define MAXLEN 60000
 #define BUFFSIZE 60000
+
 class myBuffer : public QIODevice
 {
 public:

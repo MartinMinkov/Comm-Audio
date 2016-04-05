@@ -1,9 +1,4 @@
 #include "server.h"
-#include "networkutility.h"
-#include "ui_server.h"
-#include "globals.h"
-#include "mybuffer.h"
-#include <windows.h>
 
 HANDLE loveQt;
 myBuffer player(accept_socket);

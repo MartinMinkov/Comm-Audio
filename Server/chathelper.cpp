@@ -1,5 +1,4 @@
 #include "chathelper.h"
-#include "networkutility.h"
 
 chathelper::chathelper()
 {
