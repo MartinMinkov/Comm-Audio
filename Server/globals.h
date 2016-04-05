@@ -7,7 +7,7 @@
 #include <QHeaderView>
 #include <winsock2.h>
 #include <windows.h>
-#include "clienthandlerthread.h"
+//#include "clienthandlerthread.h"
 
 extern SOCKET listen_socket;
 extern SOCKET accept_socket;

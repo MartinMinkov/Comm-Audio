@@ -13,7 +13,7 @@ TEMPLATE = app
 QT += multimedia
 
 SOURCES += main.cpp\
-        server.cpp \
+    server.cpp \
     controlthread.cpp \
     clienthandlerthread.cpp \
     networkutility.cpp \

@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QThread>
 #include <QDebug>
-#include "controlthread.h"
+//#include "controlthread.h"
 #include "globals.h"
 
 #define DEFAULT_PORT 7000

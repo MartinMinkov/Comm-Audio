@@ -5,13 +5,13 @@
 #include <QVector>
 
 #include "globals.h"
+#include "networkutility.h"
 
 #include "filehelper.h"
 #include "streamhelper.h"
 #include "chathelper.h"
 
-#include "server.h"
-#include "networkutility.h"
+//#include "server.h"
 #include "mybuffer.h"
 
 class ClientHandlerThread : public QObject
