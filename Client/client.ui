@@ -837,7 +837,7 @@
        <string>Play/Pause</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_10">
+     <widget class="QPushButton" name="stopStreamButton">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -850,7 +850,7 @@
        <string>Stop</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_11">
+     <widget class="QPushButton" name="rewindStreamButton">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -863,7 +863,7 @@
        <string>Rewind</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_13">
+     <widget class="QPushButton" name="liveStreamButton">
       <property name="geometry">
        <rect>
         <x>320</x>
