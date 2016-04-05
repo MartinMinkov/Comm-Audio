@@ -31,7 +31,7 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
         return;
     }
 
-    char * success = "MARTINMINKOV";
+    char success[] = "MARTINMINKOV";
     sendDataTCP(m_socket, success);
 
 

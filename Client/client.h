@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QThread>
 #include "tcpthreadmanager.h"
+#include "udpthreadmanager.h"
 
 namespace Ui {
     class client;
@@ -48,8 +49,8 @@ private:
     QThread* receiveVoiceChatThread;
     ThreadManager* receiveVoiceChatWorker;
 
-    QThread* sendTCPThread;
-    ThreadManager* sendTCPWorker;
+    QThread* streamUDPThread;
+    UDPThreadManager* streamUDPWorker;
 };
 
 #endif // CLIENT_H

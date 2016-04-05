@@ -30,12 +30,12 @@ void client::on_connectButton_clicked()
     receiveVoiceChatThread = new QThread;
     receiveVoiceChatWorker = new ThreadManager();
 
-    //sendTCPThread = new QThread;
-    //sendTCPWorker = new ThreadManager();
+    streamUDPThread = new QThread;
+    streamUDPWorker = new UDPThreadManager();
 
     receiveTCPWorker->moveToThread(receiveTCPThread);
     receiveVoiceChatWorker->moveToThread(receiveVoiceChatThread);
-    //sendTCPWorker->moveToThread(sendTCPThread);
+    streamUDPWorker->moveToThread(streamUDPThread);
 
     //Not sure why this is done, but its something to do with passing objects in threads.
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
@@ -54,7 +54,7 @@ void client::on_connectButton_clicked()
 
     receiveTCPThread->start();
     receiveVoiceChatThread->start();
-    //sendTCPThread->start();
+    streamUDPThread->start();
 
     client::toggleInput(false);
     ui->connectStatus->setText("Connected");
@@ -149,4 +149,13 @@ void client::on_playStreamButton_clicked()
      qDebug() << "Play Stream Button is clicked";
      connect(receiveTCPWorker, SIGNAL(signalStream()), receiveTCPWorker, SLOT(SendStreamRequest()));
      emit receiveTCPWorker->SendStreamRequest();
+
+     streamUDPWorker->initMultiCastSock();
+
+     //Check if StreamSocket socket is not null
+     if (StreamSocket == 0)
+         return;
+
+     qDebug() << "Starting to listen";
+     //streamUDPWorker->receiveStream();
 }

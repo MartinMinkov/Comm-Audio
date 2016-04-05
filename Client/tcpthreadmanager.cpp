@@ -86,58 +86,6 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     emit signalHandleRequest();
     emit finished();
 }
-void ThreadManager::initMultiCastSock()
-{
-    int nRet;
-    bool fFlag;
-    StreamSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (StreamSocket == INVALID_SOCKET)
-    {
-        qDebug() << "Cannot create UDP socket";
-        return;
-    }
-    fFlag = true;
-    nRet = setsockopt(StreamSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&fFlag, sizeof(fFlag));
-    if (nRet == SOCKET_ERROR)
-    {
-        qDebug() << "Set SockOpt Failed";
-        return;
-    }
-    server.sin_family      = AF_INET;
-    server.sin_addr.s_addr = htonl(INADDR_ANY);
-    server.sin_port        = htons(DEFUALT_STREAM_PORT);
-    nRet = bind(StreamSocket, (struct sockaddr*) &server, sizeof(server));
-    if (nRet == SOCKET_ERROR)
-    {
-        qDebug() << "bind( failed";
-        return;
-    }
-    //Join Multicast Group
-    stMreq.imr_multiaddr.s_addr = inet_addr(MULTICAST_ADDRESS);
-    stMreq.imr_interface.s_addr = INADDR_ANY;
-    nRet = setsockopt(StreamSocket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&stMreq, sizeof(stMreq));
-    if (nRet == SOCKET_ERROR)
-    {
-        qDebug() << "setsockopt() IP_ADD_MEMBERSHIP address failed";
-        return;
-    }
-}
-void ThreadManager::receiveStream()
-{
-    int nRet;
-    char bp [PACKET_LEN];
-    while (1)
-    {
-        int addr_size = sizeof(struct sockaddr_in);
-        nRet = recvfrom(StreamSocket, bp, PACKET_LEN, 0, (struct sockaddr*)&server, &addr_size);
-        if (nRet < 0)
-        {
-            qDebug() << "recvfrom() failed";
-            return;
-        }
-        qDebug() << "Received in multi cast : " << bp;
-    }
-}
 void ThreadManager::setupVoiceChat()
 {
     int BytesRead;
@@ -157,11 +105,11 @@ void ThreadManager::setupVoiceChat()
         return;
     }
     //Init address structs
-    client.sin_family = AF_INET;
-    client.sin_addr.s_addr = htonl(INADDR_ANY);
-    client.sin_port = htons(DEFAULT_VOICE_PORT);
+    voiceChatClient.sin_family = AF_INET;
+    voiceChatClient.sin_addr.s_addr = htonl(INADDR_ANY);
+    voiceChatClient.sin_port = htons(DEFAULT_VOICE_PORT);
 
-    if (bind(AcceptSocket, (PSOCKADDR)&server, sizeof(server)) == SOCKET_ERROR)
+    if (bind(AcceptSocket, (PSOCKADDR)&voiceChatClient, sizeof(voiceChatClient)) == SOCKET_ERROR)
     {
         qDebug() << "bind() failed on server";
         return;
@@ -171,8 +119,8 @@ void ThreadManager::setupVoiceChat()
        qDebug() << "listen() failed on tcp server";
        return;
     }
-    int client_len = sizeof(client);
-    if((VCSocket = accept(AcceptSocket, (struct sockaddr *)&client, &client_len)) == INVALID_SOCKET)
+    int client_len = sizeof(voiceChatClient);
+    if((VCSocket = accept(AcceptSocket, (struct sockaddr *)&voiceChatClient, &client_len)) == INVALID_SOCKET)
     {
         qDebug() <<  "Can't accept client";
         return;
@@ -314,14 +262,6 @@ void ThreadManager::SendStreamRequest()
     std::string temp;
     temp = REQ_STREAM;
     sendDataTCP(TCPSocket, temp.c_str());
-    initMultiCastSock();
-
-    //Check if StreamSocket socket is not null
-    if (StreamSocket == 0)
-        return;
-
-    qDebug() << "Starting to listen";
-    receiveStream();
 }
 
 DWORD WINAPI uploadStuff(LPVOID param){
