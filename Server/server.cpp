@@ -153,7 +153,7 @@ DWORD WINAPI doServer(LPVOID param){
     //myBuffer * player;
     //player = new myBuffer(accept_socket);
     //player->startPlayer();
-    return null;
+    return NULL;
 }
 
 void server::on_button_start_stream_clicked()
