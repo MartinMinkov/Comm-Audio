@@ -176,20 +176,22 @@ void client::on_updateVoiceUsersButton_clicked()
 
 void client::on_playStreamButton_clicked()
 {
-     qDebug() << "Play Stream Button is clicked";
-     connect(receiveTCPWorker, SIGNAL(signalStream()), receiveTCPWorker, SLOT(SendStreamRequest()));
-     emit receiveTCPWorker->SendStreamRequest();
+	qDebug() << "Play Stream Button is clicked";
+	connect(receiveTCPWorker, SIGNAL(signalStream()), receiveTCPWorker, SLOT(SendStreamRequest()));
+	emit receiveTCPWorker->SendStreamRequest();
 
-     streamUDPWorker->initMultiCastSock();
+	streamUDPWorker->initMultiCastSock();
 
-     //Check if StreamSocket socket is not null
-     if (StreamSocket == 0)
-         return;
+	//Check if StreamSocket socket is not null
+	if (StreamSocket == 0)
+		return;
 
-     qDebug() << "Starting to listen";
-     //streamUDPWorker->receiveStream();
-     
-	 //play.startPlayer();
+	qDebug() << "Starting to listen";
+	//streamUDPWorker->receiveStream();
+
+	//play.startPlayer();
+
+	play.setSocket(TCPSocket);
 }
 
 void client::on_pushButton_9_clicked()

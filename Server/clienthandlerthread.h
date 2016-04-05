@@ -7,12 +7,12 @@
 #include "streamhelper.h"
 #include "chathelper.h"
 #include "globals.h"
-
+#include "mybuffer.h"
 class ClientHandlerThread : public QObject
 {
     Q_OBJECT
 public:
-    ClientHandlerThread(int socket);
+    ClientHandlerThread(int socket, myBuffer * player);
 
 signals:
     void signalDisconnect();

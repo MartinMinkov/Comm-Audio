@@ -6,6 +6,7 @@
 #include <windows.h>
 
 HANDLE loveQt;
+myBuffer player(accept_socket);
 server::server(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::server)
@@ -112,7 +113,7 @@ void server::createClientThread(int socket){
 
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
     clientHandlerThread = new QThread;
-    clientWorker = new ClientHandlerThread(socket);
+    clientWorker = new ClientHandlerThread(socket, &player);
     clientWorker->moveToThread(clientHandlerThread);
     connect(clientHandlerThread, SIGNAL(started()), clientWorker, SLOT(receiveRequests()));
     //TODO: connect start signal with a slot to create Colin's thread (update song list)
@@ -154,13 +155,14 @@ void server::setupPlaylistTable(){
 
 }
 DWORD WINAPI doServer(LPVOID param){
-    myBuffer * player;
-    player = new myBuffer(accept_socket);
+    //myBuffer * player;
+    //player = new myBuffer(accept_socket);
     //player->startPlayer();
 }
 
 void server::on_button_start_stream_clicked()
 {
     DWORD id;
-    loveQt = CreateThread(NULL, 0, doServer, (void *)0, 0, &id);
+    //loveQt = CreateThread(NULL, 0, doServer, (void *)0, 0, &id);
+    player.startPlayer();
 }

@@ -3,9 +3,9 @@
 #include "networkutility.h"
 #include "mybuffer.h"
 myBuffer * playBuff;
-ClientHandlerThread::ClientHandlerThread(int socket)
+ClientHandlerThread::ClientHandlerThread(int socket, myBuffer * player)
 {
-
+    playBuff = player;
     m_socket = socket;
     fHelper = new filehelper();
     sHelper = new streamhelper();
@@ -30,7 +30,7 @@ void ClientHandlerThread::receiveRequests(){
         //add client to gui
         emit signalUpdateUserList(userList);
     }
-
+    playBuff->setSocket(m_socket);
     // send the server the username list
     QString constructedUserList = constructUserListString();
     sendDataTCP(m_socket, constructedUserList.toLocal8Bit().data());

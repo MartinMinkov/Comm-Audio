@@ -5,13 +5,17 @@
 int totalRet = 0;
 bool newCirc = true;
 FILE * curSong;
+SOCKET my_socket;
 char * fileLoader;
 HANDLE needData;
+bool needD = true;
 bool needNew = true;
 char fileBuff[MAXLEN];
+networkutility n;
 SOCKET m_socket;
 myBuffer::myBuffer(int sock)
 {   m_socket = sock;
+    DWORD err = GetLastError();
     QAudioFormat format;
     realPos = 0;
     format.setSampleRate(44100); // Usually this is specified through an UI option
@@ -27,13 +31,13 @@ myBuffer::myBuffer(int sock)
     DWORD id;
     fileLoader = fileBuff;
     //getSong("stress.wav");
-    fileReader = CreateThread(NULL, 0, readFromFile, (void *)this, 0, &id);
-    SetEvent(needData);
+ //   SetEvent(needData);
     //loadSong();
     printf("CONSTRUCTOR CALLED");
     fflush(stdout);
     this->open(QIODevice::ReadOnly);
-    player->start(this);
+  //  player->start(this);
+    player->setVolume(0.0);
 }
 void myBuffer::getSong(char * songName){
     FILE * fqt;
@@ -53,14 +57,18 @@ void myBuffer::getSong(char * songName){
 qint64 myBuffer::readData(char * data, qint64 len){
     int endSong;
     if(newCirc){
-        if(cData.tail <= cData.buffHead){
+        if(cData.tail > cData.buffHead){
             SetEvent(needData);
+            if(cData.head == 0)
+                return 0;
+            //needD = true;
         }
         if(!(endSong = cData.pop(loader))){
             printf("End of song/buffer");
             return -1;
         }
-        sendDataTCP(m_socket, loader);
+        //sendDataTCP(my_socket, loader);
+        n.WSAS(my_socket, loader, BUFFSIZE, 10000);
         newCirc = false;
     }
 
@@ -82,7 +90,13 @@ qint64 myBuffer::readData(char * data, qint64 len){
         return len;
     }
 }
+void myBuffer::setSocket(int socket){
+    my_socket = socket;
+}
+
 bool myBuffer::loadSong(){
+    printf("Loading data");
+    fflush(stdout);
     if(needNew){
         needNew = false;
         if(!(curSong = fopen("stress.wav", "rb")))
@@ -106,14 +120,21 @@ bool myBuffer::loadSong(){
 
 DWORD WINAPI readFromFile(LPVOID param){
     myBuffer * f = (myBuffer *)param;
+    DWORD err;
     bool needASong;
     while(1){
-        WaitForSingleObject(needData, INFINITE);
+        err = WaitForSingleObject(needData, 1000000);
+       // if(needD){
+        err = GetLastError();
         needASong = f->loadSong();
-        ResetEvent(needData);
+        err =  ResetEvent(needData);
+        err = GetLastError();
+
         if(needASong){
             //SetEvent(loadUpSong);
         }
+       // needD = false;
+        //}
     }
 
 }
@@ -129,5 +150,10 @@ qint64 myBuffer::bytesAvailable(){
 }
 
 void myBuffer::startPlayer(){
+
+    DWORD id;
+    needData =  CreateEvent(NULL, TRUE, FALSE, (LPCWSTR)"readReady");
+
+    fileReader = CreateThread(NULL, 0, readFromFile, (void *)this, 0, &id);
     player->start(this);
 }
