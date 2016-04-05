@@ -7,7 +7,7 @@ globals::globals()
 {
 
 }
-#include <QVector>
+
 
 QVector<QString> userList;
 QStandardItemModel *playlistModel;

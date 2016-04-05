@@ -59,6 +59,7 @@ void streamhandlerthread::initMultiCast()
     //Send stuff
     sendToMultiCast();
 }
+
 void streamhandlerthread::sendToMultiCast()
 {
     int nRet;

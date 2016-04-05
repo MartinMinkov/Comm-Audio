@@ -1,5 +1,6 @@
 #ifndef MYBUFFER_H
 #define MYBUFFER_H
+
 #include <QDebug>
 #include <QAudioOutput>
 #include <QIODevice>

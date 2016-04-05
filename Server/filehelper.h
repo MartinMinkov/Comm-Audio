@@ -1,18 +1,22 @@
 #ifndef FILEHELPER_H
 #define FILEHELPER_H
+
 #include <QString>
 
 #include <QFile>
 #include <QIODevice>
-#include <fstream>
 #include <QDebug>
-#include <iostream>
 #include <QByteArray>
+
+#include <fstream>
+#include <iostream>
 
 #include <winsock2.h>
 #include <windows.h>
 
 #include "networkutility.h"
+
+#define FILEMAX 60000
 
 class filehelper
 {

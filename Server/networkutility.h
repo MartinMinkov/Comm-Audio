@@ -6,6 +6,7 @@
 #include <QDebug>
 #include "controlthread.h"
 #include "globals.h"
+
 #define DEFAULT_PORT 7000
 #define DEFUALT_STREAM_PORT 9000
 #define MULTICAST_ADDRESS "234.5.6.7"

@@ -1,7 +1,9 @@
-#include "server.h"
 #include <QApplication>
 #include <QFile>
+
 #include "circlebuff.h"
+#include "server.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -14,7 +16,6 @@ int main(int argc, char *argv[])
     int ret;
     if ((ret = WSAStartup(0x0202, &data)) != 0)
     {
-
         exit(1);
     }
 

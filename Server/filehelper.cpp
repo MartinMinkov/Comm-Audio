@@ -1,6 +1,5 @@
 #include "filehelper.h"
 
-#define FILEMAX 60000
 using namespace std;
 filehelper::filehelper()
 {
