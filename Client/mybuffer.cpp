@@ -5,6 +5,7 @@ bool newCirc = true;
 SOCKET mySocket;
 HANDLE fillBuff;
 char fillerC[BUFFSIZE] = { 0 };
+circlebuff cData;
 
 char * fillerP;
 myBuffer::myBuffer()
@@ -50,7 +51,7 @@ qint64 myBuffer::readData(char * data, qint64 len){
         }
         newCirc = false;
     }
-
+    printf("MARTIN DO YOU CAFLL IT: %d", len);
     int remain = BUFFSIZE - realPos;
     if(remain < len){
         loader += realPos;
@@ -71,21 +72,26 @@ qint64 myBuffer::readData(char * data, qint64 len){
 }
 
 DWORD WINAPI fillUp(LPVOID param){
+    DWORD RecvBytes = 0, Index;
+    DWORD Flags = 0;
     myBuffer * player = (myBuffer *)param;
     int len;
     while(1){
-        len = WSARead(mySocket, fillerP, 10000000, BUFFSIZE);
-        player->cData.push(fillerP, len);
+        //len = WSARecvFrom(SI->Socket, &(SI->DataBuf), 1, &RecvBytes, &Flags, (struct sockaddr *)&streamServer, &server_len, &(SI->Overlapped), ServerRoutine);
+        //cData.push(SI->DataBuf, len);
     }
 }
 
 void myBuffer::setSocket(int socket){
     mySocket = socket;
     DWORD id;
-    fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
+    //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
     while(1){
+        printf("WE HAVE PHP");
+        fflush(stdout);
         if(cData.tail < cData.headBuff){
             startPlayer();
+            printf("Startng the player");
             break;
         }
 

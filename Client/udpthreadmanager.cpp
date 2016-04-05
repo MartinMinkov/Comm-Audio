@@ -21,11 +21,11 @@ void UDPThreadManager::initMultiCastSock()
         qDebug() << "Set SockOpt Failed";
         return;
     }
-    server.sin_family      = AF_INET;
-    server.sin_addr.s_addr = htonl(INADDR_ANY);
-    server.sin_port        = htons(DEFUALT_STREAM_PORT);
+    streamServer.sin_family      = AF_INET;
+    streamServer.sin_addr.s_addr = htonl(INADDR_ANY);
+    streamServer.sin_port        = htons(DEFUALT_STREAM_PORT);
     int addr_size = sizeof(struct sockaddr_in);
-    nRet = bind(StreamSocket, (struct sockaddr*) &server, addr_size);
+    nRet = bind(StreamSocket, (struct sockaddr*) &streamServer, addr_size);
     if (nRet == SOCKET_ERROR)
     {
         qDebug() << "bind( failed";
@@ -40,8 +40,7 @@ void UDPThreadManager::initMultiCastSock()
         qDebug() << "setsockopt() IP_ADD_MEMBERSHIP address failed";
         return;
     }
-
-    //Setup UDP completion routine
+    UDPWorker();
 }
 void UDPThreadManager::UDPWorker()
 {
@@ -69,8 +68,27 @@ void UDPThreadManager::UDPWorker()
     SI->Socket = StreamSocket;
     // Fill in the details of our socket.
     initSockInfo(SI, SI->Buffer);
+    while (TRUE)
+    {
+        receiveUDP(SI, streamServer, RecvBytes, Flags);
+        Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, WSA_INFINITE, TRUE);
 
-    receiveUDP(SI, server, RecvBytes, Flags);
+        if (Index == WSA_WAIT_FAILED)
+        {
+            qDebug() << "WSAWaitForMultipleEvents failed";
+            return;
+        }
+        if (Index != WAIT_IO_COMPLETION)
+        {
+            // An accept() call event is ready - break the wait loop
+            //break;
+        }
+        if (Index == WAIT_IO_COMPLETION)
+        {
+            qDebug() << "Server Terminating";
+            return;
+        }
+    }
 }
 void UDPThreadManager::receiveStream()
 {
@@ -79,7 +97,7 @@ void UDPThreadManager::receiveStream()
     while (1)
     {
         int addr_size = sizeof(struct sockaddr_in);
-        nRet = recvfrom(StreamSocket, bp, PACKET_LEN, 0, (struct sockaddr*)&server, &addr_size);
+        nRet = recvfrom(StreamSocket, bp, PACKET_LEN, 0, (struct sockaddr*)&streamServer, &addr_size);
         if (nRet < 0)
         {
             qDebug() << "recvfrom() failed";
@@ -88,50 +106,4 @@ void UDPThreadManager::receiveStream()
         qDebug() << "Received in multi cast : " << bp;
     }
 }
-bool UDPThreadManager::receiveUDP(LPSOCKET_INFORMATION SI, sockaddr_in server, DWORD RecvBytes, DWORD Flags)
-{
-    int server_len;
-    server_len = sizeof(server);
-    if (WSARecvFrom(SI->Socket, &(SI->DataBuf), 1, &RecvBytes, &Flags, (struct sockaddr *)&server, &server_len, &(SI->Overlapped), ServerRoutine) == SOCKET_ERROR)
-    {
-        if (WSAGetLastError() != WSA_IO_PENDING)
-        {
-            int i = WSAGetLastError();
-            return FALSE;
-        }
-    }
-    return TRUE;
-}
-void CALLBACK UDPThreadManager::ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED Overlapped, DWORD InFlags)
-{
-    DWORD RecvBytes = 0, Index;
-    DWORD Flags = 0;
-    WSAEVENT			EventArray[1] = { 0 };
-    WSAEVENT			acceptEvent;
 
-    // Reference the WSAOVERLAPPED structure as a SOCKET_INFORMATION structure
-    LPSOCKET_INFORMATION SI = (LPSOCKET_INFORMATION)Overlapped;
-    initSockInfo(SI, SI->Buffer);
-
-    if (Error != 0)
-    {
-        int i = WSAGetLastError();
-        qDebug() << "I/O operation failed";
-    }
-
-    initSockInfo(SI, SI->Buffer);
-    if ((acceptEvent = WSACreateEvent()) == WSA_INVALID_EVENT)
-    {
-        qDebug() <<"WSACreateEvent() failed";
-        return;
-    }
-    Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, 2000, TRUE);
-
-    if (Index == WSA_WAIT_TIMEOUT)
-    {
-        qDebug() <<"Timeout in UDP Server";
-        return;
-    }
-    receiveUDP(SI, server, BytesTransferred, Flags);
-
-}

@@ -15,17 +15,14 @@ public:
     explicit UDPThreadManager(QObject *parent = 0);
     void initMultiCastSock();
     void receiveStream();
-    void UDPWorker();
-    bool receiveUDP(LPSOCKET_INFORMATION SI, sockaddr_in server, DWORD RecvBytes, DWORD	Flags);
-    void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED Overlapped, DWORD InFlags);
 
 signals:
+    void signalUDPWorker();
 
 public slots:
-
+    void UDPWorker();
 private:
     struct ip_mreq stMreq;         /* Multicast interface structure */
-    struct sockaddr_in server;
 };
 
 #endif // UDPTHREADMANAGER_H

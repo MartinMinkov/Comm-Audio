@@ -258,7 +258,7 @@ void ThreadManager::SendVoiceRefreshRequest()
 }
 void ThreadManager::SendStreamRequest()
 {
-    qDebug() << "Send Voice Refresh Request is called";
+    qDebug() << "Send Stream Request is called";
     std::string temp;
     temp = REQ_STREAM;
     sendDataTCP(TCPSocket, temp.c_str());

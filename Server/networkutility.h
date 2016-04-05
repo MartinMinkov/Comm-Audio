@@ -22,7 +22,9 @@
 #define ERROR_BIT "$"
 #define MAXCONNECTIONS 10
 
-
+extern SOCKADDR_IN  stLclAddr;
+extern SOCKADDR_IN  client;
+extern SOCKET StreamSocket;
 class networkutility
 {
 private:

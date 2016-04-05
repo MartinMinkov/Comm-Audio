@@ -1,4 +1,5 @@
 #include "networkutility.h"
+#include "mybuffer.h"
 
 #include <QDebug>
 
@@ -6,16 +7,17 @@ SOCKET TCPSocket;
 SOCKET AcceptSocket;
 SOCKET VCSocket;
 SOCKET StreamSocket;
+struct sockaddr_in streamServer;
 LPSOCKET_INFORMATION SI;
 
-void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, const char* buffer)
+void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer)
 {
     /* zero out overlapped structure	*/
     ZeroMemory((&SOCKET_INFO->Overlapped), sizeof(WSAOVERLAPPED));
     SOCKET_INFO->BytesRECV = 0;
     SOCKET_INFO->BytesSEND = 0;
-    SOCKET_INFO->DataBuf.len = PACKET_LEN;
-    strcpy(SOCKET_INFO->DataBuf.buf, buffer);
+    SOCKET_INFO->DataBuf.len = BUFFSIZE;
+    SOCKET_INFO->DataBuf.buf = buffer;
 }
 
 void sendDataTCP(SOCKET sd, const char* message)
@@ -35,7 +37,7 @@ void sendDatalUDP(LPSOCKET_INFORMATION SI, struct	sockaddr_in server, char* mess
     initSockInfo(SI, message);
 
     //Send control data
-    if (WSASendTo(SI->Socket, &(SI->DataBuf), 1, &SI->BytesSEND, 0, (struct sockaddr *)&server, sizeof(server), &(SI->Overlapped), NULL) == SOCKET_ERROR)
+    if (WSASendTo(SI->Socket, &(SI->DataBuf), 1, &SI->BytesSEND, 0, (struct sockaddr *)&streamServer, sizeof(streamServer), &(SI->Overlapped), NULL) == SOCKET_ERROR)
     {
         if (WSAGetLastError() != ERROR_IO_PENDING)
         {
@@ -120,6 +122,52 @@ int WSARead(SOCKET sd, char * message, int timeout, int size){
         int x = strlen(dbuf.buf);
         int rc = WSAGetOverlappedResult(sd, &ov, &recvBytes, FALSE, &flags);
         return recvBytes;
+
+}
+int receiveUDP(LPSOCKET_INFORMATION SI, sockaddr_in server, DWORD RecvBytes, DWORD Flags)
+{
+    int server_len;
+    server_len = sizeof(streamServer);
+    if (WSARecvFrom(SI->Socket, &(SI->DataBuf), 1, &RecvBytes, &Flags, (struct sockaddr *)&streamServer, &server_len, &(SI->Overlapped), ServerRoutine) == SOCKET_ERROR)
+    {
+        if (WSAGetLastError() != WSA_IO_PENDING)
+        {
+            int i = WSAGetLastError();
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED Overlapped, DWORD InFlags)
+{
+    DWORD RecvBytes = 0, Index;
+    DWORD Flags = 0;
+    WSAEVENT			EventArray[1] = { 0 };
+    WSAEVENT			acceptEvent;
+
+    // Reference the WSAOVERLAPPED structure as a SOCKET_INFORMATION structure
+    LPSOCKET_INFORMATION SI = (LPSOCKET_INFORMATION)Overlapped;
+    initSockInfo(SI, SI->Buffer);
+
+    if (Error != 0)
+    {
+        int i = WSAGetLastError();
+        qDebug() << "I/O operation failed";
+    }
+    if ((acceptEvent = WSACreateEvent()) == WSA_INVALID_EVENT)
+    {
+        qDebug() <<"WSACreateEvent() failed";
+        return;
+    }
+    Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, 10000000, TRUE);
+
+    if (Index == WSA_WAIT_TIMEOUT)
+    {
+        qDebug() <<"Timeout in UDP Server";
+        return;
+    }
+    receiveUDP(SI, streamServer, BytesTransferred, Flags);
+    cData.push(SI->Buffer, 60000);
 
 }
 void formatMessage(const char* message)
