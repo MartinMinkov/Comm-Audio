@@ -1,4 +1,8 @@
 #include "mybuffer.h"
+#include "networkutility.h"
+#include "globals.h"
+#include "streamhandlerthread.h"
+#define MAXLEN 60000
 
 int totalRet = 0;
 bool newCirc = true;
@@ -11,6 +15,7 @@ bool needNew = true;
 char fileBuff[MAXLEN];
 networkutility n;
 SOCKET m_socket;
+HANDLE sync;
 myBuffer::myBuffer(int sock)
 {   m_socket = sock;
     DWORD err = GetLastError();
@@ -39,7 +44,7 @@ myBuffer::myBuffer(int sock)
 }
 void myBuffer::getSong(char * songName){
     FILE * fqt;
-    fqt = fopen("stress.wav", "rb");
+    fqt = fopen("runescape.wav", "rb");
    // fqt = fopen("warpeace.txt", "rb");
     char arrBuff[BUFFSIZE] = { 0 };
     char * ok = arrBuff;
@@ -54,19 +59,27 @@ void myBuffer::getSong(char * songName){
 }
 qint64 myBuffer::readData(char * data, qint64 len){
     int endSong;
+    printf("Martin will stay here: %d", len);
     if(newCirc){
         if(cData.tail > cData.buffHead){
+            printf("Requesting more data");
             SetEvent(needData);
-            if(cData.head == 0)
+            if(cData.head == 0){
+                printf("Returning 0 ok");
+                fflush(stdout);
+
                 return 0;
+            }
             //needD = true;
+
         }
         if(!(endSong = cData.pop(loader))){
             printf("End of song/buffer");
             return -1;
         }
         //sendDataTCP(my_socket, loader);
-        n.WSAS(my_socket, loader, BUFFSIZE, 10000);
+       // n.WSAS(my_socket, loader, BUFFSIZE, 10000);
+        sendToMultiCast(loader);
         newCirc = false;
     }
 
@@ -97,11 +110,12 @@ bool myBuffer::loadSong(){
     fflush(stdout);
     if(needNew){
         needNew = false;
-        if(!(curSong = fopen("stress.wav", "rb")))
+        if(!(curSong = fopen("runescape.wav", "rb")))
             exit(1);
     }
     int len;
     for(int i = 0; i < 10; i++){
+        printf("Pushing song");
         len = fread(fileLoader, sizeof(char), MAXLEN, curSong);
         if(!len){
             needNew = true;
@@ -113,6 +127,7 @@ bool myBuffer::loadSong(){
             return false;
         }
     }
+    SetEvent(sync);
     return true;
 }
 
@@ -150,8 +165,13 @@ qint64 myBuffer::bytesAvailable(){
 void myBuffer::startPlayer(){
 
     DWORD id;
-    needData =  CreateEvent(NULL, TRUE, FALSE, (LPCWSTR)"readReady");
-
+    LPCWSTR tom = L"thisisretarded";
+    LPCWSTR martin = L"StartPlayer";
+    needData =  CreateEvent(NULL, TRUE, FALSE,tom );
+    sync =  CreateEvent(NULL, TRUE, FALSE, martin );
     fileReader = CreateThread(NULL, 0, readFromFile, (void *)this, 0, &id);
+    SetEvent(needData);
+  // Sleep(50);
+    WaitForSingleObject(sync, 1000000);
     player->start(this);
 }

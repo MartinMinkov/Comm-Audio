@@ -78,7 +78,6 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     else {
         qDebug() << "No name";
     }
-
     emit signalHandleRequest();
     emit finished();
 }
@@ -252,13 +251,6 @@ void ThreadManager::SendVoiceRefreshRequest()
     temp = REFRESH_USER;
     sendDataTCP(TCPSocket, temp.c_str());
 }
-void ThreadManager::SendStreamRequest()
-{
-    qDebug() << "Send Voice Refresh Request is called";
-    std::string temp;
-    temp = REQ_STREAM;
-    sendDataTCP(TCPSocket, temp.c_str());
-}
 
 DWORD WINAPI uploadStuff(LPVOID param){
     char * title = (char *)param;
@@ -279,7 +271,6 @@ DWORD WINAPI uploadStuff(LPVOID param){
 
 
 }
-
 
 DWORD WINAPI readStuff(LPVOID param){
     char * title = (char *)param;
@@ -310,11 +301,6 @@ DWORD WINAPI readStuff(LPVOID param){
     }
     return 0;
 }
-
-
-
-
-
 
 void ThreadManager::parseUserList(char* bp)
 {

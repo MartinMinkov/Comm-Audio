@@ -10,18 +10,21 @@
 class UDPThreadManager : public QObject
 {
     Q_OBJECT
+
 public:
     explicit UDPThreadManager(QObject *parent = 0);
     void initMultiCastSock();
     void receiveStream();
 
 signals:
+    void signalUDPWorker();
+    void signalDisconnect();
 
 public slots:
-
+    void UDPWorker();
+    void disconnect();
 private:
     struct ip_mreq stMreq;         /* Multicast interface structure */
-    struct sockaddr_in server;
 };
 
 #endif // UDPTHREADMANAGER_H

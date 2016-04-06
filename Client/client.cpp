@@ -63,28 +63,36 @@ void client::on_connectButton_clicked()
     receiveVoiceChatThread->start();
     streamUDPThread->start();
 
+    emit receiveTCPWorker->signalConnect(ipaddr, portnum, username);
+
     client::toggleInput(false);
     ui->connectStatus->setText("Connected");
     for(int i= 1; i < 5; i++) {
         ui->tabWidget->setTabEnabled(i, true);
     }
-
     emit receiveVoiceChatWorker->signalVoiceChat();
-    emit receiveTCPWorker->signalConnect(ipaddr, portnum, username);
 }
 
 void client::on_disconnectButton_clicked()
 {
     connect(receiveTCPWorker, SIGNAL(signalDisconnect()), receiveTCPWorker, SLOT(disconnect()));
     connect(receiveVoiceChatWorker, SIGNAL(signalDisconnect()), receiveVoiceChatWorker, SLOT(disconnect()));
+    connect(streamUDPWorker, SIGNAL(signalDisconnect()), streamUDPWorker, SLOT(disconnect()));
 
     //disconnect
     emit receiveTCPWorker->signalDisconnect();
     emit receiveVoiceChatWorker->signalDisconnect();
+    emit streamUDPWorker->signalDisconnect();
 
     closesocket(TCPSocket);
     closesocket(VCSocket);
     closesocket(StreamSocket);
+
+    if (SI != NULL)
+    {
+        closesocket(SI->Socket);
+        GlobalFree(SI);
+    }
     WSACleanup();
 
     client::toggleInput(true);
@@ -156,7 +164,6 @@ void client::handleStateChanged(QAudio::State newState){
         fflush(stdout);
         break;
     }
-
     printf("State changed");
     fflush(stdout);
 }
@@ -173,8 +180,7 @@ void client::on_playStreamButton_clicked()
     //PLAY
     printf("I hate alvin");
 	qDebug() << "Play Stream Button is clicked";
-	connect(receiveTCPWorker, SIGNAL(signalStream()), receiveTCPWorker, SLOT(SendStreamRequest()));
-	emit receiveTCPWorker->SendStreamRequest();
+    connect(streamUDPWorker, SIGNAL(signalUDPWorker()), streamUDPWorker, SLOT(UDPWorker()));
 
 	streamUDPWorker->initMultiCastSock();
 
@@ -183,11 +189,7 @@ void client::on_playStreamButton_clicked()
 		return;
 
 	qDebug() << "Starting to listen";
-	//streamUDPWorker->receiveStream();
-
-	//play.startPlayer();
-
-	play.setSocket(TCPSocket);
+    play.setSocket(StreamSocket);
 }
 
 void client::on_stopStreamButton_clicked()
@@ -198,7 +200,7 @@ void client::on_stopStreamButton_clicked()
 void client::on_rewindStreamButton_clicked()
 {
     //REWIND
-    play.cData.tail -= 20;
-    if(play.cData.tail < 0)
-        play.cData.tail = 0;
+    cData.tail -= 20;
+    if(cData.tail < 0)
+        cData.tail = 0;
 }

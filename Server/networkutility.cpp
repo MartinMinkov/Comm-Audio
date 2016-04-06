@@ -2,6 +2,10 @@
 
 int sentBytes = 0;
 
+SOCKADDR_IN  stLclAddr;
+SOCKADDR_IN  client;
+SOCKET StreamSocket;
+
 networkutility::networkutility()
 {
 

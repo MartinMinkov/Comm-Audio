@@ -1,4 +1,6 @@
 #include "streamhandlerthread.h"
+#include "networkutility.h"
+#define MARTIN 60000
 
 streamhandlerthread::streamhandlerthread(QObject *parent) : QObject(parent)
 {
@@ -57,22 +59,21 @@ void streamhandlerthread::initMultiCast()
 
     qDebug() << "Attempting to send to multicast";
     //Send stuff
-    sendToMultiCast();
+//    sendToMultiCast();
 }
-
-void streamhandlerthread::sendToMultiCast()
+void sendToMultiCast(char * buff)
 {
     int nRet;
     char buf[PACKET_LEN];
     strcpy(buf, "eyybyy");
-    while (1)
-    {
-        nRet = sendto(StreamSocket, buf, PACKET_LEN, 0, (struct sockaddr*)&client, sizeof(client));
+    //while (1)
+    //{
+        nRet = sendto(StreamSocket, buff, MARTIN, 0, (struct sockaddr*)&client, sizeof(client));
         if (nRet < 0)
         {
             qDebug() << "sendto() failed";
             return;
-        }
-        Sleep(1000);
+      //  }
+       // Sleep(1000);
     }
 }

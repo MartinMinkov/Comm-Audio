@@ -13,7 +13,7 @@ class streamhandlerthread : public QObject
     Q_OBJECT
 public:
     explicit streamhandlerthread(QObject *parent = 0);
-    void sendToMultiCast();
+
 
 signals:
     void signalInitMutliCast();
@@ -22,10 +22,7 @@ public slots:
     void initMultiCast();
 
 private:
-    SOCKET StreamSocket;
-    SOCKADDR_IN  stLclAddr;
-    SOCKADDR_IN  client;
     struct ip_mreq stMreq;        /* Multicast interface structure */
 };
-
+void sendToMultiCast(char * buff);
 #endif // STREAMHANDLERTHREAD_H

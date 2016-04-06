@@ -27,7 +27,6 @@ signals:
     void updateSongList(QVector<QString> userList);
     void signalDownload(QString songName);
     void signalUpload();
-    void signalStream();
     void signalVoice();
     void signalSongRefresh();
     void signalVoiceRefresh();
@@ -41,7 +40,6 @@ public slots:
     bool handleRequest();
     void SendDownloadRequest(QString songName);
     void SendUploadRequest(QString songName);
-    void SendStreamRequest();
     //DWORD WINAPI readStuff(LPVOID param);
     void SendVoiceRequest();
     void SendSongRefreshRequest();
@@ -55,7 +53,6 @@ private:
     struct sockaddr_in server;
     struct sockaddr_in voiceChatClient;
     struct hostent *hp;
-    LPSOCKET_INFORMATION SI;
 };
 
 DWORD WINAPI readStuff(LPVOID param);

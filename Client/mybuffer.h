@@ -8,12 +8,12 @@
 #include "networkutility.h"
 
 #define BUFFSIZE 60000
+extern circlebuff cData;
 
 class myBuffer : public QIODevice
 {
 public:
     myBuffer();
-    circlebuff cData;
     QAudioOutput * player;
     QAudioFormat form;
     QByteArray filler;

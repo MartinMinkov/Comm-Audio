@@ -21,11 +21,11 @@ void UDPThreadManager::initMultiCastSock()
         qDebug() << "Set SockOpt Failed";
         return;
     }
-    server.sin_family      = AF_INET;
-    server.sin_addr.s_addr = htonl(INADDR_ANY);
-    server.sin_port        = htons(DEFUALT_STREAM_PORT);
+    streamServer.sin_family      = AF_INET;
+    streamServer.sin_addr.s_addr = htonl(INADDR_ANY);
+    streamServer.sin_port        = htons(DEFUALT_STREAM_PORT);
     int addr_size = sizeof(struct sockaddr_in);
-    nRet = bind(StreamSocket, (struct sockaddr*) &server, addr_size);
+    nRet = bind(StreamSocket, (struct sockaddr*) &streamServer, addr_size);
     if (nRet == SOCKET_ERROR)
     {
         qDebug() << "bind( failed";
@@ -40,20 +40,58 @@ void UDPThreadManager::initMultiCastSock()
         qDebug() << "setsockopt() IP_ADD_MEMBERSHIP address failed";
         return;
     }
+    UDPWorker();
 }
-void UDPThreadManager::receiveStream()
+void UDPThreadManager::UDPWorker()
 {
-    int nRet;
-    char bp [PACKET_LEN];
-    while (1)
+    DWORD RecvBytes = 0, Index;
+    DWORD Flags = 0;
+    WSAEVENT				UDPEvent;
+    WSAEVENT				EventArray[1];
+
+    //Creating Socket Info struct
+    if ((SI = (LPSOCKET_INFORMATION)GlobalAlloc(GPTR, sizeof(SOCKET_INFORMATION))) == NULL)
     {
-        int addr_size = sizeof(struct sockaddr_in);
-        nRet = recvfrom(StreamSocket, bp, PACKET_LEN, 0, (struct sockaddr*)&server, &addr_size);
-        if (nRet < 0)
+        qDebug() << "GlobalAlloc() failed with error";
+        return;
+    }
+    if ((UDPEvent = WSACreateEvent()) == WSA_INVALID_EVENT)
+    {
+        qDebug() << "WSACreateEvent() failed";
+        return;
+    }
+
+    // Save the event in the event array.
+    EventArray[0] = UDPEvent;
+
+    //Copy socket
+    SI->Socket = StreamSocket;
+    // Fill in the details of our socket.
+    initSockInfo(SI, SI->Buffer);
+    while (TRUE)
+    {
+        receiveUDP(SI, streamServer, RecvBytes, Flags);
+        Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, WSA_INFINITE, TRUE);
+
+        if (Index == WSA_WAIT_FAILED)
         {
-            qDebug() << "recvfrom() failed";
+            qDebug() << "WSAWaitForMultipleEvents failed";
             return;
         }
-        qDebug() << "Received in multi cast : " << bp;
+        if (Index != WAIT_IO_COMPLETION)
+        {
+            // An accept() call event is ready - break the wait loop
+            //break;
+        }
+        if (Index == WAIT_IO_COMPLETION)
+        {
+            qDebug() << "Server Terminating";
+            return;
+        }
     }
 }
+void UDPThreadManager::disconnect()
+{
+    this->thread()->quit();
+}
+
