@@ -49,8 +49,6 @@ private slots:
     void on_rewindStreamButton_clicked();
     void on_stopStreamButton_clicked();
 
-    void on_pushButton_11_clicked();
-
 private:
     Ui::client *ui;
     QThread* receiveTCPThread;
