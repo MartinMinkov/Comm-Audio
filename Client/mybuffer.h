@@ -25,7 +25,7 @@ public:
     void startPlayer();
     void setSocket(int socket);
    // void fillUp();
-
+    void updateProgress();
 
 
 

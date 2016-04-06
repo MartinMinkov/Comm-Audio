@@ -27,6 +27,7 @@ public:
     void getSong(char * songName);
     void startPlayer();
     void setSocket(int socket);
+    //HANDLE needData;
 
 
 };

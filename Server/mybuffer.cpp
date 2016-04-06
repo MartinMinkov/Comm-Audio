@@ -37,11 +37,11 @@ myBuffer::myBuffer(int sock)
     fflush(stdout);
     this->open(QIODevice::ReadOnly);
   //  player->start(this);
-    player->setVolume(0.0);
+   // player->setVolume(0.0);
 }
 void myBuffer::getSong(char * songName){
     FILE * fqt;
-    fqt = fopen("stress.wav", "rb");
+    fqt = fopen("ec1.wav", "rb");
    // fqt = fopen("warpeace.txt", "rb");
     char arrBuff[BUFFSIZE] = { 0 };
     char * ok = arrBuff;
@@ -99,7 +99,7 @@ bool myBuffer::loadSong(){
     fflush(stdout);
     if(needNew){
         needNew = false;
-        if(!(curSong = fopen("stress.wav", "rb")))
+        if(!(curSong = fopen("ec1.wav", "rb")))
             exit(1);
     }
     int len;
@@ -152,8 +152,10 @@ qint64 myBuffer::bytesAvailable(){
 void myBuffer::startPlayer(){
 
     DWORD id;
-    needData =  CreateEvent(NULL, TRUE, FALSE, (LPCWSTR)"readReady");
-
+    LPCWSTR hi = L"read";
+    needData =  CreateEvent(NULL, TRUE, FALSE, hi);
+    id = GetLastError();
+    printf("Error: %d", needData);
     fileReader = CreateThread(NULL, 0, readFromFile, (void *)this, 0, &id);
     player->start(this);
 }

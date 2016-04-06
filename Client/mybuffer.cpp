@@ -41,6 +41,24 @@ void myBuffer::getSong(char * songName){
     }
 
 }
+void myBuffer::updateProgress(){
+    float progress;
+    float realHead;
+    float realTail;
+    if(cData.headBuff > 500){
+        realHead = cData.headBuff - 500;
+    }
+    else{
+        realHead = (float)cData.headBuff;
+        realTail = float(cData.tail);
+    }
+    //realTail = cData.tail - realHead;
+
+    progress = realHead / realTail;
+   // printf("Progress: %d", progress);
+printf("Real Head: %f, Real Tail: %f", realHead, realTail);
+}
+
 qint64 myBuffer::readData(char * data, qint64 len){
     int endSong;
     if(newCirc){
@@ -50,7 +68,7 @@ qint64 myBuffer::readData(char * data, qint64 len){
         }
         newCirc = false;
     }
-
+    updateProgress();
     int remain = BUFFSIZE - realPos;
     if(remain < len){
         loader += realPos;
