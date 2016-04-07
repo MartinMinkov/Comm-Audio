@@ -16,7 +16,6 @@ char fileBuff[MAXLEN];
 networkutility n;
 SOCKET m_socket;
 HANDLE sync;
-WavFile wvf;
 myBuffer::myBuffer(int sock)
 {   m_socket = sock;
     DWORD err = GetLastError();

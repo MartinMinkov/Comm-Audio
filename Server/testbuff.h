@@ -11,17 +11,29 @@
 class testBuff : public QIODevice
 {
 public:
-    testBuff(QString songName);
-
+    testBuff(QString songName, QAudioOutput * p);
+    QByteArray qbt;
+    int headerLength;
+    int packetNum;
     char buff[BUFFSIZE];
     bool loadSong();
     FILE * testOutput;
     QFile fqt;
+
+    QAudioOutput * player;
     char * loader;
+    int fileSize;
+    int songNumber;
     qint64 readData(char * data, qint64 maxlen);
     qint64 writeData(const char * data, qint64 maxlen);
+    bool setFormat(std::vector<int> vect);
+    void getHeader(std::vector<int> vect);
     qint64 bytesAvailable();
-
+    char * header;
+    int currentSong, totalSong;
+    QStringList playList;
+    char headerBuffer[40];
+    void createHeader(char * head);
     bool publicVariable;
 signals:
     void functionNamehere();

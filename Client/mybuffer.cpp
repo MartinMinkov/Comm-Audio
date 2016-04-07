@@ -12,7 +12,7 @@ myBuffer::myBuffer()
 {
     QAudioFormat format;
     realPos = 0;
-    format.setSampleRate(44100); // Usually this is specified through an UI option
+    format.setSampleRate(16100); // Usually this is specified through an UI option
     format.setChannelCount(2);
     format.setSampleSize(16);
     format.setCodec("audio/pcm");
@@ -20,6 +20,7 @@ myBuffer::myBuffer()
     format.setSampleType(QAudioFormat::UnSignedInt);
     player = new QAudioOutput(format, this);
     cData.init();
+    curSong = 0;
     testOutput = fopen("out.txt", "wb+");
     filler.resize(BUFFSIZE);
     loader = buff;
@@ -44,14 +45,23 @@ void myBuffer::getSong(char * songName){
 }
 qint64 myBuffer::readData(char * data, qint64 len){
     printf("reading data %d\n", len);
-    printf("Head: %d, Tail: %d\n", cData.head, cData.tail);
     int endSong;
     if(newCirc){
+
         if(!(endSong = cData.pop(loader))){
             printf("End of song/buffer");
             return -1;
         }
+        if(loader[0] != curSong){
+            curSong = loader[0];
+            char yaok[40];
+            memcpy(yaok, loader, 40);
+            setHeader(yaok);
+            return 0;
+        }
+
         newCirc = false;
+        realPos = 40;
     }
     int remain = BUFFSIZE - realPos;
     if(remain < len){
@@ -87,19 +97,41 @@ void myBuffer::setSocket(int socket){
     mySocket = socket;
     DWORD id;
     //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
-    while(1){
-        printf("Tail %d, Head: %d", cData.tail, cData.headBuff);
-        fflush(stdout);
-           // if(cData.tail < cData.headBuff){
-        Sleep(1000);
+    //while(1){
+        //printf("Tail %d, Head: %d", cData.tail, cData.headBuff);
+        //fflush(stdout);
+        //if(cData.tail < cData.headBuff){
+        //Sleep(1000);
+        Sleep(500);
         startPlayer();
-            printf("Startng the player");
-            break;
+      //      printf("Startng the player");
+        //    break;
         //}
 
-    }
+   // }
 }
-
+void myBuffer::setHeader(char * h){
+    QString orig(h);
+    QAudioFormat format;
+    QStringList ls = orig.split("-");
+    int ss, samp, chan;
+    ss = ls.value(1).toInt();
+    samp = ls.value(2).toInt();
+    chan = ls.value(3).toInt();
+    printf("Format Stuff: %d %d %d", ss, samp, chan);
+    realPos = 0;
+    format.setSampleRate(samp); // Usually this is specified through an UI option
+    format.setChannelCount(chan);
+    format.setSampleSize(ss);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::UnSignedInt);
+    player->stop();
+    player = new QAudioOutput(format, this);
+    printf("CHANGING PLAYER");
+            fflush(stdout);
+    player->start(this);
+}
 
 qint64 myBuffer::writeData(const char *data, qint64 len){
 

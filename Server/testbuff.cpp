@@ -1,26 +1,127 @@
 #include "testbuff.h"
 #include "globals.h"
 #include "streamhandlerthread.h"
-
+#include "wavfile.h";
 QAudioFormat qft;
 int pt;
 bool nextSong = false;
 bool NN = true;
 int total;
-testBuff::testBuff(QString songName)
-{
+testBuff::testBuff(QString songName, QAudioOutput * p)
+{   player = p;
+    header = headerBuffer;
     loader = buff;
-    fqt.setFileName("ec1.wav");
-    if(!(fqt.open(QIODevice::ReadOnly))){
+   // memset(header, '\0', 40);
+   // memcpy(header,heads, 40);
+   // fqt.setFileName("ec1.wav");
+   /* if(!(fqt.open(QIODevice::ReadOnly))){
             exit(1);
+    }
+    */
+    packetNum = 0;
+    headerLength = 40;
+    totalSong = 2;
+    songNumber = 1;
+    currentSong = 0;
+    //playList.push_back("my_mule.wav");
+    playList.push_back("stress.wav");
+    playList.push_back("ec1.wav");
+    this->open(QIODevice::ReadOnly);
+    loadSong();
+   // qbt = fqt.readAll();
+   // fqt.close();
+}
+bool testBuff::loadSong(){
+    nextSong = false;
+    QString c = playList.at(currentSong % totalSong);
+    currentSong++;
+    fqt.setFileName(c);
+    if(!(fqt.open(QIODevice::ReadOnly))){
+            return false;
+    }
+    qbt = fqt.readAll();
+    fileSize = qbt.size();
+    fqt.close();
+    WavFile wvf;
+    wvf.open(c);
+    std::vector<int>vect = wvf.getStuff();
+    wvf.close();
+    getHeader(vect);
+    setFormat(vect);
+
+
+
+}
+void testBuff::getHeader(std::vector<int> vect){
+    QString hold = "";
+    int a,b,c;
+    a = vect.at(0);
+    b = vect.at(1);
+    c = vect.at(2);
+    char d = songNumber++;
+    hold += d;
+    hold += "-" + QString::number(a);
+    hold += "-" + QString::number(b);
+    hold += "-" + QString::number(c);
+    hold += "-" + QString::number(fileSize/ BUFFSIZE);
+    memset(header, '\0', 40);
+    memcpy(header, hold.toStdString().c_str(), 40);
+    printf(header);
+    fflush(stdout);
 }
 
-    this->open(QIODevice::ReadOnly);
+bool testBuff::setFormat(std::vector<int> vect){
+       QAudioFormat format;
+
+       printf("%d %d %d", vect.at(0), vect.at(1), vect.at(2));
+       fflush(stdout);
+       format.setSampleRate(vect.at(1));
+       format.setChannelCount(vect.at(2));
+       format.setSampleSize(vect.at(0));
+       format.setCodec("audio/pcm");
+       format.setByteOrder(QAudioFormat::LittleEndian);
+       format.setSampleType(QAudioFormat::UnSignedInt);
+       QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
+       if (!info.isFormatSupported(format)) {
+           qWarning() << "Raw audio format not supported by backend, cannot play audio.";
+           return false;
+       }
+       //QString song("ec1.wav");
+       //t = new testBuff(song, header);
+       if(player != NULL)
+           player->stop();
+       player = new QAudioOutput(format, this);
+       //player->setVolume(0.0);
+       player->start(this);
+       //player->start();
+        //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()));
+
+
 }
 qint64 testBuff::readData(char * data, qint64 len){
     int length;
+    QByteArray chunk;
     if(NN){
-        if((length = fqt.read(loader, BUFFSIZE)) != BUFFSIZE){
+        if(nextSong){
+            loadSong();
+            return 0;
+        }
+        memcpy(loader, header, 40);
+        length = qbt.size();
+        if(length > BUFFSIZE){
+            chunk = qbt.remove(0, BUFFSIZE - headerLength);
+
+           memcpy(loader + 40, chunk.toStdString().c_str(), BUFFSIZE - headerLength);
+        }else{
+            if((len + headerLength) > BUFFSIZE){
+                len = BUFFSIZE - headerLength;
+            }
+            chunk = qbt.remove(0, len);
+            memcpy(loader + 40, chunk.toStdString().c_str(), len);
+            nextSong = true;
+        }
+
+        /*if((length = fqt.read(loader, BUFFSIZE)) != BUFFSIZE){
             if(length == 0){
                 //emit functionNamehere();
 
@@ -29,9 +130,10 @@ qint64 testBuff::readData(char * data, qint64 len){
             else{
                nextSong = true;
             }
-        }
+        }*/
         total = 0;
         NN = false;
+        fflush(stdout);
         sendToMultiCast(loader);
     }
     int remain = BUFFSIZE - total;
@@ -52,8 +154,8 @@ qint64 testBuff::readData(char * data, qint64 len){
         return len;
 
 
-    memcpy(data, loader, length);
 
+    memcpy(data, loader, length);
 
     return length;
 

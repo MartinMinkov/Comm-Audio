@@ -13,6 +13,11 @@ public:
     bool setFormat(std::vector<int>);
     void startSong(QString songName);
     void startPlayer();
+    int songNumber;
+    int fileSize;
+    char * header;
+    char headerBuff[100];
+    void getHeader(std::vector<int> vect);
 public slots:
     void endPlayer();
 

@@ -16,7 +16,9 @@ public:
     QAudioFormat form;
     QByteArray filler;
     int realPos;
+    int curSong;
     char buff[BUFFSIZE];
+    void setHeader(char * h);
     FILE * testOutput;
     char * loader;
     qint64 readData(char * data, qint64 maxlen);
