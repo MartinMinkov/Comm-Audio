@@ -36,6 +36,7 @@ public slots:
     void updateSongs(QVector<QString> userList);
     void updateCallLabel(QString);
     void handleStateChanged(QAudio::State newState);
+    void handleUpdateStatusBar(bool connected);
 
 private slots:
     void on_connectButton_clicked();

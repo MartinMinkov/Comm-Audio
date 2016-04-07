@@ -35,7 +35,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -1586,7 +1586,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Status: Connected to Server</string>
+     <string>Status: DISCONNECTED</string>
     </property>
    </widget>
   </widget>

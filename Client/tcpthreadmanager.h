@@ -33,6 +33,7 @@ signals:
     void finished();
     void signalVoiceChat();
     void updateCaller(QString);
+    void updateStatusBar(bool connected);
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);

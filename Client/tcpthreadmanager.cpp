@@ -78,6 +78,7 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     else {
         qDebug() << "No name";
     }
+    emit updateStatusBar(true);
     emit signalHandleRequest();
     emit finished();
 }
@@ -176,6 +177,7 @@ bool ThreadManager::handleRequest()
 }
 void ThreadManager::disconnect()
 {
+    emit updateStatusBar(false);
     this->thread()->quit();
 }
 void ThreadManager::SendDownloadRequest(QString songName)

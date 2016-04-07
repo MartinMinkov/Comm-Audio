@@ -51,6 +51,7 @@ void client::on_connectButton_clicked()
     connect(receiveTCPWorker, SIGNAL(updateUserList(QVector<QString>)), this, SLOT(updateUsers(QVector<QString>)));
     connect(receiveTCPWorker, SIGNAL(updateSongList(QVector<QString>)), this, SLOT(updateSongs(QVector<QString>)));
     connect(receiveTCPWorker, SIGNAL(signalHandleRequest()), receiveTCPWorker, SLOT(handleRequest()));
+    connect(receiveTCPWorker, SIGNAL(updateStatusBar(bool)), this, SLOT(handleUpdateStatusBar(bool)));
     connect(receiveTCPWorker, SIGNAL(finished()), receiveVoiceChatThread, SLOT(quit()));
 
     //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()));
@@ -203,4 +204,14 @@ void client::on_rewindStreamButton_clicked()
     cData.tail -= 20;
     if(cData.tail < 0)
         cData.tail = 0;
+}
+
+void client::handleUpdateStatusBar(bool connected){
+    if(connected){
+        ui->label_statusbar_text->setText("Status: CONNECTED");
+        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #78ff00; }");
+    } else {
+        ui->label_statusbar_text->setText("Status: DISCONNECTED");
+        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #ff104e; }");
+    }
 }
