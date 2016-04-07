@@ -23,7 +23,10 @@ SOURCES += main.cpp\
     globals.cpp \
     circlebuff.cpp \
     streamhandlerthread.cpp \
-    mybuffer.cpp
+    mybuffer.cpp \
+    wavfile.cpp \
+    testbuff.cpp \
+    playermanager.cpp
 
 HEADERS  += server.h \
     controlthread.h \
@@ -35,7 +38,10 @@ HEADERS  += server.h \
     globals.h \
     circlebuff.h \
     streamhandlerthread.h \
-    mybuffer.h
+    mybuffer.h \
+    wavfile.h \
+    testbuff.h \
+    playermanager.h
 
 FORMS    += server.ui
 

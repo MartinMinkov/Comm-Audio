@@ -2,18 +2,28 @@
 #include <windows.h>
 #include "circlebuff.h"
 #include "networkutility.h"
-#define FILEMAX 20000
+#define FILEMAX 60000
 
 HANDLE newData;
 HANDLE readDone;
 HANDLE fileDone;
-circlebuff c;
+circlebuff * c;
+
 
 ThreadManager::ThreadManager(QObject *parent) : QObject(parent)
 {
     TCPSocket = 0;
     VCSocket = 0;
     StreamSocket = 0;
+    LPCWSTR ok1 = L"hi";
+    LPCWSTR ok2 = L"IDK";
+    LPCWSTR ok3 = L"WHY";
+    newData = CreateEvent(NULL, TRUE, FALSE, ok1);
+    readDone = CreateEvent(NULL, TRUE, FALSE, ok2);
+    fileDone = CreateEvent(NULL, TRUE, FALSE, ok3);
+    c = new circlebuff();
+
+
 }
 
 
@@ -178,17 +188,14 @@ void ThreadManager::disconnect()
 }
 void ThreadManager::SendDownloadRequest(QString songName)
 {
-    songName = "vec1.m4a";
+    songName = "vec1.wav";
     HANDLE writeThread;
     DWORD id;
     char fileName[500] = { 0 };
     //QString temp;
-    c.init();
+    c->init();
     qDebug() << songName;
-   //temp = REQ_DOWNLOAD;
-    //temp += songName;
-    printf("Allen im here");
-    fflush(stdout);
+
     sendDataTCP(TCPSocket, songName.toStdString().c_str());
     songName = songName.remove(0, 1);
     char * title =  fileName;
@@ -198,15 +205,15 @@ void ThreadManager::SendDownloadRequest(QString songName)
     //receiveTCP(TCPSocket, dontcare);
     if(!handleRequest())
         return;
-    char buf[20000] = { 0 };
+    char buf[FILEMAX] = { 0 };
     int len;
     writeThread = CreateThread(NULL, 0, readStuff, (void *)title, 0 , &id);
-    while((len = WSARead(TCPSocket, buf, 2000, 20000))){
-        c.push(buf, len);
+    while((len = WSARead(TCPSocket, buf, 2000, FILEMAX))){
+        c->push(buf, len);
         SetEvent(newData);
     }
     SetEvent(readDone);
-    WaitForSingleObject(fileDone, 20000);
+    WaitForSingleObject(fileDone, FILEMAX);
     printf("Done reading");
     fflush(stdout);
 }
@@ -215,22 +222,25 @@ void ThreadManager::SendUploadRequest(QString songName)
 
     FILE * upload;
     char buffer[FILEMAX] = { 0 };
-
+    songName = "^ec1.wav";
     std::string temp;
     temp = REQ_UPLOAD;
-    temp += "download.jpg";
+    temp += "^ec1.wav";
     sendDataTCP(TCPSocket, temp.c_str());
     char * buff = buffer;
     int bytesRead;
-    if(!(upload = fopen(songName.toStdString().c_str(), "rb+"))){
+    QString fName = songName.remove(0,1);
+    if(!(upload = fopen(fName.toStdString().c_str(), "rb+"))){
             return;
     }
+    if(!handleRequest())
+        return;
     while((bytesRead = fread(buff, sizeof(char), FILEMAX, upload))){
         if(bytesRead != FILEMAX){
             WSAS(TCPSocket, buff, bytesRead, 1000);
             break;
         }
-        WSAS(TCPSocket, buff, 20000, 1000);
+        WSAS(TCPSocket, buff, FILEMAX, 1000);
     }
 
 }
@@ -278,7 +288,7 @@ DWORD WINAPI uploadStuff(LPVOID param){
                 WSAS(TCPSocket, buff, bytesRead, 1000);
                 break;
             }
-            WSAS(TCPSocket, buff, 20000, 1000);
+            WSAS(TCPSocket, buff, FILEMAX, 1000);
     }
 
 
@@ -290,7 +300,7 @@ DWORD WINAPI readStuff(LPVOID param){
     FILE * fqt;
     DWORD err;
     int len;
-    char readBuff[20000] = { 0 };
+    char readBuff[FILEMAX] = { 0 };
     HANDLE events[2];
     events[0] = newData;
     events[1] = readDone;
@@ -300,10 +310,10 @@ DWORD WINAPI readStuff(LPVOID param){
     while(1){
         err = WaitForMultipleObjects(2, events, FALSE, INFINITE);
         ResetEvent(newData);
-        while(len = c.pop(wrt)){
+        while(len = c->pop(wrt)){
             fwrite(wrt, sizeof(char), len, fqt);
-            printf("head %d tail %d, length: %d\n", c.head, c.tail, len);
-            memset(readBuff, '\0', 20000);
+            printf("head %d tail %d, length: %d\n", c->head, c->tail, len);
+            memset(readBuff, '\0', FILEMAX);
         }
         if(err == WAIT_OBJECT_0 + 1){
             SetEvent(fileDone);

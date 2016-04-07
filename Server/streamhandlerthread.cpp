@@ -68,9 +68,10 @@ void sendToMultiCast(char * buff)
     strcpy(buf, "eyybyy");
     //while (1)
     //{
+    printf("Sending data");
         nRet = sendto(StreamSocket, buff, MARTIN, 0, (struct sockaddr*)&client, sizeof(client));
         if (nRet < 0)
-        {
+        {   nRet = GetLastError();
             qDebug() << "sendto() failed";
             return;
       //  }

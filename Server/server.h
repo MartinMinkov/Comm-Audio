@@ -9,7 +9,7 @@
 #include "controlthread.h"
 #include "clienthandlerthread.h"
 #include "streamhandlerthread.h"
-
+#include "playermanager.h"
 namespace Ui {
     class server;
 }
@@ -36,7 +36,7 @@ private:
     void toggleConnected(bool state);
     void setupPlaylistTable();
     QStringList playlist;
-
+    playerManager * play;
     QThread* controlThread;
     ControlThread* controlWorker;
     QThread* clientHandlerThread;

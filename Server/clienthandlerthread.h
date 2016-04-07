@@ -12,7 +12,7 @@ class ClientHandlerThread : public QObject
 {
     Q_OBJECT
 public:
-    ClientHandlerThread(int socket, myBuffer * player);
+    ClientHandlerThread(int socket);
 
 signals:
     void signalDisconnect();

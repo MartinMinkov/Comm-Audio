@@ -2,7 +2,7 @@
 #define CIRCLEBUFF_H
 #include "qplatformdefs.h"
 #include <stdlib.h>
-#define MAXLEN 1000
+#define MAXLEN 500
 #define BLOCKSIZE 60000
 class circlebuff
 {
@@ -17,7 +17,7 @@ public:
             char * k = new char[BLOCKSIZE];
             buff[i] = k;
             byteLen[i] = 0;
-            memset(buff[i], '/0', BLOCKSIZE);
+            memset(buff[i], '\0', BLOCKSIZE);
         }
     }
 

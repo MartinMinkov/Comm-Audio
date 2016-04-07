@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QThread>
 #include "networkutility.h"
+#include "circlebuff.h"
 
 class ThreadManager : public QObject
 {
@@ -23,7 +24,7 @@ signals:
     void updateUserList(QVector<QString> userList);
     void updateSongList(QVector<QString> userList);
     void signalDownload(QString songName);
-    void signalUpload();
+    void signalUpload(QString songName);
     void signalStream();
     void signalVoice();
     void signalSongRefresh();

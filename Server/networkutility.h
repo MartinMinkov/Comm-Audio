@@ -19,7 +19,7 @@
 #define REQ_REFRESH '%'
 #define REFRESH_USER '&'
 #define REFRESH_SONG '*'
-#define ERROR_BIT "$"
+#define ERROR_BIT '$'
 #define MAXCONNECTIONS 10
 
 extern SOCKADDR_IN  stLclAddr;
@@ -37,9 +37,10 @@ public:
     bool receiveTCP(SOCKET sd, char* message);
     static void debugMessage(const char* message);
 
+
 };
 
 void sendDataTCP(SOCKET sd, const char* message);
 bool receiveTCP(SOCKET sd, char* message);
-
+int WSARead(SOCKET sd, char * message, int timeout, int size);
 #endif // NETWORKUTILITY_H

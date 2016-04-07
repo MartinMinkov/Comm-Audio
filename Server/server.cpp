@@ -4,9 +4,9 @@
 #include "globals.h"
 #include "mybuffer.h"
 #include <windows.h>
-
 HANDLE loveQt;
-myBuffer player(accept_socket);
+
+//myBuffer player(accept_socket);
 server::server(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::server)
@@ -113,7 +113,7 @@ void server::createClientThread(int socket){
 
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
     clientHandlerThread = new QThread;
-    clientWorker = new ClientHandlerThread(socket, &player);
+    clientWorker = new ClientHandlerThread(socket);
     clientWorker->moveToThread(clientHandlerThread);
     connect(clientHandlerThread, SIGNAL(started()), clientWorker, SLOT(receiveRequests()));
     //TODO: connect start signal with a slot to create Colin's thread (update song list)
@@ -163,6 +163,13 @@ DWORD WINAPI doServer(LPVOID param){
 void server::on_button_start_stream_clicked()
 {
     DWORD id;
+
+    play = new playerManager();
+    printf("Starting player");
+    fflush(stdout);
+    play->startSong("ec1.wav");
+    printf("player started");
+    play->startPlayer();
     //loveQt = CreateThread(NULL, 0, doServer, (void *)0, 0, &id);
-    player.startPlayer();
+    //player.startPlayer();
 }

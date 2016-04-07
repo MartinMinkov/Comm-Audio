@@ -43,6 +43,7 @@ void myBuffer::getSong(char * songName){
 
 }
 qint64 myBuffer::readData(char * data, qint64 len){
+    printf("reading data");
     int endSong;
     if(newCirc){
         if(!(endSong = cData.pop(loader))){
@@ -51,7 +52,6 @@ qint64 myBuffer::readData(char * data, qint64 len){
         }
         newCirc = false;
     }
-    printf("MARTIN DO YOU CAFLL IT: %d", len);
     int remain = BUFFSIZE - realPos;
     if(remain < len){
         loader += realPos;
@@ -87,9 +87,7 @@ void myBuffer::setSocket(int socket){
     DWORD id;
     //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
     while(1){
-        printf("WE HAVE PHP");
-        fflush(stdout);
-        if(cData.tail < cData.headBuff){
+            if(cData.tail < cData.headBuff){
             startPlayer();
             printf("Startng the player");
             break;

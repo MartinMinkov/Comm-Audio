@@ -2,10 +2,13 @@
 #include "server.h"
 #include "networkutility.h"
 #include "mybuffer.h"
-myBuffer * playBuff;
-ClientHandlerThread::ClientHandlerThread(int socket, myBuffer * player)
+#include "playermanager.h"
+playerManager player;
+//myBuffer * playBuff;
+
+ClientHandlerThread::ClientHandlerThread(int socket)
 {
-    playBuff = player;
+  //  playBuff = player;
     m_socket = socket;
     fHelper = new filehelper();
     sHelper = new streamhelper();
@@ -30,7 +33,7 @@ void ClientHandlerThread::receiveRequests(){
         //add client to gui
         emit signalUpdateUserList(userList);
     }
-    playBuff->setSocket(m_socket);
+    //playBuff->setSocket(m_socket);
     // send the server the username list
     QString constructedUserList = constructUserListString();
     sendDataTCP(m_socket, constructedUserList.toLocal8Bit().data());
@@ -66,7 +69,7 @@ void ClientHandlerThread::receiveRequests(){
 
         // upload request
         if(buf[0] == REQ_UPLOAD){
-            fHelper->handleUploadRequest();
+            fHelper->handleUploadRequest(buf, m_socket);
         }
 
         // stream request
@@ -93,10 +96,11 @@ void ClientHandlerThread::receiveRequests(){
     emit finished();
 }
 void ClientHandlerThread::setupStream(){
-    playBuff = new myBuffer(m_socket);
+   // playBuff = new myBuffer(m_socket);
 }
 void ClientHandlerThread::startStream(){
-    playBuff->startPlayer();
+      player.startSong("ec1.wav");
+   // playBuff->startPlayer();
 }
 
 void ClientHandlerThread::disconnect(){

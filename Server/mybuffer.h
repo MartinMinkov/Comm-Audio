@@ -6,16 +6,24 @@
 #include "circlebuff.h"
 #include <Windows.h>
 #define BUFFSIZE 60000
+struct headerHolder{
+    int samples;
+    int bitsper;
+    int channels;
+};
 class myBuffer : public QIODevice
 {
+
 public:
+
+    headerHolder head;
     myBuffer(int sock);
     circlebuff cData;
-    QAudioOutput * player;
+
     QAudioFormat form;
     QByteArray filler;
     int realPos;
-
+    QAudioOutput * player;
     HANDLE fileReader;
     char buff[BUFFSIZE];
     bool loadSong();
@@ -27,9 +35,14 @@ public:
     void getSong(char * songName);
     void startPlayer();
     void setSocket(int socket);
+    void checkHeader(char * header);
+    void fillHead(std::vector<int> ok);
+    void setFmt();
+
 
 
 };
+
 DWORD WINAPI readFromFile(LPVOID param);
 //bool loadSong();
 

@@ -22,7 +22,41 @@ void sendDataTCP(SOCKET sd, const char* message){
     networkutility::debugMessage("Sending data to client. Sending:");
     networkutility::debugMessage(message);
 }
+int WSARead(SOCKET sd, char * message, int timeout, int size){
+    WSAOVERLAPPED ov;
+    DWORD recvBytes;
+    DWORD recvErr;
+    DWORD flags = 0;
+    WSABUF dbuf;
+    dbuf.buf = message;
+    dbuf.len = size;
+    ov.hEvent = WSACreateEvent();
+    if ((recvErr = WSARecv(sd, &dbuf, 1, &recvBytes,
+                &flags, &ov, NULL)) == SOCKET_ERROR)
+            {
+                recvErr = WSAGetLastError();
+                if (recvErr != WSA_IO_PENDING) {
 
+                    return 0;
+                }
+            }
+
+            recvErr = WSAWaitForMultipleEvents(1, &ov.hEvent, FALSE, timeout, FALSE);
+            switch (recvErr) {
+            case WAIT_TIMEOUT:
+                return 0;
+                break;
+            case WAIT_FAILED:
+                exit(1);
+                break;
+            default:
+                break;
+            }
+        int x = strlen(dbuf.buf);
+        int rc = WSAGetOverlappedResult(sd, &ov, &recvBytes, FALSE, &flags);
+        return recvBytes;
+
+}
 bool networkutility::WSAS(SOCKET sd, char * message, int size, int timeout){
     WSABUF buf;
     WSAOVERLAPPED ov;

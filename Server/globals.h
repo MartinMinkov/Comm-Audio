@@ -11,7 +11,7 @@
 
 extern SOCKET listen_socket;
 extern SOCKET accept_socket;
-
+extern HANDLE songDone;
 extern QVector<QString> userList;
 extern QStandardItemModel *playlistModel;
 

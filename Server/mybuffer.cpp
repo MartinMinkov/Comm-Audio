@@ -2,6 +2,7 @@
 #include "networkutility.h"
 #include "globals.h"
 #include "streamhandlerthread.h"
+#include "wavfile.h"
 #define MAXLEN 60000
 int totalRet = 0;
 bool newCirc = true;
@@ -15,6 +16,7 @@ char fileBuff[MAXLEN];
 networkutility n;
 SOCKET m_socket;
 HANDLE sync;
+WavFile wvf;
 myBuffer::myBuffer(int sock)
 {   m_socket = sock;
     DWORD err = GetLastError();
@@ -39,16 +41,25 @@ myBuffer::myBuffer(int sock)
     fflush(stdout);
     this->open(QIODevice::ReadOnly);
   //  player->start(this);
+    getSong("Hi");
     player->setVolume(0.0);
 }
 void myBuffer::getSong(char * songName){
     FILE * fqt;
     fqt = fopen("stress.wav", "rb");
+
    // fqt = fopen("warpeace.txt", "rb");
     char arrBuff[BUFFSIZE] = { 0 };
     char * ok = arrBuff;
+    char header[44];
+    char * headBuff = header;
     int len;
     int count = 0;
+    if((len = fread(header, sizeof(char), 44, fqt)) != 44){
+        return;
+    }
+    fseek(fqt, 0, SEEK_SET);
+    checkHeader(header);
     while((len = fread(ok, sizeof(char), BUFFSIZE, fqt))){
         cData.push(ok, len);
         if(count > 500)
@@ -102,6 +113,18 @@ qint64 myBuffer::readData(char * data, qint64 len){
 }
 void myBuffer::setSocket(int socket){
     my_socket = socket;
+}
+void myBuffer::checkHeader(char * header){
+    char b1[2];
+    char b2[4];
+    char b3[2];
+    char * sample = b1;
+    char * channels = b2;
+    char * bps = b3;
+    for(int i = 0; i < 44; i++){
+        printf("\nChar At: %d %02X %d", i, header[i], header[i] );
+    }
+exit(0);
 }
 
 bool myBuffer::loadSong(){

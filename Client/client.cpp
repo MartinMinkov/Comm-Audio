@@ -111,7 +111,12 @@ void client::on_updateSongButton_clicked()
 
 void client::on_uploadButton_clicked()
 {
-    //emit receiveWorker->signalUpload();
+    qDebug() << "UPLOAD CLICKED";
+    connect(receiveTCPWorker, SIGNAL(signalUpload(QString)), receiveTCPWorker, SLOT(SendUploadRequest(QString)));
+
+    QString songName = QString("%1%2").arg(REQ_UPLOAD).arg(ui->listWidget_5->currentItem()->text());
+
+    emit receiveTCPWorker->signalUpload(songName);
 }
 
 void client::on_voiceChatButton_clicked()
