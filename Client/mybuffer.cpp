@@ -79,6 +79,7 @@ DWORD WINAPI fillUp(LPVOID param){
     while(1){
         //len = WSARecvFrom(SI->Socket, &(SI->DataBuf), 1, &RecvBytes, &Flags, (struct sockaddr *)&streamServer, &server_len, &(SI->Overlapped), ServerRoutine);
         //cData.push(SI->DataBuf, len);
+
     }
 }
 

@@ -162,5 +162,5 @@ void server::on_button_start_stream_clicked()
     play->startSong("ec1.wav");
 
     //loveQt = CreateThread(NULL, 0, doServer, (void *)0, 0, &id);
-    player.startPlayer();
+   // player.startPlayer();
 }
