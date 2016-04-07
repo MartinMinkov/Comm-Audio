@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QStringListModel>
-
+#include "playermanager.h"
 #include "controlthread.h"
 #include "clienthandlerthread.h"
 #include "streamhandlerthread.h"
@@ -43,7 +43,7 @@ private:
     void toggleConnected(bool state);
     void setupPlaylistTable();
     QStringList playlist;
-
+    playerManager * play;
     QThread* controlThread;
     ControlThread* controlWorker;
     QThread* clientHandlerThread;

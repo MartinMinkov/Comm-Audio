@@ -1,5 +1,4 @@
 #include "server.h"
-
 HANDLE loveQt;
 myBuffer player(accept_socket);
 server::server(QWidget *parent) :
@@ -159,6 +158,9 @@ DWORD WINAPI doServer(LPVOID param){
 void server::on_button_start_stream_clicked()
 {
     DWORD id;
+    play = new playerManager();
+    play->startSong("ec1.wav");
+
     //loveQt = CreateThread(NULL, 0, doServer, (void *)0, 0, &id);
     player.startPlayer();
 }
