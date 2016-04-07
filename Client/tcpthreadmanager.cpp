@@ -164,6 +164,13 @@ bool ThreadManager::handleRequest()
         return false;
         //parseUserList(bp);
     }
+
+    //if its a song/user refresh request, parse the list
+    if (buf[0] == REFRESH_SONG || buf[0] == REFRESH_USER){
+        parseUserList(bp);
+    }
+
+
     qDebug() << "Received : "  << buf;
     return true;
 }
@@ -242,7 +249,8 @@ void ThreadManager::SendSongRefreshRequest()
     std::string temp;
     temp = REFRESH_SONG;
     sendDataTCP(TCPSocket, temp.c_str());
-    //emit recv signal
+    if(!handleRequest())
+        return;
 }
 void ThreadManager::SendVoiceRefreshRequest()
 {
