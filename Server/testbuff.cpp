@@ -5,9 +5,11 @@
 QAudioFormat qft;
 int pt;
 bool nextSong = false;
-
+bool NN = true;
+int total;
 testBuff::testBuff(QString songName)
 {
+    loader = buff;
     fqt.setFileName("ec1.wav");
     if(!(fqt.open(QIODevice::ReadOnly))){
             exit(1);
@@ -17,22 +19,41 @@ testBuff::testBuff(QString songName)
 }
 qint64 testBuff::readData(char * data, qint64 len){
     int length;
-     SetEvent(songDone);
-    if(nextSong){
-        return -1;
-    }
-    if((length = fqt.read(buff,len)) != len){
-        if(length == 0){
-            //emit functionNamehere();
+    if(NN){
+        if((length = fqt.read(loader, BUFFSIZE)) != BUFFSIZE){
+            if(length == 0){
+                //emit functionNamehere();
 
-            return -1;
+                return -1;
+            }
+            else{
+               nextSong = true;
+            }
         }
-        else{
-           nextSong = true;
-        }
+        total = 0;
+        NN = false;
+        sendToMultiCast(loader);
     }
-    memcpy(data, buff, length);
-    sendToMultiCast(buff);
+    int remain = BUFFSIZE - total;
+    if(remain < len){
+        loader += total;
+        memcpy(data, loader, remain);
+        loader = &buff[0];
+        memset(buff, '\0', BUFFSIZE);
+        NN = true;
+        total = 0;
+        return remain;
+    }
+    else{
+        loader += total;
+        memcpy(data, loader, len);
+        loader = &buff[0];
+        total += len;
+        return len;
+
+
+    memcpy(data, loader, length);
+
 
     return length;
 
@@ -77,6 +98,7 @@ qint64 testBuff::readData(char * data, qint64 len){
         realPos += len;
         return len;
     }*/
+}
 }
 qint64 testBuff::writeData(const char * data, qint64 len){
  return -1;

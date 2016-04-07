@@ -45,6 +45,7 @@ bool playerManager::setFormat(std::vector<int> vect){
 }
 void playerManager::startPlayer(){
     player->start(t);
+    player->setVolume(0.0);
 }
 void playerManager::endPlayer(){
     printf("Ending player");

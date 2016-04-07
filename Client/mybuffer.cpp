@@ -43,7 +43,8 @@ void myBuffer::getSong(char * songName){
 
 }
 qint64 myBuffer::readData(char * data, qint64 len){
-    printf("reading data");
+    printf("reading data %d\n", len);
+    printf("Head: %d, Tail: %d\n", cData.head, cData.tail);
     int endSong;
     if(newCirc){
         if(!(endSong = cData.pop(loader))){
@@ -87,11 +88,14 @@ void myBuffer::setSocket(int socket){
     DWORD id;
     //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
     while(1){
-            if(cData.tail < cData.headBuff){
-            startPlayer();
+        printf("Tail %d, Head: %d", cData.tail, cData.headBuff);
+        fflush(stdout);
+           // if(cData.tail < cData.headBuff){
+        Sleep(1000);
+        startPlayer();
             printf("Startng the player");
             break;
-        }
+        //}
 
     }
 }
