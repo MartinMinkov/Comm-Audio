@@ -78,22 +78,13 @@ void client::on_disconnectButton_clicked()
 {
     connect(receiveTCPWorker, SIGNAL(signalDisconnect()), receiveTCPWorker, SLOT(disconnect()));
     connect(receiveVoiceChatWorker, SIGNAL(signalDisconnect()), receiveVoiceChatWorker, SLOT(disconnect()));
-    connect(streamUDPWorker, SIGNAL(signalDisconnect()), streamUDPWorker, SLOT(disconnect()));
 
     //disconnect
     emit receiveTCPWorker->signalDisconnect();
     emit receiveVoiceChatWorker->signalDisconnect();
-    emit streamUDPWorker->signalDisconnect();
 
     closesocket(TCPSocket);
     closesocket(VCSocket);
-    closesocket(StreamSocket);
-
-    if (SI != NULL)
-    {
-        closesocket(SI->Socket);
-        GlobalFree(SI);
-    }
     WSACleanup();
 
     client::toggleInput(true);
@@ -183,7 +174,7 @@ void client::on_playStreamButton_clicked()
 	qDebug() << "Play Stream Button is clicked";
     connect(streamUDPWorker, SIGNAL(signalUDPWorker()), streamUDPWorker, SLOT(UDPWorker()));
 
-	streamUDPWorker->initMultiCastSock();
+    streamUDPWorker->initMultiCastSock();
 
 	//Check if StreamSocket socket is not null
 	if (StreamSocket == 0)
@@ -196,6 +187,11 @@ void client::on_playStreamButton_clicked()
 void client::on_stopStreamButton_clicked()
 {
     //STOP
+    connect(streamUDPWorker, SIGNAL(signalDisconnect()), streamUDPWorker, SLOT(disconnect()));
+    closesocket(StreamSocket);
+    closesocket(SI->Socket);
+    emit streamUDPWorker->disconnect();
+    qDebug() << "After Disconnet";
 }
 
 void client::on_rewindStreamButton_clicked()

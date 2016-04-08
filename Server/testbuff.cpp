@@ -22,7 +22,7 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
     songNumber = 1;
     currentSong = 0;
     //playList.push_back("my_mule.wav");
-    playList.push_back("stress.wav");
+    playList.push_back("runescape.wav");
     playList.push_back("ec1.wav");
 
     this->open(QIODevice::ReadOnly);
@@ -95,7 +95,7 @@ bool testBuff::setFormat(std::vector<int> vect){
        if(player != NULL)
            player->stop();
        player = new QAudioOutput(format, this);
-       //player->setVolume(0.0);
+       player->setVolume(0.0);
        player->start(this);
        //player->start();
         //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()));
@@ -141,7 +141,7 @@ qint64 testBuff::readData(char * data, qint64 len){
         total = 0;
         NN = false;
         fflush(stdout);
-        //sendToMultiCast(loader);
+        sendToMultiCast(loader);
     }
     int remain = BUFFSIZE - total;
     if(remain < len){
