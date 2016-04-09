@@ -147,17 +147,20 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
     WSAEVENT			acceptEvent;
 
     // Reference the WSAOVERLAPPED structure as a SOCKET_INFORMATION structure
-    LPSOCKET_INFORMATION SI = (LPSOCKET_INFORMATION)Overlapped;
-    initSockInfo(SI, SI->Buffer);
+    LPSOCKET_INFORMATION SOCKINFO = (LPSOCKET_INFORMATION)Overlapped;
+    initSockInfo(SOCKINFO, SOCKINFO->Buffer);
 
     if (Error != 0)
     {
         int i = WSAGetLastError();
         qDebug() << "I/O operation failed";
+        GlobalFree(SOCKINFO);
+        return;
     }
     if ((acceptEvent = WSACreateEvent()) == WSA_INVALID_EVENT)
     {
         qDebug() <<"WSACreateEvent() failed";
+        GlobalFree(SOCKINFO);
         return;
     }
     Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, 10000000, TRUE);
@@ -165,10 +168,11 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
     if (Index == WSA_WAIT_TIMEOUT)
     {
         qDebug() <<"Timeout in UDP Server";
+        GlobalFree(SOCKINFO);
         return;
     }
-    receiveUDP(SI, streamServer, BytesTransferred, Flags);
-    cData.push(SI->Buffer, 60000);
+    receiveUDP(SOCKINFO, streamServer, BytesTransferred, Flags);
+    cData.push(SOCKINFO->Buffer, 60000);
 
 }
 void formatMessage(const char* message)

@@ -40,7 +40,7 @@ void UDPThreadManager::initMultiCastSock()
         qDebug() << "setsockopt() IP_ADD_MEMBERSHIP address failed";
         return;
     }
-    UDPWorker();
+    emit signalUDPWorker();
 }
 void UDPThreadManager::UDPWorker()
 {
@@ -68,9 +68,9 @@ void UDPThreadManager::UDPWorker()
     SI->Socket = StreamSocket;
     // Fill in the details of our socket.
     initSockInfo(SI, SI->Buffer);
+    receiveUDP(SI, streamServer, RecvBytes, Flags);
     while (TRUE)
     {
-        receiveUDP(SI, streamServer, RecvBytes, Flags);
         Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, WSA_INFINITE, TRUE);
 
         if (Index == WSA_WAIT_FAILED)
@@ -81,7 +81,7 @@ void UDPThreadManager::UDPWorker()
         if (Index != WAIT_IO_COMPLETION)
         {
             // An accept() call event is ready - break the wait loop
-            //break;
+            return;
         }
         if (Index == WAIT_IO_COMPLETION)
         {
