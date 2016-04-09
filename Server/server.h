@@ -33,6 +33,7 @@ public:
 public slots:
     void updateUserList(QVector<QString> userList);
     void createClientThread(int socket);
+    void updateCurrentlyPlayingLabel(QString songName);
 
 signals:
     void signalSetup(int port);
@@ -42,7 +43,7 @@ private:
     void initControlThread();
     void toggleConnected(bool state);
     void setupPlaylistTable();
-    QStringList playlist;
+
 
     playerManager * play;
     QThread* controlThread;
@@ -51,6 +52,7 @@ private:
     ClientHandlerThread* clientWorker;
     QThread* streamThread;
     streamhandlerthread* streamHandlerWorker;
+    bool isPlaying;
 
 
 private slots:

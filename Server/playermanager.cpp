@@ -72,6 +72,8 @@ bool playerManager::setFormat(std::vector<int> vect){
 //       QString song("C:/Users/Alvin/Documents/songs/pokemon1.wav");
 
        t = new testBuff(mSongName, NULL);
+       connect(t, SIGNAL(triggerUpdateCurrentlyPlayingLabel(QString)), this, SLOT(relayCurrentlyPlayingSong(QString)));
+
 
        //player = new QAudioOutput(format, t);
        //player->start();
@@ -86,4 +88,8 @@ void playerManager::startPlayer(){
 }
 void playerManager::endPlayer(){
     printf("Ending player");
+}
+
+void playerManager::relayCurrentlyPlayingSong(QString songName){
+    emit relayCurrentSong(songName);
 }

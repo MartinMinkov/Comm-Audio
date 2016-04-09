@@ -6,6 +6,7 @@ server::server(QWidget *parent) :
     ui(new Ui::server)
 {
     ui->setupUi(this);
+    isPlaying = false;
     setupPlaylistTable();
     toggleConnected(false);
 }
@@ -111,6 +112,7 @@ void server::createClientThread(int socket){
     clientWorker->moveToThread(clientHandlerThread);
     connect(clientHandlerThread, SIGNAL(started()), clientWorker, SLOT(receiveRequests()));
     //TODO: connect start signal with a slot to create Colin's thread (update song list)
+
     connect(clientWorker, SIGNAL(signalUpdateUserList(QVector<QString>)), this, SLOT(updateUserList(QVector<QString>)));
     connect(clientWorker, SIGNAL(signalDisconnect()), clientWorker, SLOT(disconnect()));
     connect(clientWorker, SIGNAL(finished()), clientHandlerThread, SLOT(quit()));
@@ -157,21 +159,34 @@ DWORD WINAPI doServer(LPVOID param){
 
 void server::on_button_start_stream_clicked()
 {
-    DWORD id;
-    play = new playerManager();
+    if(!isPlaying){
+        DWORD id;
+        play = new playerManager();
+        connect(play, SIGNAL(relayCurrentSong(QString)), this, SLOT(updateCurrentlyPlayingLabel(QString)));
 
-    //check if the playlist is empty
-    if(playlistWithPath.isEmpty()){
-        networkutility::debugMessage("playlist empty");
-        return;
+        //check if the playlist is empty
+        if(playlistWithPath.isEmpty()){
+            networkutility::debugMessage("playlist empty");
+            return;
+        }
+        //pass in the file along with filepath to startSong
+        updateCurrentlyPlayingLabel(playlist.at(0));
+        ui->label_server_stream_status->setText("Status: Streaming");
+        play->startSong(playlistWithPath.at(0));
+        isPlaying = true;
+    } else {
+        //TODO: stop the stream; currently endPlayer doesn't do anything
+        play->endPlayer();
+        ui->label_server_stream_status->setText("Status: Stopped");
+        isPlaying = false;
     }
-    //pass in the file along with filepath to startSong
-//    play->startSong("ec1.wav");
-    play->startSong(playlistWithPath.at(0));
 
 
-//    play->startSong("ec1.wav");
 
     //loveQt = CreateThread(NULL, 0, doServer, (void *)0, 0, &id);
    // player.startPlayer();
+}
+
+void server::updateCurrentlyPlayingLabel(QString songName){
+    ui->label_server_stream_current->setText("Currently playing: " + songName);
 }

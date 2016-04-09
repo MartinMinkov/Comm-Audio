@@ -1,10 +1,12 @@
 #ifndef PLAYERMANAGER_H
 #define PLAYERMANAGER_H
 #include <QFile>
+#include <QObject>
 #include <QAudioOutput>
 
-class playerManager
+class playerManager : public QObject
 {
+    Q_OBJECT
 public:
     QAudioOutput * player;
     //HANDLE fileReader;
@@ -20,8 +22,11 @@ public:
     void getHeader(std::vector<int> vect);
 public slots:
     void endPlayer();
+    void relayCurrentlyPlayingSong(QString songName);
 private:
     QString mSongName;
+signals:
+    void relayCurrentSong(QString songName);
 
 
 };

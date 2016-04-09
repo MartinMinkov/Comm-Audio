@@ -33,6 +33,7 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
     this->open(QIODevice::ReadOnly);
     loadSong();
 
+
    // qbt = fqt.readAll();
    // fqt.close();
 }
@@ -40,9 +41,12 @@ bool testBuff::loadSong(){
     printf("in constructor");
             fflush(stdout);
     nextSong = false;
-    QString c = playlistWithPath.at(currentSong % totalSong);
+    QString songNameWithPath = playlistWithPath.at(currentSong % totalSong);
+    QString songName = playlist.at(currentSong & totalSong);
     currentSong++;
-    fqt.setFileName(c);
+    fqt.setFileName(songNameWithPath);
+    //set the currently playing text in server here
+    emit triggerUpdateCurrentlyPlayingLabel(songName);
 
     if(!(fqt.open(QIODevice::ReadOnly))){
             return false;
@@ -52,7 +56,7 @@ bool testBuff::loadSong(){
     fileSize = qbt.size();
     fqt.close();
     WavFile wvf;
-    wvf.open(c);
+    wvf.open(songNameWithPath);
     std::vector<int>vect = wvf.getStuff();
     wvf.close();
     getHeader(vect);
