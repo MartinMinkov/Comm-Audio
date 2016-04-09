@@ -9,6 +9,7 @@ SOCKET VCSocket;
 SOCKET StreamSocket;
 struct sockaddr_in streamServer;
 LPSOCKET_INFORMATION SI;
+QObject * mw;
 
 void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer)
 {

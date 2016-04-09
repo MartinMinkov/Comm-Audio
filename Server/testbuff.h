@@ -16,12 +16,13 @@ public:
     testBuff(QString songName, QAudioOutput * p);
     QByteArray qbt;
     int headerLength;
+    int currentPos;
     int packetNum;
     char buff[BUFFSIZE];
     bool loadSong();
     FILE * testOutput;
     QFile fqt;
-
+    int headLength;
     QAudioOutput * player;
     char * loader;
     int fileSize;

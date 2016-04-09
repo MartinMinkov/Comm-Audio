@@ -37,7 +37,7 @@ extern SOCKET VCSocket;
 extern SOCKET StreamSocket;
 extern LPSOCKET_INFORMATION SI;
 extern struct sockaddr_in streamServer;
-
+extern QObject * mw;
 void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer);
 void sendDataTCP(SOCKET sd, const char* message);
 int WSARead(SOCKET sd, char * message, int timeout, int size);

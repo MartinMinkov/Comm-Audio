@@ -36,6 +36,19 @@ public:
         return 0;
 
     }
+    int peak(char * bff){
+        if(tail < head){
+            fflush(stdout);
+            memcpy(bff, buff[tail % MAXLEN], byteLen[tail % MAXLEN]);
+            memset(buff[tail % MAXLEN], '\0', MAXLEN);
+            int ret = byteLen[tail % MAXLEN];
+            tail++;
+            return ret;
+        }
+
+        return 0;
+    }
+
     void push(char * add, int len){
         byteLen[head % MAXLEN] = len;
         memcpy(buff[head % MAXLEN], add, len);

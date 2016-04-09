@@ -1,18 +1,18 @@
 #include "mybuffer.h"
-
 int totalRet = 0;
 bool newCirc = true;
 SOCKET mySocket;
 HANDLE fillBuff;
 char fillerC[BUFFSIZE] = { 0 };
 circlebuff cData;
-
+QObject * bf;
 char * fillerP;
 myBuffer::myBuffer()
 {
+    bf = this;
     QAudioFormat format;
     realPos = 0;
-    format.setSampleRate(44100); // Usually this is specified through an UI option
+    format.setSampleRate(16100); // Usually this is specified through an UI option
     format.setChannelCount(2);
     format.setSampleSize(16);
     format.setCodec("audio/pcm");
@@ -20,6 +20,7 @@ myBuffer::myBuffer()
     format.setSampleType(QAudioFormat::UnSignedInt);
     player = new QAudioOutput(format, this);
     cData.init();
+    curSong = 0;
     testOutput = fopen("out.txt", "wb+");
     filler.resize(BUFFSIZE);
     loader = buff;
@@ -42,16 +43,35 @@ void myBuffer::getSong(char * songName){
     }
 
 }
+void myBuffer::setSlider(){
+    float percent =  100 * currentPos / (float)songTotal;
+    //printf("Song progress: %f \n", percent);
+    QMetaObject::invokeMethod(mw, "updateSlider",Qt::QueuedConnection, Q_ARG(int, (int)percent));
+}
+
 qint64 myBuffer::readData(char * data, qint64 len){
+
+    fflush(stdout);
     int endSong;
     if(newCirc){
-        if(!(endSong = cData.pop(loader))){
+
+        setSlider();
+        if(!(endSong = cData.peak(loader, curSong))){
             printf("End of song/buffer");
             return -1;
         }
+        if(endSong == -1){
+            curSong = loader[0];
+            char yaok[40];
+            memcpy(yaok, loader, 40);
+            setHeader(yaok);
+            return -1;
+        }
+        currentPos++;
+
         newCirc = false;
+        realPos = 40;
     }
-    printf("MARTIN DO YOU CAFLL IT: %d", len);
     int remain = BUFFSIZE - realPos;
     if(remain < len){
         loader += realPos;
@@ -70,6 +90,25 @@ qint64 myBuffer::readData(char * data, qint64 len){
         return len;
     }
 }
+void myBuffer::jumpLive(){
+    cData.tail = cData.headBuff;
+    currentPos = cData.headBuff - currentTail;
+}
+void myBuffer::sliderChange(int perc){
+
+    printf("slider changing");
+    fflush(stdout);
+    int newPos = currentTail + (perc * songTotal / 100);
+    float ret;
+    if(newPos > cData.head){
+        cData.tail = cData.headBuff;
+        currentPos = cData.headBuff - currentTail;
+    }else{
+        cData.tail = newPos;
+        currentPos = newPos;
+    }
+    printf("Head: %d, Tail: %d", cData.head, cData.tail);
+}
 
 DWORD WINAPI fillUp(LPVOID param){
     DWORD RecvBytes = 0, Index;
@@ -79,7 +118,6 @@ DWORD WINAPI fillUp(LPVOID param){
     while(1){
         //len = WSARecvFrom(SI->Socket, &(SI->DataBuf), 1, &RecvBytes, &Flags, (struct sockaddr *)&streamServer, &server_len, &(SI->Overlapped), ServerRoutine);
         //cData.push(SI->DataBuf, len);
-
     }
 }
 
@@ -88,22 +126,47 @@ void myBuffer::setSocket(int socket){
     DWORD id;
     //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
     while(1){
-        printf("WE HAVE PHP");
+        printf("Tail %d, Head: %d", cData.tail, cData.headBuff);
         fflush(stdout);
-        if(cData.tail < cData.headBuff){
-            startPlayer();
-            printf("Startng the player");
-            break;
-        }
+        //if(cData.tail < cData.headBuff){
+        //Sleep(1000);
+        Sleep(500);
+        startPlayer();
+        printf("Startng the player");
+         break;
+        //}
 
     }
 }
-
-
-qint64 myBuffer::writeData(const char *data, qint64 len){
-    return 0;
+void myBuffer::setHeader(char * h){
+    QString orig(h);
+    QAudioFormat format;
+    QStringList ls = orig.split("-");
+    int ss, samp, chan;
+    ss = ls.value(1).toInt();
+    samp = ls.value(2).toInt();
+    chan = ls.value(3).toInt();
+    songTotal = ls.value(4).toInt();
+    currentPos = ls.value(5).toInt();
+    currentTail = cData.tail;
+    printf("Format Stuff: %d %d %d", ss, samp, chan);
+    realPos = 0;
+    format.setSampleRate(samp); // Usually this is specified through an UI option
+    format.setChannelCount(chan);
+    format.setSampleSize(ss);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::UnSignedInt);
+    player->stop();
+    player = new QAudioOutput(format, this);
+    printf("CHANGING PLAYER");
+            fflush(stdout);
+    player->start(this);
 }
 
+qint64 myBuffer::writeData(const char *data, qint64 len){
+
+}
 qint64 myBuffer::bytesAvailable(){
     return 0;
 }

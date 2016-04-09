@@ -21,7 +21,7 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
     totalSong = 2;
     songNumber = 1;
     currentSong = 0;
-    //playList.push_back("my_mule.wav");
+   // playList.push_back("my_mule.wav");
     playList.push_back("stress.wav");
     playList.push_back("ec1.wav");
 
@@ -67,10 +67,12 @@ void testBuff::getHeader(std::vector<int> vect){
     hold += "-" + QString::number(a);
     hold += "-" + QString::number(b);
     hold += "-" + QString::number(c);
-    hold += "-" + QString::number(fileSize/ BUFFSIZE);
+    hold += "-" + QString::number(fileSize/ BUFFSIZE) + "-";
     memset(header, '\0', 40);
     memcpy(header, hold.toStdString().c_str(), 40);
+
     printf(header);
+    headLength =  strlen(header);
     fflush(stdout);
 }
 
@@ -95,7 +97,8 @@ bool testBuff::setFormat(std::vector<int> vect){
        if(player != NULL)
            player->stop();
        player = new QAudioOutput(format, this);
-       //player->setVolume(0.0);
+       player->setVolume(0.0);
+       currentPos = 0;
        player->start(this);
        //player->start();
         //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()));
@@ -106,42 +109,36 @@ bool testBuff::setFormat(std::vector<int> vect){
 qint64 testBuff::readData(char * data, qint64 len){
     int length;
     QByteArray chunk;
-    printf("trying to read data");
     fflush(stdout);
     if(NN){
         if(nextSong){
             loadSong();
             return 0;
         }
+        currentPos++;
         memcpy(loader, header, 40);
         length = qbt.size();
         if(length > BUFFSIZE){
-            chunk = qbt.remove(0, BUFFSIZE - headerLength);
+            chunk = qbt.left(BUFFSIZE - headerLength);
+            qbt = qbt.remove(0, BUFFSIZE - headerLength);
+            sprintf(loader + headLength, "%d", currentPos);
+            memcpy(loader + 40, chunk.toStdString().c_str(), BUFFSIZE - headerLength);
 
-           memcpy(loader + 40, chunk.toStdString().c_str(), BUFFSIZE - headerLength);
         }else{
             if((len + headerLength) > BUFFSIZE){
                 len = BUFFSIZE - headerLength;
             }
-            chunk = qbt.remove(0, len);
+            chunk = qbt.left(len);
+            qbt = qbt.remove(0, len);
+            sprintf(loader + headLength, "%d", currentPos);
+            memset(loader + 40, '\0', BUFFSIZE - 40);
             memcpy(loader + 40, chunk.toStdString().c_str(), len);
             nextSong = true;
         }
-
-        /*if((length = fqt.read(loader, BUFFSIZE)) != BUFFSIZE){
-            if(length == 0){
-                //emit functionNamehere();
-
-                return -1;
-            }
-            else{
-               nextSong = true;
-            }
-        }*/
         total = 0;
         NN = false;
         fflush(stdout);
-        //sendToMultiCast(loader);
+        sendToMultiCast(loader);
     }
     int remain = BUFFSIZE - total;
     if(remain < len){
@@ -155,7 +152,7 @@ qint64 testBuff::readData(char * data, qint64 len){
     }
     else{
         loader += total;
-        memcpy(data, loader, len);
+        memcpy(data, loader + 40, len);
         loader = &buff[0];
         total += len;
         return len;

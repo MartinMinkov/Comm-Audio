@@ -7,7 +7,8 @@ myBuffer play;
 QAudioOutput * testPlayer;
 QFile testFile;
 char musicBuff[20000] = { 0 };
-
+extern QObject * mw;
+extern QObject * bf;
 client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
@@ -17,6 +18,7 @@ client::client(QWidget *parent) :
     {
         ui->tabWidget->setTabEnabled(i, false);
     }
+    mw = this;
 }
 
 client::~client()
@@ -192,6 +194,10 @@ void client::on_playStreamButton_clicked()
 	qDebug() << "Starting to listen";
     play.setSocket(StreamSocket);
 }
+void client::updateSlider(int percent){
+     ui->horizontalSlider_2->setSliderPosition(percent);
+     fflush(stdout);
+}
 
 void client::on_stopStreamButton_clicked()
 {
@@ -214,4 +220,13 @@ void client::handleUpdateStatusBar(bool connected){
         ui->label_statusbar_text->setText("Status: DISCONNECTED");
         ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #ff104e; }");
     }
+}
+
+void client::on_horizontalSlider_2_sliderMoved(int position)
+{
+    printf("Slider is at position: %d", position );
+    fflush(stdout);
+    play.sliderChange(position);
+    //QMetaObject::invokeMethod(bf, "sliderChange", Qt::AutoConnection, Q_ARG(int, position));
+
 }

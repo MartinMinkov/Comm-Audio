@@ -37,6 +37,7 @@ public slots:
     void updateCallLabel(QString);
     void handleStateChanged(QAudio::State newState);
     void handleUpdateStatusBar(bool connected);
+    Q_SLOT void updateSlider(int percent);
 
 private slots:
     void on_connectButton_clicked();
@@ -49,6 +50,8 @@ private slots:
     void on_playStreamButton_clicked();
     void on_rewindStreamButton_clicked();
     void on_stopStreamButton_clicked();
+
+    void on_horizontalSlider_2_sliderMoved(int position);
 
 private:
     Ui::client *ui;
