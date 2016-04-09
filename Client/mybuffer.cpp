@@ -165,7 +165,7 @@ void myBuffer::setHeader(char * h){
 }
 
 qint64 myBuffer::writeData(const char *data, qint64 len){
-
+    return 0;
 }
 qint64 myBuffer::bytesAvailable(){
     return 0;

@@ -18,14 +18,18 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
     */
     packetNum = 0;
     headerLength = 40;
-    totalSong = 2;
+
+    //get the total song from playlistWithPath
+    totalSong = playlistWithPath.size();
     songNumber = 1;
     currentSong = 0;
 
     //playList.push_back("my_mule.wav");
 //    playList.push_back("runescape.wav");
-    playList.push_back("ec1.wav");
-    playList.push_back("stress.wav");
+
+//    playList.push_back("C:/Users/Alvin/Documents/songs/pokemon1.wav");
+//    playList.push_back("C:/Users/Alvin/Documents/songs/pokemon2.wav");
+//    playList.push_back("C:/Users/Alvin/Documents/songs/pokemon3.wav");
     this->open(QIODevice::ReadOnly);
     loadSong();
 
@@ -36,7 +40,7 @@ bool testBuff::loadSong(){
     printf("in constructor");
             fflush(stdout);
     nextSong = false;
-    QString c = playList.at(currentSong % totalSong);
+    QString c = playlistWithPath.at(currentSong % totalSong);
     currentSong++;
     fqt.setFileName(c);
 

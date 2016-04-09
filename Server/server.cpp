@@ -69,9 +69,9 @@ void server::on_bAddSongs_clicked(){
 
     for(QStringList::iterator it = newSongsList.begin(); it != newSongsList.end(); ++it){
         QFileInfo fi(*it);
-        *it = fi.fileName();
         //add new songs to existing playlist
-        playlist.push_back(*it);
+        playlist.push_back(fi.fileName());
+        playlistWithPath.push_back(fi.filePath());
     }
 
     //repopulate the model with new songs
@@ -159,7 +159,18 @@ void server::on_button_start_stream_clicked()
 {
     DWORD id;
     play = new playerManager();
-    play->startSong("ec1.wav");
+
+    //check if the playlist is empty
+    if(playlistWithPath.isEmpty()){
+        networkutility::debugMessage("playlist empty");
+        return;
+    }
+    //pass in the file along with filepath to startSong
+//    play->startSong("ec1.wav");
+    play->startSong(playlistWithPath.at(0));
+
+
+//    play->startSong("ec1.wav");
 
     //loveQt = CreateThread(NULL, 0, doServer, (void *)0, 0, &id);
    // player.startPlayer();

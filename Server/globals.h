@@ -14,6 +14,7 @@ extern SOCKET accept_socket;
 
 extern QVector<QString> userList;
 extern QStandardItemModel *playlistModel;
+extern QStringList playlistWithPath;
 
 class globals
 {

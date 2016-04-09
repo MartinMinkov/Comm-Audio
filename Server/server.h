@@ -43,6 +43,7 @@ private:
     void toggleConnected(bool state);
     void setupPlaylistTable();
     QStringList playlist;
+
     playerManager * play;
     QThread* controlThread;
     ControlThread* controlWorker;

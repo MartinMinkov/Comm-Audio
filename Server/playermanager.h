@@ -20,6 +20,9 @@ public:
     void getHeader(std::vector<int> vect);
 public slots:
     void endPlayer();
+private:
+    QString mSongName;
+
 
 };
 
