@@ -102,10 +102,15 @@ void myBuffer::sliderChange(int perc){
     float ret;
     if(newPos > cData.head){
         cData.tail = cData.headBuff;
-        currentPos = cData.headBuff - currentTail;
+        currentPos = songStart + cData.headBuff - currentTail;
     }else{
+        if((newPos + 475) < cData.headBuff){
+            printf("Doing things");
+            fflush(stdout);
+            newPos = cData.headBuff - 475;
+        }
         cData.tail = newPos;
-        currentPos = newPos;
+        currentPos = songStart + cData.tail - currentTail;
     }
     printf("Head: %d, Tail: %d", cData.head, cData.tail);
 }
@@ -149,6 +154,7 @@ void myBuffer::setHeader(char * h){
     songTotal = ls.value(4).toInt();
     currentPos = ls.value(5).toInt();
     currentTail = cData.tail;
+    songStart = currentPos;
     printf("Format Stuff: %d %d %d", ss, samp, chan);
     realPos = 0;
     format.setSampleRate(samp); // Usually this is specified through an UI option
