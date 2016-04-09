@@ -99,10 +99,7 @@ bool testBuff::setFormat(std::vector<int> vect){
            player->stop();
        player = new QAudioOutput(format, this);
        player->setVolume(0.0);
-<<<<<<< HEAD
        currentPos = 0;
-=======
->>>>>>> 180bf715ac7edfdab92b8bbb96003aa2aa4aa4e3
        player->start(this);
        //player->start();
         //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()));
