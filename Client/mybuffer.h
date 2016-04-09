@@ -29,7 +29,6 @@ public:
     qint64 readData(char * data, qint64 maxlen);
     qint64 writeData(const char * data, qint64 maxlen);
     qint64 bytesAvailable();
-    void getSong(char * songName);
     void startPlayer();
     void setSocket(int socket);
     void setSlider();

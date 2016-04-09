@@ -51,7 +51,13 @@ private slots:
     void on_rewindStreamButton_clicked();
     void on_stopStreamButton_clicked();
 
-    void on_horizontalSlider_2_sliderMoved(int position);
+
+
+    void on_horizontalSlider_2_sliderReleased();
+
+    void on_liveStreamButton_clicked();
+
+    void on_horizontalSlider_2_sliderPressed();
 
 private:
     Ui::client *ui;

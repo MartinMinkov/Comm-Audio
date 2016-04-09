@@ -9,6 +9,7 @@ QFile testFile;
 char musicBuff[20000] = { 0 };
 extern QObject * mw;
 extern QObject * bf;
+bool drag = false;
 client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
@@ -186,8 +187,9 @@ void client::on_playStreamButton_clicked()
     play.setSocket(StreamSocket);
 }
 void client::updateSlider(int percent){
-     ui->horizontalSlider_2->setSliderPosition(percent);
-     fflush(stdout);
+    if(drag)
+        return;
+    ui->horizontalSlider_2->setSliderPosition(percent);
 }
 
 void client::on_stopStreamButton_clicked()
@@ -218,11 +220,20 @@ void client::handleUpdateStatusBar(bool connected){
     }
 }
 
-void client::on_horizontalSlider_2_sliderMoved(int position)
-{
-    printf("Slider is at position: %d", position );
-    fflush(stdout);
-    play.sliderChange(position);
-    //QMetaObject::invokeMethod(bf, "sliderChange", Qt::AutoConnection, Q_ARG(int, position));
 
+void client::on_horizontalSlider_2_sliderReleased()
+{
+    drag = false;
+    play.sliderChange(ui->horizontalSlider_2->value());
+}
+
+void client::on_liveStreamButton_clicked()
+{
+
+    play.jumpLive();
+}
+
+void client::on_horizontalSlider_2_sliderPressed()
+{
+    drag = true;
 }

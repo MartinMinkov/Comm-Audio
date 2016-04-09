@@ -23,17 +23,8 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
         return;
     }
 
-    char success[] = "MARTINMINKOV";
+    char success[] = "M";
     sendDataTCP(m_socket, success);
-
-
-
-
-
-    //ifstream fs;
-    //fs.open(title.toStdString().c_str(), ios::binary);
-    int total = 0;
-    fflush(stdout);
     while((bytesRead = fread(buff, sizeof(char), FILEMAX, fqt))){
             if(bytesRead != FILEMAX){
             n.WSAS(m_socket, buff, bytesRead, 1000);

@@ -1,15 +1,10 @@
 #include "mybuffer.h"
-int totalRet = 0;
 bool newCirc = true;
 SOCKET mySocket;
-HANDLE fillBuff;
-char fillerC[BUFFSIZE] = { 0 };
 circlebuff cData;
-QObject * bf;
-char * fillerP;
 myBuffer::myBuffer()
 {
-    bf = this;
+
     QAudioFormat format;
     realPos = 0;
     format.setSampleRate(16100); // Usually this is specified through an UI option
@@ -21,40 +16,20 @@ myBuffer::myBuffer()
     player = new QAudioOutput(format, this);
     cData.init();
     curSong = 0;
-    testOutput = fopen("out.txt", "wb+");
     filler.resize(BUFFSIZE);
     loader = buff;
-    //getSong("stress.wav");
-    fillerP = fillerC;
+
     this->open(QIODevice::ReadOnly);
 }
-void myBuffer::getSong(char * songName){
-    FILE * fqt;
-    fqt = fopen("ec1.wav", "rb");
-   // fqt = fopen("warpeace.txt", "rb");
-    char arrBuff[BUFFSIZE] = { 0 };
-    char * ok = arrBuff;
-    int len;
-    int count = 0;
-    while((len = fread(ok, sizeof(char), BUFFSIZE, fqt))){
-        cData.push(ok, len);
-        if(count > 500)
-            break;
-    }
 
-}
 void myBuffer::setSlider(){
     float percent =  100 * currentPos / (float)songTotal;
-    //printf("Song progress: %f \n", percent);
     QMetaObject::invokeMethod(mw, "updateSlider",Qt::QueuedConnection, Q_ARG(int, (int)percent));
 }
 
 qint64 myBuffer::readData(char * data, qint64 len){
-
-    fflush(stdout);
     int endSong;
     if(newCirc){
-
         setSlider();
         if(!(endSong = cData.peak(loader, curSong))){
             printf("End of song/buffer");
@@ -92,12 +67,11 @@ qint64 myBuffer::readData(char * data, qint64 len){
 }
 void myBuffer::jumpLive(){
     cData.tail = cData.headBuff;
-    currentPos = cData.headBuff - currentTail;
+    currentPos = songStart + cData.headBuff - currentTail;
+    printf("%d", currentPos);
+    fflush(stdout);
 }
 void myBuffer::sliderChange(int perc){
-
-    printf("slider changing");
-    fflush(stdout);
     int newPos = currentTail + (perc * songTotal / 100);
     float ret;
     if(newPos > cData.head){
@@ -105,14 +79,14 @@ void myBuffer::sliderChange(int perc){
         currentPos = songStart + cData.headBuff - currentTail;
     }else{
         if((newPos + 475) < cData.headBuff){
-            printf("Doing things");
-            fflush(stdout);
             newPos = cData.headBuff - 475;
         }
+        if(newPos < 0)
+            newPos = 0;
         cData.tail = newPos;
         currentPos = songStart + cData.tail - currentTail;
     }
-    printf("Head: %d, Tail: %d", cData.head, cData.tail);
+    //printf("Head: %d, Tail: %d", cData.head, cData.tail);
 }
 
 DWORD WINAPI fillUp(LPVOID param){
@@ -155,7 +129,6 @@ void myBuffer::setHeader(char * h){
     currentPos = ls.value(5).toInt();
     currentTail = cData.tail;
     songStart = currentPos;
-    printf("Format Stuff: %d %d %d", ss, samp, chan);
     realPos = 0;
     format.setSampleRate(samp); // Usually this is specified through an UI option
     format.setChannelCount(chan);
@@ -165,13 +138,11 @@ void myBuffer::setHeader(char * h){
     format.setSampleType(QAudioFormat::UnSignedInt);
     player->stop();
     player = new QAudioOutput(format, this);
-    printf("CHANGING PLAYER");
-            fflush(stdout);
     player->start(this);
 }
 
 qint64 myBuffer::writeData(const char *data, qint64 len){
-
+    return 0;
 }
 qint64 myBuffer::bytesAvailable(){
     return 0;

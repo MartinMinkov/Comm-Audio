@@ -58,6 +58,11 @@ public:
         head++;
         headBuff++;
     }
+    void del(){
+        for(int i = 0; i < MAXLEN; i++){
+            delete(buff[i]);
+        }
+    }
 };
 
 #endif // CIRCLEBUFF_H
