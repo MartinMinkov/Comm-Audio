@@ -53,6 +53,8 @@ private slots:
 
     void on_horizontalSlider_2_sliderMoved(int position);
 
+    void on_updateStreamPlaylist_clicked();
+
 private:
     Ui::client *ui;
     QThread* receiveTCPThread;

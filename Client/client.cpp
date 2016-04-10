@@ -132,11 +132,18 @@ void client::updateUsers(QVector<QString> userList)
 		ui->connectedWidget->addItem(user);
     }
 }
-void client::updateSongs(QVector<QString> userList)
+void client::updateSongs(QVector<QString> playList)
 {
+    //update the download tab
     ui->downloadFileWidget->clear();
-    for(auto& user : userList){
+    for(auto& user : playList){
 		ui->downloadFileWidget->addItem(user);
+    }
+
+    //update the streaming tab
+    ui->streamingPlaylistWidget->clear();
+    for(auto& user : playList){
+        ui->streamingPlaylistWidget->addItem(user);
     }
 }
 void client::updateCallLabel(QString caller)
@@ -225,4 +232,9 @@ void client::on_horizontalSlider_2_sliderMoved(int position)
     play.sliderChange(position);
     //QMetaObject::invokeMethod(bf, "sliderChange", Qt::AutoConnection, Q_ARG(int, position));
 
+}
+
+void client::on_updateStreamPlaylist_clicked(){
+    connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+    emit receiveTCPWorker->signalSongRefresh();
 }
