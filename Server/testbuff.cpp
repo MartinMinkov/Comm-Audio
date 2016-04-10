@@ -42,7 +42,7 @@ bool testBuff::loadSong(){
             fflush(stdout);
     nextSong = false;
     QString songNameWithPath = playlistWithPath.at(currentSong % totalSong);
-    QString songName = playlist.at(currentSong & totalSong);
+    QString songName = playlist.at(currentSong % totalSong);
     currentSong++;
     fqt.setFileName(songNameWithPath);
     //set the currently playing text in server here
@@ -71,14 +71,16 @@ void testBuff::getHeader(std::vector<int> vect){
     a = vect.at(0);
     b = vect.at(1);
     c = vect.at(2);
-    char d = songNumber++;
+    char d = songNumber;
     hold += d;
     hold += "-" + QString::number(a);
     hold += "-" + QString::number(b);
     hold += "-" + QString::number(c);
-    hold += "-" + QString::number(fileSize/ BUFFSIZE) + "-";
+    hold += "-" + QString::number(fileSize/ BUFFSIZE);
+    hold += "-" + QString::number((songNumber-1) % playlist.size()) + "-";
     memset(header, '\0', 40);
     memcpy(header, hold.toStdString().c_str(), 40);
+    songNumber++;
 
     printf(header);
     headLength =  strlen(header);

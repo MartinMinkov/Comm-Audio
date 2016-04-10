@@ -182,7 +182,7 @@ void client::on_playStreamButton_clicked()
     printf("I hate alvin");
 	qDebug() << "Play Stream Button is clicked";
     connect(streamUDPWorker, SIGNAL(signalUDPWorker()), streamUDPWorker, SLOT(UDPWorker()));
-
+    connect(&play, SIGNAL(updateCurrentlyPlaying(QString)), this, SLOT(setCurrentlyPlaying(QString)));
     streamUDPWorker->initMultiCastSock();
 
 	//Check if StreamSocket socket is not null
@@ -237,4 +237,8 @@ void client::on_horizontalSlider_2_sliderMoved(int position)
 void client::on_updateStreamPlaylist_clicked(){
     connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
     emit receiveTCPWorker->signalSongRefresh();
+}
+
+void client::setCurrentlyPlaying(QString songName){
+    ui->currentlyPlayingText->setText(songName);
 }

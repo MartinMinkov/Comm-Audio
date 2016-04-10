@@ -7,6 +7,7 @@
 #include <QThread>
 #include "circlebuff.h"
 #include "networkutility.h"
+#include "globals.h"
 
 #define FILEMAX 20000
 

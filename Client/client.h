@@ -33,11 +33,12 @@ public:
 
 public slots:
     void updateUsers(QVector<QString> userList);
-    void updateSongs(QVector<QString> userList);
+    void updateSongs(QVector<QString> playList);
     void updateCallLabel(QString);
     void handleStateChanged(QAudio::State newState);
     void handleUpdateStatusBar(bool connected);
     Q_SLOT void updateSlider(int percent);
+    void setCurrentlyPlaying(QString songName);
 
 private slots:
     void on_connectButton_clicked();

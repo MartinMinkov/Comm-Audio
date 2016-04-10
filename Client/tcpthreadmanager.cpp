@@ -342,5 +342,6 @@ void ThreadManager::parseUserList(char* bp)
     if (checkFlag == 0)
         emit updateUserList(userList);
     else if (checkFlag == 1)
+        playlist = userList;
         emit updateSongList(userList);
 }

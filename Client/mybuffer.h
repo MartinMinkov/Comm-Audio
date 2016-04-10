@@ -5,11 +5,13 @@
 #include <QIODevice>
 #include "circlebuff.h"
 #include "networkutility.h"
+#include "globals.h"
 #define BUFFSIZE 60000
 
 extern circlebuff cData;
 class myBuffer : public QIODevice
 {
+    Q_OBJECT
 
 
 
@@ -38,7 +40,8 @@ public:
     void jumpLive();
     void sliderChange(int perc);
 
-
+signals:
+    void updateCurrentlyPlaying(QString songName);
 
 };
 
