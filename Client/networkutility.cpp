@@ -5,13 +5,17 @@
 
 SOCKET TCPSocket;
 SOCKET AcceptSocket;
-SOCKET VCSocket;
 SOCKET StreamSocket;
+
+SOCKET VCSocket;
+SOCKET VCRecieveSocket;
+SOCKET VCSendSocket;
+
 struct sockaddr_in streamServer;
 LPSOCKET_INFORMATION SI;
 QObject * mw;
 
-void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer)
+void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer, struct sockaddr_in server)
 {
     /* zero out overlapped structure	*/
     ZeroMemory((&SOCKET_INFO->Overlapped), sizeof(WSAOVERLAPPED));
@@ -19,6 +23,7 @@ void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer)
     SOCKET_INFO->BytesSEND = 0;
     SOCKET_INFO->DataBuf.len = BUFFSIZE;
     SOCKET_INFO->DataBuf.buf = buffer;
+    SOCKET_INFO->server = server;
 }
 
 void sendDataTCP(SOCKET sd, const char* message)
@@ -33,9 +38,9 @@ void sendDataTCP(SOCKET sd, const char* message)
     }
     formatMessage("Sending Data to Server");
 }
-void sendDatalUDP(LPSOCKET_INFORMATION SI, struct	sockaddr_in server, char* message)
+void sendDatalUDP(LPSOCKET_INFORMATION SI, struct sockaddr_in server, char* message)
 {
-    initSockInfo(SI, message);
+    initSockInfo(SI, message, server);
 
     //Send control data
     if (WSASendTo(SI->Socket, &(SI->DataBuf), 1, &SI->BytesSEND, 0, (struct sockaddr *)&streamServer, sizeof(streamServer), &(SI->Overlapped), NULL) == SOCKET_ERROR)
@@ -148,7 +153,7 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
     // Reference the WSAOVERLAPPED structure as a SOCKET_INFORMATION structure
     LPSOCKET_INFORMATION SOCKINFO = (LPSOCKET_INFORMATION)Overlapped;
-    initSockInfo(SOCKINFO, SOCKINFO->Buffer);
+    initSockInfo(SOCKINFO, SOCKINFO->Buffer, SOCKINFO->server);
 
     if (Error != 0)
     {
@@ -171,6 +176,7 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         GlobalFree(SOCKINFO);
         return;
     }
+    qDebug() << SOCKINFO->Buffer;
     receiveUDP(SOCKINFO, streamServer, BytesTransferred, Flags);
     cData.push(SOCKINFO->Buffer, 60000);
 

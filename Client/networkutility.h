@@ -10,6 +10,10 @@
 #define DATA_BUFSIZE 65000
 #define PACKET_LEN 1024
 #define DEFAULT_VOICE_PORT 8000
+
+#define RECEIVE_VOICE_PORT 8001
+#define SEND_VOICE_PORT 8002
+
 #define DEFUALT_STREAM_PORT 9000
 #define BUFFSIZE 60000
 #define MULTICAST_ADDRESS "234.5.6.7"
@@ -29,16 +33,20 @@ typedef struct _SOCKET_INFORMATION {
     WSABUF		DataBuf;
     DWORD		BytesSEND;
     DWORD		BytesRECV;
+    struct sockaddr_in server;
 } SOCKET_INFORMATION, *LPSOCKET_INFORMATION;
 
 extern SOCKET TCPSocket;
 extern SOCKET AcceptSocket;
 extern SOCKET VCSocket;
 extern SOCKET StreamSocket;
+extern SOCKET VCRecieveSocket;
+extern SOCKET VCSendSocket;
+
 extern LPSOCKET_INFORMATION SI;
 extern struct sockaddr_in streamServer;
 extern QObject * mw;
-void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer);
+void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer, struct sockaddr_in server);
 void sendDataTCP(SOCKET sd, const char* message);
 int WSARead(SOCKET sd, char * message, int timeout, int size);
 bool receiveTCP(SOCKET sd, char* message);

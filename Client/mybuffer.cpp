@@ -105,8 +105,8 @@ void myBuffer::setSocket(int socket){
     DWORD id;
     //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
     while(1){
-        printf("Tail %d, Head: %d", cData.tail, cData.headBuff);
-        fflush(stdout);
+        //printf("Tail %d, Head: %d", cData.tail, cData.headBuff);
+        //fflush(stdout);
         if(cData.tail < cData.headBuff){
         //Sleep(1000);
         //Sleep(500);

@@ -40,9 +40,46 @@ void UDPThreadManager::initMultiCastSock()
         qDebug() << "setsockopt() IP_ADD_MEMBERSHIP address failed";
         return;
     }
-    emit signalUDPWorker();
+    emit signalUDPWorker(StreamSocket, streamServer);
 }
-void UDPThreadManager::UDPWorker()
+void UDPThreadManager::initalizeVoiceChatSockets()
+{
+    int nRet;
+
+    if ((VCRecieveSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == INVALID_SOCKET)
+    {
+        qDebug() << "Cannot create UDP Receive socket";
+        return;
+    }
+    if ((VCSendSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == INVALID_SOCKET)
+    {
+        qDebug() << "Cannot create UDP Send socket";
+        return;
+    }
+    voiceChatReceive.sin_family      = AF_INET;
+    voiceChatReceive.sin_addr.s_addr = htonl(INADDR_ANY);
+    voiceChatReceive.sin_port        = htons(RECEIVE_VOICE_PORT);
+    int addr_size = sizeof(struct sockaddr_in);
+    nRet = bind(VCRecieveSocket, (struct sockaddr*) &voiceChatReceive, addr_size);
+    if (nRet == SOCKET_ERROR)
+    {
+        qDebug() << "Voice Receieve bind( failed";
+        return;
+    }
+
+    voiceChatSend.sin_family      = AF_INET;
+    voiceChatSend.sin_addr.s_addr = htonl(INADDR_ANY);
+    voiceChatSend.sin_port        = htons(SEND_VOICE_PORT);
+    addr_size = sizeof(struct sockaddr_in);
+    nRet = bind(VCSendSocket, (struct sockaddr*) &voiceChatSend, addr_size);
+    if (nRet == SOCKET_ERROR)
+    {
+        qDebug() << "Voice Send bind( failed";
+        return;
+    }
+    emit signalUDPWorker(VCRecieveSocket, voiceChatReceive);
+}
+void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
 {
     DWORD RecvBytes = 0, Index;
     DWORD Flags = 0;
@@ -65,14 +102,14 @@ void UDPThreadManager::UDPWorker()
     EventArray[0] = UDPEvent;
 
     //Copy socket
-    SI->Socket = StreamSocket;
+    SI->Socket = sd;
+    SI->server = socketStruct;
     // Fill in the details of our socket.
-    initSockInfo(SI, SI->Buffer);
-    receiveUDP(SI, streamServer, RecvBytes, Flags);
+    initSockInfo(SI, SI->Buffer, SI->server);
+    receiveUDP(SI, socketStruct, RecvBytes, Flags);
     while (TRUE)
     {
         Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, WSA_INFINITE, TRUE);
-
         if (Index == WSA_WAIT_FAILED)
         {
             qDebug() << "WSAWaitForMultipleEvents failed";

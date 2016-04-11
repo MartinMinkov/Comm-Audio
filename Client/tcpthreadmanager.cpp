@@ -122,14 +122,18 @@ void ThreadManager::setupVoiceChat()
         return;
     }
 
+
+    //Initialize UDP Sockets
+
+
     //Get username from connecting client
-    if ((BytesRead = recv(VCSocket, bp, bytesToRead, 0)) > 0)
+    /*if ((BytesRead = recv(VCSocket, bp, bytesToRead, 0)) > 0)
     {
         bytesToRead -= BytesRead;
-    }
+    }*/
     // emit voice chat GUI signal
-    QString callerName(bp);
-    emit updateCaller(callerName);
+    //QString callerName(bp);
+    //emit updateCaller(callerName);
 
     // emit voice chat recv thread
 }

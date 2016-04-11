@@ -48,6 +48,8 @@ void client::on_connectButton_clicked()
 
     //Not sure why this is done, but its something to do with passing objects in threads.
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
+    qRegisterMetaType<SOCKET>("SOCKET");
+    qRegisterMetaType<sockaddr_in>("sockaddr_in");
 
     connect(receiveTCPWorker, SIGNAL(signalConnect(QString, QString, QString)), receiveTCPWorker, SLOT(connect(QString, QString, QString)));
     connect(receiveTCPWorker, SIGNAL(updateUserList(QVector<QString>)), this, SLOT(updateUsers(QVector<QString>)));
@@ -61,6 +63,8 @@ void client::on_connectButton_clicked()
     connect(receiveVoiceChatWorker, SIGNAL(signalVoiceChat()), receiveVoiceChatWorker, SLOT(setupVoiceChat()));
     connect(receiveVoiceChatWorker, SIGNAL(updateCaller(QString)), this, SLOT(updateCallLabel(QString)));
     connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()));
+
+    connect(streamUDPWorker, SIGNAL(signalUDPWorker(SOCKET, struct sockaddr_in)), streamUDPWorker, SLOT(UDPWorker(SOCKET, struct sockaddr_in)));
 
     receiveTCPThread->start();
     receiveVoiceChatThread->start();
@@ -176,7 +180,7 @@ void client::on_playStreamButton_clicked()
     //PLAY
     printf("I hate alvin");
 	qDebug() << "Play Stream Button is clicked";
-    connect(streamUDPWorker, SIGNAL(signalUDPWorker()), streamUDPWorker, SLOT(UDPWorker()));
+    //Not sure why this is done, but its something to do with passing objects in threads.
     connect(&play, SIGNAL(updateCurrentlyPlaying(QString)), this, SLOT(setCurrentlyPlaying(QString)));
     streamUDPWorker->initMultiCastSock();
 
@@ -249,10 +253,11 @@ void client::setCurrentlyPlaying(QString songName){
 void client::on_voiceChatButton_clicked()
 {
     //connect(this, SIGNAL(signalStopRecording()), &rec, SLOT(stopRecording()));
-    rec.initializeAudio();
+    streamUDPWorker->initalizeVoiceChatSockets();
+    //rec.initializeAudio();
 }
 void client::on_endChatButton_clicked()
 {
     //emit signalStopRecording();
-    rec.stopRecording();
+    //rec.stopRecording();
 }

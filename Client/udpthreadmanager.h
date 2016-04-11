@@ -15,16 +15,20 @@ public:
     explicit UDPThreadManager(QObject *parent = 0);
     void initMultiCastSock();
     void receiveStream();
+    void initalizeVoiceChatSockets();
 
 signals:
-    void signalUDPWorker();
+    void signalUDPWorker(SOCKET sd, struct sockaddr_in);
     void signalDisconnect();
 
 public slots:
-    void UDPWorker();
+    void UDPWorker(SOCKET sd, struct sockaddr_in);
     void disconnect();
 private:
     struct ip_mreq stMreq;         /* Multicast interface structure */
+    struct sockaddr_in voiceChatSend;
+    struct sockaddr_in voiceChatReceive;
+    struct hostent *hp;
 };
 
 #endif // UDPTHREADMANAGER_H
