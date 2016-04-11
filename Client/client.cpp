@@ -117,7 +117,12 @@ void client::on_updateSongButton_clicked()
 
 void client::on_uploadButton_clicked()
 {
-    //emit receiveWorker->signalUpload();
+    connect(receiveTCPWorker, SIGNAL(signalUpload(QString)), receiveTCPWorker, SLOT(SendUploadRequest(QString)));
+    QString songName = ui->uploadFileWidget->currentItem()->text();
+
+    //find the corresponding song name from the path list
+
+    emit receiveTCPWorker->signalUpload(songName);
 }
 void client::on_downloadSongButton_clicked()
 {
@@ -325,6 +330,7 @@ void client::on_button_uploadDirectory_clicked()
     for (int i = 0; i < fileList.count(); i++){
         qDebug() << fileList[i];
         uploadList.push_back(fileList[i]);
+        uploadListWithPath.push_back(uploadDirectory + "/" + fileList[i]);
     }
 
     //update the upload list widget

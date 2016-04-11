@@ -64,7 +64,7 @@ void filehelper::handleUploadRequest(QString songName, SOCKET m_socket){
     DWORD id;
     int len;
     FILE * fqt;
-    songName = "vtest.wav";
+//    songName = "vtest.wav";
     char readBuff[FILEMAX];
     c.init();
     songName = songName.remove(0, 1);
