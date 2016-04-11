@@ -65,6 +65,7 @@ public:
         for(int i = 0; i < MAXLEN; i++){
             delete(buff[i]);
         }
+        alive = false;
     }
 
     void clear(){
