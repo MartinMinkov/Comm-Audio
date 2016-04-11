@@ -22,7 +22,8 @@ SOURCES += main.cpp\
         mybuffer.cpp \
         micbuffer.cpp \
         globals.cpp \
-        recorder.cpp
+        recorder.cpp \
+    recorderreceive.cpp
 
 HEADERS  += client.h \
     networkutility.h \
@@ -33,7 +34,8 @@ HEADERS  += client.h \
     mybuffer.h \
     micbuffer.h \
     globals.h \
-    recorder.h
+    recorder.h \
+    recorderreceive.h
 
 
 

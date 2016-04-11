@@ -4,5 +4,5 @@ circlebuff::circlebuff()
 {
     tail = 0;
     head = 0;
-    headBuff = -10;
+    headBuff = -2;
 }

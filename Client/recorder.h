@@ -9,14 +9,20 @@
 #include <QBuffer>
 #include "circlebuff.h"
 #include "mybuffer.h"
-
+#include "micbuffer.h"
+#include "networkutility.h"
+#define BUFFLEN 60000
 class Recorder : public QIODevice
 {
 
 public:
     Recorder();
     void initializeAudio();
-
+    micBuffer * micIn;
+    char * buff;
+    char buffer[BUFFLEN];
+    bool sendOut;
+    int point;
 signals:
 
 
@@ -26,8 +32,7 @@ public slots:
 private:
      QAudioFormat format;
      QAudioInput *audioInput;  // class member.
-     myBuffer buff;
-     QBuffer buffer;
+
 
      // QIODevice interface
 protected:

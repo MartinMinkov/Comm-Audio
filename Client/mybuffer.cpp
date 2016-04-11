@@ -107,13 +107,13 @@ void myBuffer::setSocket(int socket){
     while(1){
         printf("Tail %d, Head: %d", cData.tail, cData.headBuff);
         fflush(stdout);
-        //if(cData.tail < cData.headBuff){
+        if(cData.tail < cData.headBuff){
         //Sleep(1000);
-        Sleep(500);
+        //Sleep(500);
         startPlayer();
         printf("Startng the player");
          break;
-        //}
+        }
 
     }
 }
