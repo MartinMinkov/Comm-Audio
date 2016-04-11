@@ -305,3 +305,31 @@ void client::tabSelected(){
         emit receiveTCPWorker->signalSongRefresh();
     }
 }
+
+void client::on_button_uploadDirectory_clicked()
+{
+    QFileDialog selectUploadDirectoryDialog(this);
+    selectUploadDirectoryDialog.setFileMode(QFileDialog::Directory);
+
+    QString uploadDirectory;
+    uploadDirectory = selectUploadDirectoryDialog.getExistingDirectory(this, tr("Select Upload Directory"), QDir::currentPath(), QFileDialog::ShowDirsOnly);
+    ui->upload_directory_text->setText(uploadDirectory);
+
+    QDir *dir = new QDir(uploadDirectory);
+    dir->setNameFilters(QStringList("*.wav"));
+    dir->setFilter(QDir::Files);
+
+    //update the uploadList with the files in the selected directory
+    uploadList.clear();
+    QStringList fileList = dir->entryList();
+    for (int i = 0; i < fileList.count(); i++){
+        qDebug() << fileList[i];
+        uploadList.push_back(fileList[i]);
+    }
+
+    //update the upload list widget
+    ui->uploadFileWidget->clear();
+    for(auto& file : uploadList){
+        ui->uploadFileWidget->addItem(file);
+    }
+}

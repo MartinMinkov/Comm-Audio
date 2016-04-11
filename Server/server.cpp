@@ -66,7 +66,7 @@ void server::on_bAddSongs_clicked(){
 
     //get the currently selected songs
     QStringList newSongsList;
-    newSongsList = addSongDialog.getOpenFileNames(this, tr("Add Songs"), QDir::currentPath(), tr("Song Types (*.wav *.mp3)"));
+    newSongsList = addSongDialog.getOpenFileNames(this, tr("Add Songs"), QDir::currentPath(), tr("Song Types (*.wav)"));
 
     for(QStringList::iterator it = newSongsList.begin(); it != newSongsList.end(); ++it){
         QFileInfo fi(*it);

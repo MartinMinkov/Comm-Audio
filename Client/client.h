@@ -10,6 +10,8 @@
 #include <QAudioFormat>
 #include <QFile>
 #include <QAudio>
+#include <QFileDialog>
+#include <QDirIterator>
 
 #include "tcpthreadmanager.h"
 #include "udpthreadmanager.h"
@@ -61,9 +63,8 @@ private slots:
     void on_horizontalSlider_2_sliderPressed();
     void on_updateStreamPlaylist_clicked();
     void on_endChatButton_clicked();
-
-
     void on_acceptVoiceButton_clicked();
+    void on_button_uploadDirectory_clicked();
 
 private:
     Ui::client *ui;
@@ -80,6 +81,8 @@ private:
     UDPThreadManager* streamUDPWorker;
 
     Recorder rec;
+
+    QStringList uploadList;
 };
 
 #endif // CLIENT_H

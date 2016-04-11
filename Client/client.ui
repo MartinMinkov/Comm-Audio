@@ -35,7 +35,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -451,7 +451,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="upload_directory_text">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -466,10 +466,13 @@
        </font>
       </property>
       <property name="text">
-       <string>C:/Downloads</string>
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>Select an upload directory</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="button_uploadDirectory">
       <property name="geometry">
        <rect>
         <x>20</x>
