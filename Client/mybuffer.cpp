@@ -55,7 +55,9 @@ qint64 myBuffer::readData(char * data, qint64 len){
     }
     int remain = BUFFSIZE - realPos;
     if(remain < len){
+
         loader += realPos;
+
         memcpy(data, loader, remain);
         loader = &buff[0];
         memset(buff, '\0', BUFFSIZE);
@@ -64,8 +66,10 @@ qint64 myBuffer::readData(char * data, qint64 len){
         return remain;
     }
     else{
+
         loader += realPos;
         memcpy(data, loader, len);
+
         loader = &buff[0];
         realPos += len;
         return len;

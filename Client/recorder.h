@@ -25,7 +25,7 @@ public:
     bool sendOut;
     int point;
     char header[40];
-    startSecondary();
+    void startSecondary();
 signals:
     void signalStartPlayer();
 

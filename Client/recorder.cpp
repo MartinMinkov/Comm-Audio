@@ -25,7 +25,7 @@ void Recorder::initializeAudio()
     this->open(QIODevice::WriteOnly);
     audioInput = new QAudioInput(format, this);
     //cData.clear();
-    audioInput->start(this);
+   // audioInput->start(this);
     player = new myBuffer();
     memset(header, '\0', 40);
     strcpy(header, "z-16-44100-2-999-999");

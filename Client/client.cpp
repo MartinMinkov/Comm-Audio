@@ -264,7 +264,7 @@ void client::setCurrentlyPlaying(QString songName){
 }
 void client::on_voiceChatButton_clicked()
 {
-    rec.initializeAudio();
+    //rec.initializeAudio();
     rec.startPlayer();
     return;
     connect(receiveTCPWorker, SIGNAL(signalVoiceConnect()), receiveTCPWorker, SLOT(VoiceConnect()));
@@ -272,7 +272,7 @@ void client::on_voiceChatButton_clicked()
     qDebug() << "Before init";
     rec.initializeAudio();
     qDebug() << "after init";
-    rec.startSecondary();
+    rec.startPlayer();
 }
 void client::on_endChatButton_clicked()
 {
