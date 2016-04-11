@@ -82,8 +82,6 @@ private:
     UDPThreadManager* streamUDPWorker;
 
     Recorder rec;
-
-    QStringList uploadList;
 };
 
 #endif // CLIENT_H

@@ -4,6 +4,8 @@
 #include <QVector>
 
 extern QVector<QString> playlist;
+extern QStringList uploadList;
+extern QStringList uploadListWithPath;
 
 class globals
 {
