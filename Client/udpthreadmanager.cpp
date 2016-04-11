@@ -56,9 +56,18 @@ void UDPThreadManager::initalizeVoiceChatSockets()
         qDebug() << "Cannot create UDP Send socket";
         return;
     }
+    if (connectionRequested == true)
+    {
+        voiceChatReceive.sin_port        = htons(RECEIVE_VOICE_PORT);
+        voiceChatSend.sin_port        = htons(SEND_VOICE_PORT);
+    }
+    else
+    {
+        voiceChatReceive.sin_port        = htons(SEND_VOICE_PORT);
+        voiceChatSend.sin_port        = htons(RECEIVE_VOICE_PORT);
+    }
     voiceChatReceive.sin_family      = AF_INET;
     voiceChatReceive.sin_addr.s_addr = htonl(INADDR_ANY);
-    voiceChatReceive.sin_port        = htons(RECEIVE_VOICE_PORT);
     int addr_size = sizeof(struct sockaddr_in);
     nRet = bind(VCRecieveSocket, (struct sockaddr*) &voiceChatReceive, addr_size);
     if (nRet == SOCKET_ERROR)
@@ -69,15 +78,15 @@ void UDPThreadManager::initalizeVoiceChatSockets()
 
     voiceChatSend.sin_family      = AF_INET;
     voiceChatSend.sin_addr.s_addr = htonl(INADDR_ANY);
-    voiceChatSend.sin_port        = htons(SEND_VOICE_PORT);
     addr_size = sizeof(struct sockaddr_in);
     nRet = bind(VCSendSocket, (struct sockaddr*) &voiceChatSend, addr_size);
     if (nRet == SOCKET_ERROR)
     {
-        qDebug() << "Voice Send bind( failed";
+        qDebug() << "Voice Send bind() failed";
         return;
     }
-    emit signalUDPWorker(VCRecieveSocket, voiceChatReceive);
+    //Go into receive loop
+    emit signalUDPWorker(voiceChatReceive.sin_port, voiceChatReceive);
 }
 void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
 {

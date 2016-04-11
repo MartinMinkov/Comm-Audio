@@ -252,8 +252,10 @@ void client::setCurrentlyPlaying(QString songName){
 }
 void client::on_voiceChatButton_clicked()
 {
+    connect(receiveTCPWorker, SIGNAL(signalVoiceConnect()), receiveTCPWorker, SLOT(VoiceConnect()));
+    emit receiveTCPWorker->signalVoiceConnect();
     //connect(this, SIGNAL(signalStopRecording()), &rec, SLOT(stopRecording()));
-    streamUDPWorker->initalizeVoiceChatSockets();
+    //streamUDPWorker->initalizeVoiceChatSockets();
     //rec.initializeAudio();
 }
 void client::on_endChatButton_clicked()

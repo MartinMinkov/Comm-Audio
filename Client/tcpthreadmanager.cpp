@@ -38,12 +38,6 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
         return;
     }
 
-    if ((ret = WSAStartup(wVersionRequested, &stWSAData)) != 0)
-    {
-        qDebug() << "WSAStartup failed";
-        return;
-    }
-
     //TCP Socket
     if ((TCPSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == INVALID_SOCKET)
     {
@@ -81,6 +75,35 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     emit updateStatusBar(true);
     emit signalHandleRequest();
     emit finished();
+}
+void ThreadManager::VoiceConnect()
+{
+    //TCP Socket
+    if ((VCConnectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == INVALID_SOCKET)
+    {
+        qDebug() << "Cannot create TCP socket";
+        return;
+    }
+    // Initialize and set up the address structure
+    memset((char *)&server, 0, sizeof(struct sockaddr_in));
+    VCserver.sin_family = AF_INET;
+    VCserver.sin_port = htons(DEFAULT_VOICE_PORT);
+    //This must be fixed
+    if ((hp = gethostbyname("127.0.0.1")) == NULL)
+    {
+        formatMessage("Unknown server address");
+        return;
+    }
+    // Copy the server address
+    memcpy((char *)&VCserver.sin_addr, hp->h_addr, hp->h_length);
+
+    // Connecting to the server
+    if (::connect(VCConnectSocket, (struct sockaddr*)&VCserver, sizeof(VCserver)) == SOCKET_ERROR)
+    {
+        formatMessage("Can't connect to client");
+        return;
+    }
+    qDebug() << "HOW DOES THIS GET HERE";
 }
 void ThreadManager::setupVoiceChat()
 {
@@ -121,9 +144,7 @@ void ThreadManager::setupVoiceChat()
         qDebug() <<  "Can't accept client";
         return;
     }
-
-
-    //Initialize UDP Sockets
+    connectionRequested = true;
 
 
     //Get username from connecting client

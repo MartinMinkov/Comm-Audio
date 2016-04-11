@@ -10,7 +10,9 @@ SOCKET StreamSocket;
 SOCKET VCSocket;
 SOCKET VCRecieveSocket;
 SOCKET VCSendSocket;
+SOCKET VCConnectSocket;
 
+bool connectionRequested = false;
 struct sockaddr_in streamServer;
 LPSOCKET_INFORMATION SI;
 QObject * mw;

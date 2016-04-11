@@ -36,8 +36,10 @@ typedef struct _SOCKET_INFORMATION {
     struct sockaddr_in server;
 } SOCKET_INFORMATION, *LPSOCKET_INFORMATION;
 
+extern bool connectionRequested;
 extern SOCKET TCPSocket;
 extern SOCKET AcceptSocket;
+extern SOCKET VCConnectSocket;
 extern SOCKET VCSocket;
 extern SOCKET StreamSocket;
 extern SOCKET VCRecieveSocket;
@@ -45,6 +47,7 @@ extern SOCKET VCSendSocket;
 
 extern LPSOCKET_INFORMATION SI;
 extern struct sockaddr_in streamServer;
+
 extern QObject * mw;
 void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer, struct sockaddr_in server);
 void sendDataTCP(SOCKET sd, const char* message);

@@ -35,6 +35,7 @@ signals:
     void signalVoiceChat();
     void updateCaller(QString);
     void updateStatusBar(bool connected);
+    void signalVoiceConnect();
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);
@@ -47,12 +48,14 @@ public slots:
     void SendSongRefreshRequest();
     void SendVoiceRefreshRequest();
     void setupVoiceChat();
+    void VoiceConnect();
 
 private:
     DWORD ret;
     WSADATA stWSAData;
     WORD wVersionRequested = MAKEWORD(2, 2);
     struct sockaddr_in server;
+    struct sockaddr_in VCserver;
     struct sockaddr_in voiceChatClient;
     struct hostent *hp;
 };
