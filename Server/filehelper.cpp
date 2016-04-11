@@ -39,7 +39,9 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
     }
 
     if(!(fqt = fopen(title.toStdString().c_str(), "rb+"))){
-        char * buff2 = ERROR_BIT;
+        char buff2[2];
+        strcpy(buff2, ERROR_BIT);
+        //char * buff2 = ERROR_BIT;
         sendDataTCP(m_socket, buff2);
         return;
     }
