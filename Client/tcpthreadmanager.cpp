@@ -103,7 +103,7 @@ void ThreadManager::VoiceConnect()
         formatMessage("Can't connect to client");
         return;
     }
-    UDPThreadManager.initalizeVoiceChatSockets();
+    udp.initalizeVoiceChatSockets();
     qDebug() << "HOW DOES THIS GET HERE";
 }
 void ThreadManager::setupVoiceChat()
@@ -146,7 +146,7 @@ void ThreadManager::setupVoiceChat()
         return;
     }
     connectionRequested = true;
-    UDPThreadManager.initalizeVoiceChatSockets();
+    udp.initalizeVoiceChatSockets();
     qDebug() <<  "Hi Allen";
 
     //Get username from connecting client
@@ -366,9 +366,11 @@ void ThreadManager::parseUserList(char* bp)
         QString tokenString = QString::fromUtf8(token.c_str());
         userList.push_back(tokenString);
     }
-    if (checkFlag == 0)
+    if (checkFlag == 0){
         emit updateUserList(userList);
-    else if (checkFlag == 1)
+    }
+    else if (checkFlag == 1){
         playlist = userList;
         emit updateSongList(userList);
+    }
 }
