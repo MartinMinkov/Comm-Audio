@@ -1,7 +1,7 @@
 #include "filehelper.h"
 
 using namespace std;
-using namespace std;
+DWORD WINAPI readStuff(LPVOID param);
 circlebuff c;
 HANDLE newData;
 HANDLE readDone;
@@ -39,7 +39,8 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
     }
 
     if(!(fqt = fopen(title.toStdString().c_str(), "rb+"))){
-        sendDataTCP(m_socket, ERROR_BIT);
+        char * buff2 = ERROR_BIT;
+        sendDataTCP(m_socket, buff2);
         return;
     }
 
@@ -68,7 +69,7 @@ void filehelper::handleUploadRequest(QString songName, SOCKET m_socket){
     char retBuff[1024];
     char buff[FILEMAX];
     if(!(fqt = fopen(songName.toStdString().c_str(), "wb"))){
-        retBuff[0] = ERROR_BIT;
+        strcpy(retBuff, ERROR_BIT);
         n.WSAS(m_socket, retBuff, 1024, 2000);
     }
     else{
@@ -77,6 +78,7 @@ void filehelper::handleUploadRequest(QString songName, SOCKET m_socket){
     }
     writeThread = CreateThread(NULL, 0, readStuff, (void *)fqt, 0 , &id);
     while((len = WSARead(m_socket, readBuff, 2000, FILEMAX))){
+
         c.push(readBuff, len);
         SetEvent(newData);
     }
