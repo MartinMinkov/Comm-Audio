@@ -19,10 +19,12 @@ public:
     Recorder();
     void initializeAudio();
     micBuffer * micIn;
+    myBuffer * player;
     char * buff;
     char buffer[BUFFLEN];
     bool sendOut;
     int point;
+    char header[40];
 signals:
 
 
