@@ -17,6 +17,7 @@
 #include "ui_client.h"
 #include "circlebuff.h"
 #include "mybuffer.h"
+#include "recorder.h"
 
 namespace Ui {
     class client;
@@ -30,6 +31,9 @@ public:
     explicit client(QWidget *parent = 0);
     ~client();
     void toggleInput(bool state);
+
+signals:
+    void signalStopRecording();
 
 public slots:
     void updateUsers(QVector<QString> userList);
@@ -50,8 +54,9 @@ private slots:
     void on_playStreamButton_clicked();
     void on_rewindStreamButton_clicked();
     void on_stopStreamButton_clicked();
-
     void on_horizontalSlider_2_sliderMoved(int position);
+
+    void on_endChatButton_clicked();
 
 private:
     Ui::client *ui;
@@ -66,6 +71,8 @@ private:
 
     QThread* streamUDPThread;
     UDPThreadManager* streamUDPWorker;
+
+    Recorder rec;
 };
 
 #endif // CLIENT_H

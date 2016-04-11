@@ -106,11 +106,6 @@ void client::on_uploadButton_clicked()
 {
     //emit receiveWorker->signalUpload();
 }
-
-void client::on_voiceChatButton_clicked()
-{
-    //emit receiveWorker->signalUpload();
-}
 void client::on_downloadSongButton_clicked()
 {
     connect(receiveTCPWorker, SIGNAL(signalDownload(QString)), receiveTCPWorker, SLOT(SendDownloadRequest(QString)));
@@ -225,4 +220,14 @@ void client::on_horizontalSlider_2_sliderMoved(int position)
     play.sliderChange(position);
     //QMetaObject::invokeMethod(bf, "sliderChange", Qt::AutoConnection, Q_ARG(int, position));
 
+}
+void client::on_voiceChatButton_clicked()
+{
+    //connect(this, SIGNAL(signalStopRecording()), &rec, SLOT(stopRecording()));
+    rec.initializeAudio();
+}
+void client::on_endChatButton_clicked()
+{
+    //emit signalStopRecording();
+    rec.stopRecording();
 }
