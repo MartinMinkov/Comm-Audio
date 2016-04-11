@@ -14,10 +14,12 @@ client::client(QWidget *parent) :
     ui(new Ui::client)
 {
     ui->setupUi(this);
+    ui->disconnectButton->setEnabled(false);
     for(int i= 1; i < 5; i++)
     {
         ui->tabWidget->setTabEnabled(i, false);
     }
+    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabSelected()));
     mw = this;
 }
 
@@ -77,6 +79,8 @@ void client::on_connectButton_clicked()
 
     client::toggleInput(false);
     ui->connectStatus->setText("Connected");
+    ui->disconnectButton->setEnabled(true);
+    ui->connectButton->setEnabled(false);
     for(int i= 1; i < 5; i++) {
         ui->tabWidget->setTabEnabled(i, true);
     }
@@ -98,6 +102,8 @@ void client::on_disconnectButton_clicked()
 
     client::toggleInput(true);
     ui->connectStatus->setText("Disconnected");
+    ui->disconnectButton->setEnabled(false);
+    ui->connectButton->setEnabled(true);
     for(int i= 1; i < 5; i++) {
         ui->tabWidget->setTabEnabled(i, false);
     }
@@ -274,7 +280,28 @@ void client::on_endChatButton_clicked()
     rec.stopRecording();
 }
 
+
 void client::on_acceptVoiceButton_clicked()
 {
     cData.tail = cData.headBuff;
+}
+
+void client::tabSelected(){
+    //file download tab
+    if(ui->tabWidget->currentIndex()==1){
+        connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+        emit receiveTCPWorker->signalSongRefresh();
+    }
+
+    //voice chat tab
+    if(ui->tabWidget->currentIndex()==3){
+        connect(receiveTCPWorker, SIGNAL(signalVoiceRefresh()), receiveTCPWorker, SLOT(SendVoiceRefreshRequest()));
+        emit receiveTCPWorker->SendVoiceRefreshRequest();
+    }
+
+    //stream tab
+    if(ui->tabWidget->currentIndex()==4){
+        connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+        emit receiveTCPWorker->signalSongRefresh();
+    }
 }

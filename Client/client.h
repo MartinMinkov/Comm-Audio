@@ -43,6 +43,7 @@ public slots:
     void handleUpdateStatusBar(bool connected);
     Q_SLOT void updateSlider(int percent);
     void setCurrentlyPlaying(QString songName);
+    void tabSelected();
 
 private slots:
     void on_connectButton_clicked();
