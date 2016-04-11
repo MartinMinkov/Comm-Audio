@@ -71,7 +71,7 @@ public:
     void clear(){
         head = 0;
         tail = 0;
-        headBuff = -10;
+        headBuff = -2;
         for(int i = 0; i < MAXLEN; i++){
             memset(buff[i], '\0', BLOCKSIZE);
         }

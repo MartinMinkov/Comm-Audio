@@ -46,6 +46,8 @@ void UDPThreadManager::initalizeVoiceChatSockets()
 {
     int nRet;
 
+    qDebug() << "In initialize";
+
     if ((VCRecieveSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == INVALID_SOCKET)
     {
         qDebug() << "Cannot create UDP Receive socket";
@@ -86,7 +88,8 @@ void UDPThreadManager::initalizeVoiceChatSockets()
         return;
     }
     //Go into receive loop
-    emit signalUDPWorker(voiceChatReceive.sin_port, voiceChatReceive);
+    qDebug() << "Sending signalUDPWorker";
+    UDPWorker(VCRecieveSocket, voiceChatReceive);
 }
 void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
 {
@@ -95,17 +98,20 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
     WSAEVENT				UDPEvent;
     WSAEVENT				EventArray[1];
 
+    qDebug() << "In UDPWorker";
     //Creating Socket Info struct
     if ((SI = (LPSOCKET_INFORMATION)GlobalAlloc(GPTR, sizeof(SOCKET_INFORMATION))) == NULL)
     {
         qDebug() << "GlobalAlloc() failed with error";
         return;
     }
+    qDebug() << "Before UDPEvent";
     if ((UDPEvent = WSACreateEvent()) == WSA_INVALID_EVENT)
     {
         qDebug() << "WSACreateEvent() failed";
         return;
     }
+    qDebug() << "After UDPEvent";
 
     // Save the event in the event array.
     EventArray[0] = UDPEvent;
@@ -116,9 +122,11 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
     // Fill in the details of our socket.
     initSockInfo(SI, SI->Buffer, SI->server);
     receiveUDP(SI, socketStruct, RecvBytes, Flags);
+    qDebug() << "Before while loop";
     while (TRUE)
     {
         Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, WSA_INFINITE, TRUE);
+        qDebug() << "Maybe got something";
         if (Index == WSA_WAIT_FAILED)
         {
             qDebug() << "WSAWaitForMultipleEvents failed";

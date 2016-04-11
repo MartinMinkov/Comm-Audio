@@ -170,6 +170,7 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         GlobalFree(SOCKINFO);
         return;
     }
+
     Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, 10000000, TRUE);
 
     if (Index == WSA_WAIT_TIMEOUT)
@@ -178,7 +179,7 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         GlobalFree(SOCKINFO);
         return;
     }
-    qDebug() << SOCKINFO->Buffer;
+
     receiveUDP(SOCKINFO, streamServer, BytesTransferred, Flags);
     cData.push(SOCKINFO->Buffer, 60000);
 

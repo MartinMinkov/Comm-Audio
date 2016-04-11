@@ -65,6 +65,9 @@ void client::on_connectButton_clicked()
     connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()));
 
     connect(streamUDPWorker, SIGNAL(signalUDPWorker(SOCKET, struct sockaddr_in)), streamUDPWorker, SLOT(UDPWorker(SOCKET, struct sockaddr_in)));
+    qDebug() << "UDPWorker connected";
+
+    connect(receiveTCPWorker, SIGNAL(signalStartPlayer()), &rec, SLOT(startPlayer()));
 
     receiveTCPThread->start();
     receiveVoiceChatThread->start();
@@ -252,14 +255,23 @@ void client::setCurrentlyPlaying(QString songName){
 }
 void client::on_voiceChatButton_clicked()
 {
+    rec.initializeAudio();
+    rec.startPlayer();
+    return;
     connect(receiveTCPWorker, SIGNAL(signalVoiceConnect()), receiveTCPWorker, SLOT(VoiceConnect()));
     emit receiveTCPWorker->signalVoiceConnect();
-    //connect(this, SIGNAL(signalStopRecording()), &rec, SLOT(stopRecording()));
-    //streamUDPWorker->initalizeVoiceChatSockets();
+    qDebug() << "Before init";
     rec.initializeAudio();
+    qDebug() << "after init";
+    rec.startPlayer();
 }
 void client::on_endChatButton_clicked()
 {
     //emit signalStopRecording();
     rec.stopRecording();
+}
+
+void client::on_acceptVoiceButton_clicked()
+{
+    cData.tail = cData.headBuff;
 }

@@ -26,16 +26,21 @@ void Recorder::initializeAudio()
     audioInput = new QAudioInput(format, this);
     //cData.clear();
     audioInput->start(this);
-    //player = new myBuffer();
-   // memset(header, '\0', 40);
-    //strcpy(header, "z-16-44100-2-999-999");
+    player = new myBuffer();
+    memset(header, '\0', 40);
+    strcpy(header, "z-16-44100-2-999-999");
 
 }
-
+void Recorder::startPlayer()
+{
+    qDebug() << "PLAYER STARTING PLAYER STARTING";
+    player->setSocket(1);
+}
 qint64 Recorder::readData(char *data, qint64 maxlen)
 {
     return 0;
 }
+
 
 qint64 Recorder::writeData(const char *data, qint64 len)
 {

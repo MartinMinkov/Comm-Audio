@@ -26,10 +26,11 @@ public:
     int point;
     char header[40];
 signals:
-
+    void signalStartPlayer();
 
 public slots:
     void stopRecording();
+    void startPlayer();
 
 private:
      QAudioFormat format;

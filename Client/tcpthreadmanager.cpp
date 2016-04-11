@@ -89,7 +89,7 @@ void ThreadManager::VoiceConnect()
     VCserver.sin_family = AF_INET;
     VCserver.sin_port = htons(DEFAULT_VOICE_PORT);
     //This must be fixed
-    if ((hp = gethostbyname("192.168.0.18")) == NULL)
+    if ((hp = gethostbyname("192.168.0.17")) == NULL)
     {
         formatMessage("Unknown server address");
         return;
@@ -103,7 +103,7 @@ void ThreadManager::VoiceConnect()
         formatMessage("Can't connect to client");
         return;
     }
-    UDPThreadManager.initalizeVoiceChatSockets();
+    udp.initalizeVoiceChatSockets();
     qDebug() << "HOW DOES THIS GET HERE";
 }
 void ThreadManager::setupVoiceChat()
@@ -146,7 +146,8 @@ void ThreadManager::setupVoiceChat()
         return;
     }
     connectionRequested = true;
-    UDPThreadManager.initalizeVoiceChatSockets();
+    udp.initalizeVoiceChatSockets();
+    emit signalStartPlayer();
     qDebug() <<  "Hi Allen";
 
     //Get username from connecting client

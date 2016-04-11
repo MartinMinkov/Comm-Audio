@@ -37,6 +37,7 @@ signals:
     void updateCaller(QString);
     void updateStatusBar(bool connected);
     void signalVoiceConnect();
+    void signalStartPlayer();
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);
