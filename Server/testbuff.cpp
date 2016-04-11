@@ -88,33 +88,33 @@ void testBuff::getHeader(std::vector<int> vect){
 }
 
 bool testBuff::setFormat(std::vector<int> vect){
-       QAudioFormat format;
+   QAudioFormat format;
 
-       printf("%d %d %d", vect.at(0), vect.at(1), vect.at(2));
-       fflush(stdout);
-       format.setSampleRate(vect.at(1));
-       format.setChannelCount(vect.at(2));
-       format.setSampleSize(vect.at(0));
-       format.setCodec("audio/pcm");
-       format.setByteOrder(QAudioFormat::LittleEndian);
-       format.setSampleType(QAudioFormat::UnSignedInt);
-       QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
-       if (!info.isFormatSupported(format)) {
-           qWarning() << "Raw audio format not supported by backend, cannot play audio.";
-           return false;
-       }
-       //QString song("ec1.wav");
-       //t = new testBuff(song, header);
-       if(player != NULL)
-           player->stop();
-       player = new QAudioOutput(format, this);
-       player->setVolume(0.0);
-       currentPos = 0;
-       player->start(this);
-       //player->start();
-        //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()));
-    printf("Format set");
-    fflush(stdout);
+   printf("%d %d %d", vect.at(0), vect.at(1), vect.at(2));
+   fflush(stdout);
+   format.setSampleRate(vect.at(1));
+   format.setChannelCount(vect.at(2));
+   format.setSampleSize(vect.at(0));
+   format.setCodec("audio/pcm");
+   format.setByteOrder(QAudioFormat::LittleEndian);
+   format.setSampleType(QAudioFormat::UnSignedInt);
+   QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
+   if (!info.isFormatSupported(format)) {
+       qWarning() << "Raw audio format not supported by backend, cannot play audio.";
+       return false;
+   }
+   //QString song("ec1.wav");
+   //t = new testBuff(song, header);
+   if(player != NULL)
+       player->stop();
+   player = new QAudioOutput(format, this);
+   player->setVolume(0.0);
+   currentPos = 0;
+   player->start(this);
+   //player->start();
+   //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()));
+   printf("Format set");
+   fflush(stdout);
 
 }
 qint64 testBuff::readData(char * data, qint64 len){

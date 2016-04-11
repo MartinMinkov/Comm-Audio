@@ -102,10 +102,15 @@ void myBuffer::sliderChange(int perc){
     float ret;
     if(newPos > cData.head){
         cData.tail = cData.headBuff;
-        currentPos = cData.headBuff - currentTail;
+        currentPos = songStart + cData.headBuff - currentTail;
     }else{
+        if((newPos + 475) < cData.headBuff){
+            printf("Doing things");
+            fflush(stdout);
+            newPos = cData.headBuff - 475;
+        }
         cData.tail = newPos;
-        currentPos = newPos;
+        currentPos = songStart + cData.tail - currentTail;
     }
     printf("Head: %d, Tail: %d", cData.head, cData.tail);
 }
@@ -151,6 +156,7 @@ void myBuffer::setHeader(char * h){
     songNumber = ls.value(5).toInt();
     currentPos = ls.value(6).toInt();
     currentTail = cData.tail;
+    songStart = currentPos;
     printf("Format Stuff: %d %d %d", ss, samp, chan);
     realPos = 0;
     format.setSampleRate(samp); // Usually this is specified through an UI option
@@ -163,6 +169,7 @@ void myBuffer::setHeader(char * h){
     player = new QAudioOutput(format, this);
     printf("CHANGING PLAYER");
     fflush(stdout);
+
     //update the currently playing label based on the song index
     //minus 1 to songNumber because for some reason it starts at 1 and not 0 on the server side
     QString currentSongName;
@@ -173,8 +180,6 @@ void myBuffer::setHeader(char * h){
         currentSongName = playlist.at(songNumber);
     }
     emit updateCurrentlyPlaying(currentSongName);
-
-    player->start(this);
 }
 
 qint64 myBuffer::writeData(const char *data, qint64 len){

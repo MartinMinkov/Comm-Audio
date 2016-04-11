@@ -13,8 +13,6 @@ class myBuffer : public QIODevice
 {
     Q_OBJECT
 
-
-
 public:
     myBuffer();
     QAudioOutput * player;
@@ -27,7 +25,7 @@ public:
     FILE * testOutput;
     char * loader;
     bool newSong;
-    int currentPos, songTotal, currentTail;
+    int currentPos, songTotal, currentTail, songStart;
     qint64 readData(char * data, qint64 maxlen);
     qint64 writeData(const char * data, qint64 maxlen);
     qint64 bytesAvailable();

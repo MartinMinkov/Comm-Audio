@@ -20,7 +20,8 @@ SOURCES += main.cpp\
         udpthreadmanager.cpp \
         tcpthreadmanager.cpp \
     mybuffer.cpp \
-    globals.cpp
+    globals.cpp \
+    recorder.cpp
 
 HEADERS  += client.h \
     networkutility.h \
@@ -29,7 +30,8 @@ HEADERS  += client.h \
     tcpthreadmanager.h \
     filemanager.h \
     mybuffer.h \
-    globals.h
+    globals.h \
+    recorder.h
 
 
 
