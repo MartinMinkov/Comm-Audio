@@ -26,9 +26,8 @@ public slots:
     void disconnect();
 private:
     struct ip_mreq stMreq;         /* Multicast interface structure */
-    struct sockaddr_in voiceChatSend;
     struct sockaddr_in voiceChatReceive;
     struct hostent *hp;
 };
-
+extern struct sockaddr_in voiceChatSend;
 #endif // UDPTHREADMANAGER_H
