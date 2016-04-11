@@ -11,3 +11,5 @@ globals::globals()
 
 QVector<QString> userList;
 QStandardItemModel *playlistModel;
+QStringList playlistWithPath;
+QStringList playlist;

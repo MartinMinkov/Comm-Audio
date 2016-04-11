@@ -1214,7 +1214,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_3">
+    <widget class="QLineEdit" name="currentlyPlayingText">
      <property name="geometry">
       <rect>
        <x>420</x>
@@ -1230,7 +1230,13 @@
       </font>
      </property>
      <property name="text">
-      <string>Stitches - Shawn Mendes</string>
+      <string/>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="placeholderText">
+      <string>n/a</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_currentlyplaying">
@@ -1546,7 +1552,7 @@
     <zorder>panel_bg_client_streaming_3</zorder>
     <zorder>panel_bg_client_streaming_2</zorder>
     <zorder>panel_bg_client_streaming_1</zorder>
-    <zorder>lineEdit_3</zorder>
+    <zorder>currentlyPlayingText</zorder>
     <zorder>label_currentlyplaying</zorder>
     <zorder>label_songElapsedTime</zorder>
     <zorder>pushButton_12</zorder>

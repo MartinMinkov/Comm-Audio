@@ -18,16 +18,21 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
     */
     packetNum = 0;
     headerLength = 40;
-    totalSong = 2;
+
+    //get the total song from playlistWithPath
+    totalSong = playlistWithPath.size();
     songNumber = 1;
     currentSong = 0;
 
     //playList.push_back("my_mule.wav");
 //    playList.push_back("runescape.wav");
-    playList.push_back("ec1.wav");
-    playList.push_back("stress.wav");
+
+//    playList.push_back("C:/Users/Alvin/Documents/songs/pokemon1.wav");
+//    playList.push_back("C:/Users/Alvin/Documents/songs/pokemon2.wav");
+//    playList.push_back("C:/Users/Alvin/Documents/songs/pokemon3.wav");
     this->open(QIODevice::ReadOnly);
     loadSong();
+
 
    // qbt = fqt.readAll();
    // fqt.close();
@@ -36,9 +41,12 @@ bool testBuff::loadSong(){
     printf("in constructor");
             fflush(stdout);
     nextSong = false;
-    QString c = playList.at(currentSong % totalSong);
+    QString songNameWithPath = playlistWithPath.at(currentSong % totalSong);
+    QString songName = playlist.at(currentSong % totalSong);
     currentSong++;
-    fqt.setFileName(c);
+    fqt.setFileName(songNameWithPath);
+    //set the currently playing text in server here
+    emit triggerUpdateCurrentlyPlayingLabel(songName);
 
     if(!(fqt.open(QIODevice::ReadOnly))){
             return false;
@@ -48,7 +56,7 @@ bool testBuff::loadSong(){
     fileSize = qbt.size();
     fqt.close();
     WavFile wvf;
-    wvf.open(c);
+    wvf.open(songNameWithPath);
     std::vector<int>vect = wvf.getStuff();
     wvf.close();
     getHeader(vect);
@@ -63,14 +71,16 @@ void testBuff::getHeader(std::vector<int> vect){
     a = vect.at(0);
     b = vect.at(1);
     c = vect.at(2);
-    char d = songNumber++;
+    char d = songNumber;
     hold += d;
     hold += "-" + QString::number(a);
     hold += "-" + QString::number(b);
     hold += "-" + QString::number(c);
-    hold += "-" + QString::number(fileSize/ BUFFSIZE) + "-";
+    hold += "-" + QString::number(fileSize/ BUFFSIZE);
+    hold += "-" + QString::number((songNumber-1) % playlist.size()) + "-";
     memset(header, '\0', 40);
     memcpy(header, hold.toStdString().c_str(), 40);
+    songNumber++;
 
     printf(header);
     headLength =  strlen(header);
@@ -78,6 +88,7 @@ void testBuff::getHeader(std::vector<int> vect){
 }
 
 bool testBuff::setFormat(std::vector<int> vect){
+
        QAudioFormat format;
        format.setSampleRate(vect.at(1));
        format.setChannelCount(vect.at(2));
@@ -96,6 +107,7 @@ bool testBuff::setFormat(std::vector<int> vect){
        player->setVolume(0.0);
        currentPos = 0;
        player->start(this);
+
 
 }
 qint64 testBuff::readData(char * data, qint64 len){

@@ -106,11 +106,6 @@ void client::on_uploadButton_clicked()
 {
     //emit receiveWorker->signalUpload();
 }
-
-void client::on_voiceChatButton_clicked()
-{
-    //emit receiveWorker->signalUpload();
-}
 void client::on_downloadSongButton_clicked()
 {
     connect(receiveTCPWorker, SIGNAL(signalDownload(QString)), receiveTCPWorker, SLOT(SendDownloadRequest(QString)));
@@ -132,11 +127,18 @@ void client::updateUsers(QVector<QString> userList)
 		ui->connectedWidget->addItem(user);
     }
 }
-void client::updateSongs(QVector<QString> userList)
+void client::updateSongs(QVector<QString> playList)
 {
+    //update the download tab
     ui->downloadFileWidget->clear();
-    for(auto& user : userList){
+    for(auto& user : playList){
 		ui->downloadFileWidget->addItem(user);
+    }
+
+    //update the streaming tab
+    ui->streamingPlaylistWidget->clear();
+    for(auto& user : playList){
+        ui->streamingPlaylistWidget->addItem(user);
     }
 }
 void client::updateCallLabel(QString caller)
@@ -175,7 +177,7 @@ void client::on_playStreamButton_clicked()
     printf("I hate alvin");
 	qDebug() << "Play Stream Button is clicked";
     connect(streamUDPWorker, SIGNAL(signalUDPWorker()), streamUDPWorker, SLOT(UDPWorker()));
-
+    connect(&play, SIGNAL(updateCurrentlyPlaying(QString)), this, SLOT(setCurrentlyPlaying(QString)));
     streamUDPWorker->initMultiCastSock();
 
 	//Check if StreamSocket socket is not null
@@ -235,4 +237,22 @@ void client::on_liveStreamButton_clicked()
 void client::on_horizontalSlider_2_sliderPressed()
 {
     drag = true;
+}
+void client::on_updateStreamPlaylist_clicked(){
+    connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+    emit receiveTCPWorker->signalSongRefresh();
+}
+
+void client::setCurrentlyPlaying(QString songName){
+    ui->currentlyPlayingText->setText(songName);
+}
+void client::on_voiceChatButton_clicked()
+{
+    //connect(this, SIGNAL(signalStopRecording()), &rec, SLOT(stopRecording()));
+    rec.initializeAudio();
+}
+void client::on_endChatButton_clicked()
+{
+    //emit signalStopRecording();
+    rec.stopRecording();
 }

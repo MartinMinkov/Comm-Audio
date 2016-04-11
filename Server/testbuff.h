@@ -1,6 +1,7 @@
 #ifndef TESTBUFF_H
 #define TESTBUFF_H
 #include <QDebug>
+#include <QObject>
 #include <QAudioOutput>
 #include <QIODevice>
 #include "circlebuff.h"
@@ -12,6 +13,7 @@
 #define BUFFSIZE 60000
 class testBuff : public QIODevice
 {
+    Q_OBJECT
 public:
     testBuff(QString songName, QAudioOutput * p);
     QByteArray qbt;
@@ -39,7 +41,7 @@ public:
     void createHeader(char * head);
     bool publicVariable;
 signals:
-    void functionNamehere();
+    void triggerUpdateCurrentlyPlayingLabel(QString songName);
 };
 
 #endif // TESTBUFF_H

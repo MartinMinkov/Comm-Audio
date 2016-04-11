@@ -13,7 +13,8 @@ playerManager::playerManager()
 
 }
 void playerManager::startSong(QString songName){
-       std::vector<int> vect;
+    mSongName = songName;
+    std::vector<int> vect;
     WavFile wvf;
     qDebug() << songName;
     wvf.open(songName);
@@ -27,7 +28,6 @@ void playerManager::startSong(QString songName){
     fileSize = qft.size();
     qft.close();
     getHeader(vect);
-    printf("Crashed here");
     fflush(stdout);
     setFormat(vect);
     printf("past all the header stuff");
@@ -69,8 +69,11 @@ bool playerManager::setFormat(std::vector<int> vect){
            qWarning() << "Raw audio format not supported by backend, cannot play audio.";
            return false;
        }
-       QString song("ec1.wav");
-       t = new testBuff(song, NULL);
+//       QString song("C:/Users/Alvin/Documents/songs/pokemon1.wav");
+
+       t = new testBuff(mSongName, NULL);
+       connect(t, SIGNAL(triggerUpdateCurrentlyPlayingLabel(QString)), this, SLOT(relayCurrentlyPlayingSong(QString)));
+
 
        //player = new QAudioOutput(format, t);
        //player->start();
@@ -85,4 +88,8 @@ void playerManager::startPlayer(){
 }
 void playerManager::endPlayer(){
     printf("Ending player");
+}
+
+void playerManager::relayCurrentlyPlayingSong(QString songName){
+    emit relayCurrentSong(songName);
 }

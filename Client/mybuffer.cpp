@@ -121,12 +121,14 @@ void myBuffer::setHeader(char * h){
     QString orig(h);
     QAudioFormat format;
     QStringList ls = orig.split("-");
-    int ss, samp, chan;
+    int songNumber, ss, samp, chan;
+//    songNumber = ls.value(0).toInt();
     ss = ls.value(1).toInt();
     samp = ls.value(2).toInt();
     chan = ls.value(3).toInt();
     songTotal = ls.value(4).toInt();
-    currentPos = ls.value(5).toInt();
+    songNumber = ls.value(5).toInt();
+    currentPos = ls.value(6).toInt();
     currentTail = cData.tail;
     songStart = currentPos;
     realPos = 0;
@@ -138,6 +140,18 @@ void myBuffer::setHeader(char * h){
     format.setSampleType(QAudioFormat::UnSignedInt);
     player->stop();
     player = new QAudioOutput(format, this);
+
+
+    //update the currently playing label based on the song index
+    //minus 1 to songNumber because for some reason it starts at 1 and not 0 on the server side
+    QString currentSongName;
+    if(songNumber > playlist.size()-1){
+        //the songindex and playlist are out of sync, print unavailable to currently playing text
+        currentSongName = "unavailable";
+    } else {
+        currentSongName = playlist.at(songNumber);
+    }
+    emit updateCurrentlyPlaying(currentSongName);
     player->start(this);
 }
 
