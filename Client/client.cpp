@@ -256,10 +256,10 @@ void client::on_voiceChatButton_clicked()
     emit receiveTCPWorker->signalVoiceConnect();
     //connect(this, SIGNAL(signalStopRecording()), &rec, SLOT(stopRecording()));
     //streamUDPWorker->initalizeVoiceChatSockets();
-    //rec.initializeAudio();
+    rec.initializeAudio();
 }
 void client::on_endChatButton_clicked()
 {
     //emit signalStopRecording();
-    //rec.stopRecording();
+    rec.stopRecording();
 }

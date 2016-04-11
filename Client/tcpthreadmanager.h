@@ -8,6 +8,7 @@
 #include "circlebuff.h"
 #include "networkutility.h"
 #include "globals.h"
+#include "udpthreadmanager.h"
 
 #define FILEMAX 20000
 
@@ -51,6 +52,7 @@ public slots:
     void VoiceConnect();
 
 private:
+    UDPThreadManager udp;
     DWORD ret;
     WSADATA stWSAData;
     WORD wVersionRequested = MAKEWORD(2, 2);
