@@ -11,6 +11,7 @@
 #include "mybuffer.h"
 #include "micbuffer.h"
 #include "networkutility.h"
+#include "udpthreadmanager.h"
 #define BUFFLEN 60000
 class Recorder : public QIODevice
 {
@@ -25,7 +26,7 @@ public:
     bool sendOut;
     int point;
     char header[40];
-    startSecondary();
+    void startSecondary();
 signals:
     void signalStartPlayer();
 

@@ -1,4 +1,5 @@
 #include "udpthreadmanager.h"
+sockaddr_in voiceChatSend;
 
 UDPThreadManager::UDPThreadManager(QObject *parent) : QObject(parent)
 {
@@ -77,16 +78,16 @@ void UDPThreadManager::initalizeVoiceChatSockets()
         qDebug() << "Voice Receieve bind( failed";
         return;
     }
-
     voiceChatSend.sin_family      = AF_INET;
     voiceChatSend.sin_addr.s_addr = htonl(INADDR_ANY);
-    addr_size = sizeof(struct sockaddr_in);
-    nRet = bind(VCSendSocket, (struct sockaddr*) &voiceChatSend, addr_size);
-    if (nRet == SOCKET_ERROR)
+    if ((hp = gethostbyname("192.168.0.18")) == NULL)
     {
-        qDebug() << "Voice Send bind() failed";
+        qDebug() << "No host info";
         return;
     }
+    memcpy((char *)&voiceChatSend.sin_addr, hp->h_addr, hp->h_length);
+    addr_size = sizeof(struct sockaddr_in);
+
     //Go into receive loop
     qDebug() << "Sending signalUDPWorker";
     UDPWorker(VCRecieveSocket, voiceChatReceive);
