@@ -64,7 +64,7 @@ void ClientHandlerThread::receiveRequests(){
 
         // upload request
         if(buf[0] == REQ_UPLOAD){
-            fHelper->handleUploadRequest();
+            fHelper->handleUploadRequest(buf, m_socket);
         }
 
         // stream request
