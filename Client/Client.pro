@@ -19,7 +19,8 @@ SOURCES += main.cpp\
         filemanager.cpp \
         udpthreadmanager.cpp \
         tcpthreadmanager.cpp \
-    mybuffer.cpp
+    mybuffer.cpp \
+    micbuffer.cpp
 
 HEADERS  += client.h \
     networkutility.h \
@@ -27,7 +28,8 @@ HEADERS  += client.h \
     udpthreadmanager.h \
     tcpthreadmanager.h \
     filemanager.h \
-    mybuffer.h
+    mybuffer.h \
+    micbuffer.h
 
 
 

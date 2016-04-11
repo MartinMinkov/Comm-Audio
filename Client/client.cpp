@@ -1,5 +1,4 @@
 #include "client.h"
-
 circlebuff music;
 QFile sourceFile;
 QBuffer playBuffer;
