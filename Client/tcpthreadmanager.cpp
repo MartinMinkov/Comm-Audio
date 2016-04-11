@@ -209,7 +209,6 @@ void ThreadManager::disconnect()
 }
 void ThreadManager::SendDownloadRequest(QString songName)
 {
-    songName = "vec1.m4a";
     HANDLE writeThread;
     DWORD id;
     char fileName[500] = { 0 };

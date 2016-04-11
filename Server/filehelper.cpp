@@ -18,6 +18,17 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
     qDebug() << title;
     FILE * fqt;
     title = title.remove(0, 1);
+
+    int index = 0;
+    //find the corresponding song title with filepath
+    for(QStringList::iterator it = playlist.begin(); it != playlist.end(); ++it, index++){
+        QString current = *it;
+        if(QString::compare(current,title,Qt::CaseSensitive) == 0){
+            title = playlistWithPath.at(index);
+            break;
+        }
+    }
+
     if(!(fqt = fopen(title.toStdString().c_str(), "rb+"))){
         sendDataTCP(m_socket, ERROR_BIT);
         return;

@@ -35,7 +35,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -221,31 +221,6 @@
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
-     <item>
-      <property name="text">
-       <string>Stressed Out - Twenty One Pilots</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Sorry - Justin Bieber</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Renegades - X Ambassadors</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Hide Away - Daya</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>See You Again - Wiz Khalifa</string>
-      </property>
-     </item>
     </widget>
     <widget class="QFrame" name="panel_bg_client_filedownload_1">
      <property name="geometry">
@@ -620,31 +595,6 @@
      <property name="lineWidth">
       <number>1</number>
      </property>
-     <item>
-      <property name="text">
-       <string>Stressed Out - Twenty One Pilots</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Sorry - Justin Bieber</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Renegades - X Ambassadors</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Hide Away - Daya</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>See You Again - Wiz Khalifa</string>
-      </property>
-     </item>
     </widget>
     <widget class="QFrame" name="panel_bg_client_fileupload_1">
      <property name="geometry">
