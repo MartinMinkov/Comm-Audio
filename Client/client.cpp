@@ -181,7 +181,10 @@ void client::on_playStreamButton_clicked()
     printf("I hate alvin");
 	qDebug() << "Play Stream Button is clicked";
     //Not sure why this is done, but its something to do with passing objects in threads.
+    connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+    emit receiveTCPWorker->signalSongRefresh();
     connect(&play, SIGNAL(updateCurrentlyPlaying(QString)), this, SLOT(setCurrentlyPlaying(QString)));
+
     streamUDPWorker->initMultiCastSock();
 
 	//Check if StreamSocket socket is not null
