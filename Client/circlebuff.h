@@ -14,7 +14,9 @@ public:
     int byteLen[MAXLEN];
     char * buff[MAXLEN];
     int head, tail, headBuff;
+    bool alive;
     void init(){
+        alive = true;
         int i = 0;
         for(i = 0; i < MAXLEN; i++){
             char * k = new char[BLOCKSIZE];

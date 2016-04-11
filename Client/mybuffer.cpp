@@ -7,14 +7,17 @@ myBuffer::myBuffer()
 
     QAudioFormat format;
     realPos = 0;
-    format.setSampleRate(16100); // Usually this is specified through an UI option
+    format.setSampleRate(44100); // Usually this is specified through an UI option
     format.setChannelCount(2);
     format.setSampleSize(16);
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
     format.setSampleType(QAudioFormat::UnSignedInt);
     player = new QAudioOutput(format, this);
-    cData.init();
+    if(cData.alive)
+        cData.clear();
+    else
+        cData.init();
     curSong = 0;
     filler.resize(BUFFSIZE);
     loader = buff;
@@ -108,11 +111,9 @@ void myBuffer::setSocket(int socket){
         //printf("Tail %d, Head: %d", cData.tail, cData.headBuff);
         //fflush(stdout);
         if(cData.tail < cData.headBuff){
-        //Sleep(1000);
-        //Sleep(500);
         startPlayer();
-        printf("Startng the player");
-         break;
+        printf("Starting the player");
+        break;
         }
 
     }
