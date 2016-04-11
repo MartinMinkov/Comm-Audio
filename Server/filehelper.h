@@ -7,10 +7,10 @@
 #include <QIODevice>
 #include <QDebug>
 #include <QByteArray>
-
+#include "circlebuff.h"
 #include <fstream>
 #include <iostream>
-
+#include "networkutility.h"
 #include <winsock2.h>
 #include <windows.h>
 
@@ -23,7 +23,7 @@ class filehelper
 public:
     filehelper();
     void handleDownloadRequest(QString title, SOCKET m_socket);
-    void handleUploadRequest();
+    void handleUploadRequest(QString title, SOCKET m_socket);
 };
 
 #endif // FILEHELPER_H

@@ -35,7 +35,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -1342,7 +1342,7 @@
        <string>03:40</string>
       </property>
      </widget>
-     <widget class="QSlider" name="horizontalSlider_3">
+     <widget class="QSlider" name="volumeSlider">
       <property name="geometry">
        <rect>
         <x>450</x>
@@ -1350,6 +1350,9 @@
         <width>91</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="sliderPosition">
+       <number>99</number>
       </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>

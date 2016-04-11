@@ -330,3 +330,8 @@ void client::on_button_uploadDirectory_clicked()
         ui->uploadFileWidget->addItem(file);
     }
 }
+
+void client::on_volumeSlider_valueChanged(int value)
+{
+    play.updateVolume((float)(value / 100.0F));
+}

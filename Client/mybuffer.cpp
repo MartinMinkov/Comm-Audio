@@ -71,6 +71,10 @@ qint64 myBuffer::readData(char * data, qint64 len){
         return len;
     }
 }
+void myBuffer::updateVolume(float v){
+    player->setVolume(v);
+}
+
 void myBuffer::jumpLive(){
     cData.tail = cData.headBuff;
     currentPos = songStart + cData.headBuff - currentTail;
