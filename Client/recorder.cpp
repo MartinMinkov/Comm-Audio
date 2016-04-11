@@ -33,9 +33,16 @@ void Recorder::initializeAudio()
 }
 void Recorder::startPlayer()
 {
+    initializeAudio();
+    qDebug() << "PLAYER STARTING SECONDARY";
+    player->setSocket(1);
+
+}
+void Recorder::startSecondary(){
     qDebug() << "PLAYER STARTING PLAYER STARTING";
     player->setSocket(1);
 }
+
 qint64 Recorder::readData(char *data, qint64 maxlen)
 {
     return 0;

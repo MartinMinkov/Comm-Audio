@@ -272,7 +272,7 @@ void client::on_voiceChatButton_clicked()
     qDebug() << "Before init";
     rec.initializeAudio();
     qDebug() << "after init";
-    rec.startPlayer();
+    rec.startSecondary();
 }
 void client::on_endChatButton_clicked()
 {
