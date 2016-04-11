@@ -89,7 +89,7 @@ void ThreadManager::VoiceConnect()
     VCserver.sin_family = AF_INET;
     VCserver.sin_port = htons(DEFAULT_VOICE_PORT);
     //This must be fixed
-    if ((hp = gethostbyname("192.168.0.17")) == NULL)
+    if ((hp = gethostbyname("192.168.0.18")) == NULL)
     {
         formatMessage("Unknown server address");
         return;

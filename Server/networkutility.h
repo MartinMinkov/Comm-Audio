@@ -38,8 +38,9 @@ public:
     bool receiveTCP(SOCKET sd, char* message);
     static void debugMessage(const char* message);
 
-};
 
+};
+int WSARead(SOCKET sd, char * message, int timeout, int size);
 void sendDataTCP(SOCKET sd, const char* message);
 bool receiveTCP(SOCKET sd, char* message);
 

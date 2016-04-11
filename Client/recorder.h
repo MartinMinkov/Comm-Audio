@@ -11,6 +11,7 @@
 #include "mybuffer.h"
 #include "micbuffer.h"
 #include "networkutility.h"
+#include "udpthreadmanager.h"
 #define BUFFLEN 60000
 class Recorder : public QIODevice
 {

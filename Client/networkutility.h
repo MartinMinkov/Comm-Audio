@@ -19,7 +19,7 @@
 #define MULTICAST_ADDRESS "234.5.6.7"
 #define ERROR_BIT '$'
 #define REQ_DOWNLOAD 'v'
-#define REQ_UPLOAD "^"
+#define REQ_UPLOAD '^'
 #define REQ_STREAM "!"
 #define REQ_CHAT "?"
 #define REQ_REFRESH "%"

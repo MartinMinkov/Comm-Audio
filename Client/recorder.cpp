@@ -25,7 +25,7 @@ void Recorder::initializeAudio()
     this->open(QIODevice::WriteOnly);
     audioInput = new QAudioInput(format, this);
     //cData.clear();
-   // audioInput->start(this);
+    //audioInput->start(this);
     player = new myBuffer();
     memset(header, '\0', 40);
     strcpy(header, "z-16-44100-2-999-999");
@@ -64,7 +64,10 @@ qint64 Recorder::writeData(const char *data, qint64 len)
         printf("SEnding a packet!");
         fflush(stdout);
         memcpy(buff, header, 40);
-        WSAS(VCSocket, buff, BUFFLEN, 100);
+        if (sendto(VCSendSocket, buff, BUFFLEN, 0, (struct sockaddr *)&voiceChatSend, sizeof(voiceChatSend)) == -1)
+        {
+            qDebug() << "Sending failed";
+        }
 
         sendOut = false;
         point = 40;

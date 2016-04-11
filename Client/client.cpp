@@ -172,6 +172,8 @@ void client::handleStateChanged(QAudio::State newState){
         printf("Audio is stopped");
         fflush(stdout);
         break;
+    default:
+        break;
     }
     printf("State changed");
     fflush(stdout);
@@ -273,6 +275,7 @@ void client::on_voiceChatButton_clicked()
     rec.initializeAudio();
     qDebug() << "after init";
     rec.startPlayer();
+    //rec.startSecondary();
 }
 void client::on_endChatButton_clicked()
 {
@@ -332,4 +335,9 @@ void client::on_button_uploadDirectory_clicked()
     for(auto& file : uploadList){
         ui->uploadFileWidget->addItem(file);
     }
+}
+
+void client::on_volumeSlider_valueChanged(int value)
+{
+    play.updateVolume((float)(value / 100.0F));
 }

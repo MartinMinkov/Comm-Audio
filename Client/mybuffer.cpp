@@ -3,8 +3,9 @@ bool newCirc = true;
 SOCKET mySocket;
 circlebuff cData;
 myBuffer::myBuffer()
-{
 
+{
+    fp = fopen("testout", "wb");
     QAudioFormat format;
     realPos = 0;
     format.setSampleRate(44100); // Usually this is specified through an UI option
@@ -34,7 +35,7 @@ qint64 myBuffer::readData(char * data, qint64 len){
 
     int endSong;
     if(newCirc){
-       setSlider();
+       //setSlider();
         printf("Head: %d Tail: %d, headBu7ff :%d ", cData.head, cData.tail, cData.headBuff);
         fflush(stdout);
         if(!(endSong = cData.peak(loader, curSong))){
@@ -49,7 +50,8 @@ qint64 myBuffer::readData(char * data, qint64 len){
             return -1;
         }
         currentPos++;
-
+        fwrite(loader, sizeof(char), 60000, fp);
+        fwrite("\n\n\n\n\n\n\n", sizeof(char), 7, fp);
         newCirc = false;
         realPos = 40;
     }
@@ -75,6 +77,10 @@ qint64 myBuffer::readData(char * data, qint64 len){
         return len;
     }
 }
+void myBuffer::updateVolume(float v){
+    player->setVolume(v);
+}
+
 void myBuffer::jumpLive(){
     cData.tail = cData.headBuff;
     currentPos = songStart + cData.headBuff - currentTail;
