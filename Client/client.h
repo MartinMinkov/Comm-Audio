@@ -33,7 +33,7 @@ public:
     explicit client(QWidget *parent = 0);
     ~client();
     void toggleInput(bool state);
-    bool paused;
+
 
 signals:
     void signalStopRecording();
@@ -83,6 +83,8 @@ private:
     UDPThreadManager* streamUDPWorker;
 
     Recorder rec;
+    bool streamSetup;
+    bool paused;
 };
 
 #endif // CLIENT_H
