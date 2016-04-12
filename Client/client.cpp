@@ -381,3 +381,8 @@ void client::on_volumeSlider_valueChanged(int value)
 {
     play.updateVolume((float)(value / 100.0f));
 }
+
+void client::on_connectedWidget_itemSelectionChanged()
+{
+    ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
+}

@@ -53,7 +53,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -807,7 +807,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Martin Minkov</string>
+       <string>No user selected</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
