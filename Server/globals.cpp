@@ -8,7 +8,7 @@ globals::globals()
 
 }
 
-
+QMap<QString, QString> userListWithIP;
 QVector<QString> userList;
 QStandardItemModel *playlistModel;
 QStringList playlistWithPath;

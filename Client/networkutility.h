@@ -22,6 +22,7 @@
 #define REQ_UPLOAD '^'
 #define REQ_STREAM "!"
 #define REQ_CHAT "?"
+#define REQ_CHAT_IP '@'
 #define REQ_REFRESH "%"
 #define REFRESH_USER  '&'
 #define REFRESH_SONG  '*'

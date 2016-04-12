@@ -32,7 +32,7 @@ public:
 
 public slots:
     void updateUserList(QVector<QString> userList);
-    void createClientThread(int socket);
+    void createClientThread(int socket, QString clientIP);
     void updateCurrentlyPlayingLabel(QString songName);
 
 signals:

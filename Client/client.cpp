@@ -293,8 +293,22 @@ void client::on_voiceChatButton_clicked()
     rec.startPlayer();
     return;
     */
-    connect(receiveTCPWorker, SIGNAL(signalVoiceConnect()), receiveTCPWorker, SLOT(VoiceConnect()));
-    emit receiveTCPWorker->signalVoiceConnect();
+    char buf[PACKET_LEN];
+    char *clientIP = buf;
+
+    //ask the server for the IP corresponding to the selected username
+    connect(receiveTCPWorker, SIGNAL(signalGetVoiceChatIP(QString)), receiveTCPWorker, SLOT(requestVoiceChatIP(QString)));
+    QString username = QString("%1%2").arg(REQ_CHAT_IP).arg(ui->connectedWidget->currentItem()->text());
+    emit receiveTCPWorker->signalGetVoiceChatIP(username);
+
+    //read the ip from the server
+    if(receiveTCP(TCPSocket, clientIP)){
+        qDebug() << "got a client IP back?";
+        qDebug() << clientIP;
+    }
+
+    connect(receiveTCPWorker, SIGNAL(signalVoiceConnect(QString)), receiveTCPWorker, SLOT(VoiceConnect(QString)));
+    emit receiveTCPWorker->signalVoiceConnect(clientIP);
     qDebug() << "Before init";
     rec.initializeAudio();
     qDebug() << "after init";

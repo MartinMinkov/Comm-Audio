@@ -1,10 +1,11 @@
 #include "clienthandlerthread.h"
 
 myBuffer * playBuff;
-ClientHandlerThread::ClientHandlerThread(int socket, myBuffer * player)
+ClientHandlerThread::ClientHandlerThread(int socket, myBuffer * player, QString clientIP)
 {
     playBuff = player;
     m_socket = socket;
+    m_clientIP = clientIP;
     fHelper = new filehelper();
     sHelper = new streamhelper();
     cHelper = new chathelper();
@@ -25,6 +26,11 @@ void ClientHandlerThread::receiveRequests(){
         networkutility::debugMessage(username);
         clientUsername = username;
         userList.push_back(username);
+
+        //add client username and ip to clientIP map
+        userListWithIP.insert(clientUsername, m_clientIP);
+//        QString test = userListWithIP.value(clientUsername);
+
         //add client to gui
         emit signalUpdateUserList(userList);
     }
@@ -75,6 +81,14 @@ void ClientHandlerThread::receiveRequests(){
         // chat request
         if(buf[0] == REQ_CHAT){
             cHelper->handleChatRequest();
+        }
+
+        // chat ip request
+        if(buf[0] == REQ_CHAT_IP){
+            std::string user_name(bp);
+            user_name.erase(0, 1);
+            QString temp = QString::fromStdString(user_name);
+            cHelper->handleChatIPRequest(m_socket, temp);
         }
 
         if(buf[0] == REFRESH_SONG){
@@ -155,5 +169,9 @@ void ClientHandlerThread::removeUserFromList(){
             break;
         }
     }
+
+    //also remove it from the clientIP map
+    userListWithIP.remove(clientUsername);
+
 }
 

@@ -61,12 +61,15 @@ void ControlThread::setup(int port){
 //            networkutility::debugMessage("continuuing");
         }
 
+        //get the client IP so we can use it for voice chat
+        QString clientIP = inet_ntoa(client.sin_addr);
+
         networkutility::debugMessage("passed accept");
 
         networkutility::debugMessage("create thread here for the new client");
 
         //send a signal here to the main thread to create the handler thread, instead of creating it here
-        emit signalCreateClientThread(accept_socket);
+        emit signalCreateClientThread(accept_socket, clientIP);
 
         //keep track of clients?
         numberOfClients++;

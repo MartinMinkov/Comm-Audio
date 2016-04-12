@@ -11,6 +11,7 @@
 extern SOCKET listen_socket;
 extern SOCKET accept_socket;
 
+extern QMap<QString, QString> userListWithIP;
 extern QVector<QString> userList;
 extern QStandardItemModel *playlistModel;
 extern QStringList playlistWithPath;

@@ -27,7 +27,7 @@ void server::initControlThread(){
     controlWorker = new ControlThread();
     controlWorker->moveToThread(controlThread);
     connect(controlWorker, SIGNAL(signalSetup(int)), controlWorker, SLOT(setup(int)));
-    connect(controlWorker, SIGNAL(signalCreateClientThread(int)), this, SLOT(createClientThread(int)));
+    connect(controlWorker, SIGNAL(signalCreateClientThread(int, QString)), this, SLOT(createClientThread(int, QString)));
 
     connect(controlWorker, SIGNAL(signalDisconnect()), controlWorker, SLOT(disconnect()));
     connect(controlWorker, SIGNAL(finished()), controlThread, SLOT(quit()));
@@ -105,11 +105,11 @@ void server::toggleConnected(bool state){
     ui->bStopServer->setEnabled(state);
 }
 
-void server::createClientThread(int socket){
+void server::createClientThread(int socket, QString clientIP){
 
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
     clientHandlerThread = new QThread;
-    clientWorker = new ClientHandlerThread(socket, &player);
+    clientWorker = new ClientHandlerThread(socket, &player, clientIP);
     clientWorker->moveToThread(clientHandlerThread);
     connect(clientHandlerThread, SIGNAL(started()), clientWorker, SLOT(receiveRequests()));
     //TODO: connect start signal with a slot to create Colin's thread (update song list)

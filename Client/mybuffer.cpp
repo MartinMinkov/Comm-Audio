@@ -35,7 +35,7 @@ qint64 myBuffer::readData(char * data, qint64 len){
 
     int endSong;
     if(newCirc){
-       //setSlider();
+       setSlider();
         printf("Head: %d Tail: %d, headBu7ff :%d ", cData.head, cData.tail, cData.headBuff);
         fflush(stdout);
         if(!(endSong = cData.peak(loader, curSong))){
@@ -97,6 +97,36 @@ void myBuffer::jumpLive(){
     fflush(stdout);
 }
 void myBuffer::sliderChange(int perc){
+    int reqBlock = perc / 100.0f * songTotal;
+    int minBlock, maxBlock;
+    minBlock = songStart;
+    maxBlock = songStart + cData.headBuff - currentTail;
+    if(cData.headBuff > (currentTail + 498)){
+        int totalProg = cData.headBuff - currentTail - 495;
+        minBlock = songStart + totalProg;
+        printf("New Minblock: %d, total prog: %d", minBlock, totalProg);
+        if(reqBlock < minBlock){
+            printf("Doing pre start : %d", currentTail + totalProg);
+            cData.tail = currentTail + totalProg;
+            currentPos = songStart + totalProg;
+            return;
+        }
+    }
+    if(reqBlock > maxBlock){
+        cData.tail = cData.headBuff;
+        currentPos = maxBlock;
+        return;
+    }
+    if(reqBlock < minBlock){
+        cData.tail = currentTail;
+        currentPos = minBlock;
+        return;
+    }
+    int diff = reqBlock - songStart;
+    printf("Doing normal move: %d", diff);
+    cData.tail = currentTail + diff;
+    currentPos = songStart + diff;
+    /*
     int newPos = currentTail + (perc * songTotal / 100);
     float ret;
     if(newPos > cData.head){
@@ -110,7 +140,7 @@ void myBuffer::sliderChange(int perc){
             newPos = 0;
         cData.tail = newPos;
         currentPos = songStart + cData.tail - currentTail;
-    }
+    }*/
     //printf("Head: %d, Tail: %d", cData.head, cData.tail);
 }
 

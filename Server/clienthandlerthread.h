@@ -17,7 +17,7 @@ class ClientHandlerThread : public QObject
 {
     Q_OBJECT
 public:
-    ClientHandlerThread(int socket, myBuffer * player);
+    ClientHandlerThread(int socket, myBuffer * player, QString clientIP);
 
 signals:
     void signalDisconnect();
@@ -30,6 +30,7 @@ public slots:
 
 private:
     int m_socket;
+    QString m_clientIP;
     filehelper* fHelper;
     streamhelper* sHelper;
     chathelper* cHelper;
