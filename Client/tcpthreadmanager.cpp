@@ -145,6 +145,7 @@ void ThreadManager::setupVoiceChat()
         qDebug() <<  "Can't accept client";
         return;
     }
+    qDebug() << "Hi allen2";
     connectionRequested = true;
     udp.initalizeVoiceChatSockets();
     emit signalStartPlayer();

@@ -288,11 +288,11 @@ void client::setCurrentlyPlaying(QString songName){
 void client::on_voiceChatButton_clicked()
 {
 
-    /*rec.initializeAudio();
+   rec.initializeAudio();
 
     rec.startPlayer();
     return;
-    */
+
     char buf[PACKET_LEN];
     char *clientIP = buf;
 

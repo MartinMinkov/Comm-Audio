@@ -40,7 +40,7 @@ public:
     }
     int peak(char * bff, char c){
         if(tail < head){
-
+            printf("buff: %s", buff[tail % MAXLEN]);
             memcpy(bff, buff[tail % MAXLEN], byteLen[tail % MAXLEN]);
             int ret = byteLen[tail % MAXLEN];
             if(bff[0] != c)
@@ -59,7 +59,9 @@ public:
         memcpy(buff[head % MAXLEN], add, len);
         head++;
         headBuff++;
-    }
+        printf(add);
+
+        fflush(stdout);}
 
     void del(){
         for(int i = 0; i < MAXLEN; i++){

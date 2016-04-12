@@ -141,7 +141,7 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
         if (Index == WAIT_IO_COMPLETION)
         {
             qDebug() << "Server Terminating";
-            return;
+            continue;
         }
     }
 }

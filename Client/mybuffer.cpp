@@ -36,22 +36,21 @@ qint64 myBuffer::readData(char * data, qint64 len){
     int endSong;
     if(newCirc){
        setSlider();
-        printf("Head: %d Tail: %d, headBu7ff :%d ", cData.head, cData.tail, cData.headBuff);
+
         fflush(stdout);
         if(!(endSong = cData.peak(loader, curSong))){
             printf("End of song/buffer");
-            return -1;
+            return 0;
         }
         if(endSong == -1){
             curSong = loader[0];
             char yaok[40];
             memcpy(yaok, loader, 40);
             setHeader(yaok);
-            return -1;
+            return 0;
         }
         currentPos++;
-        fwrite(loader, sizeof(char), 60000, fp);
-        fwrite("\n\n\n\n\n\n\n", sizeof(char), 7, fp);
+
         newCirc = false;
         realPos = 40;
     }
@@ -159,15 +158,15 @@ void myBuffer::setSocket(int socket){
     mySocket = socket;
     DWORD id;
     //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
-    while(1){
+   // while(1){
 
-        if(cData.tail < cData.headBuff){
+        //if(cData.tail < cData.headBuff){
         startPlayer();
-        break;
-        }
+       // break;
+       // }
 
-    }
-    cData.tail = cData.headBuff;
+    //}
+    //cData.tail = cData.headBuff;
 }
 void myBuffer::setHeader(char * h){
     QString orig(h);
