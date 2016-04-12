@@ -35,7 +35,7 @@ qint64 myBuffer::readData(char * data, qint64 len){
 
     int endSong;
     if(newCirc){
-       //setSlider();
+       setSlider();
         printf("Head: %d Tail: %d, headBu7ff :%d ", cData.head, cData.tail, cData.headBuff);
         fflush(stdout);
         if(!(endSong = cData.peak(loader, curSong))){
