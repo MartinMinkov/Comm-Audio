@@ -191,7 +191,7 @@ void client::on_updateVoiceUsersButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
     connect(receiveTCPWorker, SIGNAL(signalVoiceRefresh()), receiveTCPWorker, SLOT(SendVoiceRefreshRequest()));
-    emit receiveTCPWorker->SendVoiceRefreshRequest();
+    emit receiveTCPWorker->signalVoiceRefresh();
 }
 
 void client::on_playStreamButton_clicked()
@@ -379,4 +379,9 @@ void client::on_button_uploadDirectory_clicked()
 void client::on_volumeSlider_valueChanged(int value)
 {
     play.updateVolume((float)(value / 100.0f));
+}
+
+void client::on_connectedWidget_itemSelectionChanged()
+{
+    ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
 }

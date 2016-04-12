@@ -43,6 +43,7 @@
         <file>rc/play-circle.png</file>
         <file>rc/rewind.png</file>
         <file>rc/stop.png</file>
+        <file>rc/jump_to_live.png</file>
     </qresource>
     <qresource prefix="/qdarkstyle">
         <file>style.qss</file>
