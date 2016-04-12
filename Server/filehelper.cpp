@@ -86,6 +86,7 @@ void filehelper::handleUploadRequest(QString songName, SOCKET m_socket){
     }
     SetEvent(readDone);
     WaitForSingleObject(fileDone, FILEMAX);
+    fclose(fqt);
     printf("Done reading");
     fflush(stdout);
 
@@ -112,7 +113,7 @@ DWORD WINAPI readStuff(LPVOID param){
         }
         if(err == WAIT_OBJECT_0 + 1){
             SetEvent(fileDone);
-            fclose(fqt);
+            //fclose(fqt);
             break;
         }
 
