@@ -1,8 +1,7 @@
 #ifndef NETWORKUTILITY_H
 #define NETWORKUTILITY_H
 
-#include <winsock2.h>
-#include <windows.h>
+#include "globals.h"
 #include <ws2tcpip.h>
 #include <QDebug>
 #include <sstream>

@@ -32,7 +32,7 @@ int circlebuff::pop(char * bff){
 }
 int circlebuff::peak(char * bff, char c){
     if(tail < head){
-        printf("buff: %s", buff[tail % MAXLEN]);
+
         memcpy(bff, buff[tail % MAXLEN], byteLen[tail % MAXLEN]);
         int ret = byteLen[tail % MAXLEN];
         if(bff[0] != c)
@@ -51,9 +51,9 @@ void circlebuff::push(char * add, int len){
     memcpy(buff[head % MAXLEN], add, len);
     head++;
     headBuff++;
-    printf(add);
-    fflush(stdout);
-    printf("adding data: %d %d", head, tail);
+    if(headBuff > tail)
+        SetEvent(dataInBuffer);
+
 }
 
 void circlebuff::del(){

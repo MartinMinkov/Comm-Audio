@@ -145,6 +145,7 @@ void ThreadManager::setupVoiceChat()
         qDebug() <<  "Can't accept client";
         return;
     }
+    //emit
     qDebug() << "Hi allen2";
     connectionRequested = true;
     udp.initalizeVoiceChatSockets();
@@ -314,8 +315,6 @@ DWORD WINAPI uploadStuff(LPVOID param){
             }
             WSAS(TCPSocket, buff, 20000, 1000);
     }
-
-
 }
 
 DWORD WINAPI readStuff(LPVOID param){

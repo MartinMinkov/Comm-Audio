@@ -9,7 +9,6 @@
 #include <QBuffer>
 #include "circlebuff.h"
 #include "mybuffer.h"
-#include "micbuffer.h"
 #include "networkutility.h"
 #include "udpthreadmanager.h"
 #define BUFFLEN 60000
@@ -19,7 +18,6 @@ class Recorder : public QIODevice
 public:
     Recorder();
     void initializeAudio();
-    micBuffer * micIn;
     myBuffer * player;
     char * buff;
     char buffer[BUFFLEN];

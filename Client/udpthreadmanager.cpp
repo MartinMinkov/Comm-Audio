@@ -82,7 +82,7 @@ void UDPThreadManager::initalizeVoiceChatSockets()
     }
     voiceChatSend.sin_family      = AF_INET;
     voiceChatSend.sin_addr.s_addr = htonl(INADDR_ANY);
-    if ((hp = gethostbyname("192.168.0.18")) == NULL)
+    if ((hp = gethostbyname("192.168.0.17")) == NULL)
     {
         qDebug() << "No host info";
         return;

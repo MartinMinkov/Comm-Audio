@@ -22,7 +22,6 @@ void Recorder::initializeAudio()
         qDebug()<<"default format not supported try to use nearest";
         format = info.nearestFormat(format);
     }
-    micIn = new micBuffer();
     this->open(QIODevice::WriteOnly);
     audioInput = new QAudioInput(format, this);
     //cData.clear();
@@ -91,6 +90,7 @@ void Recorder::stopRecording()
     {
         cData.clear();
         audioInput->stop();
+        player->player->stop();
         delete audioInput;
         audioInput = NULL;
     }

@@ -27,6 +27,7 @@ myBuffer::myBuffer()
 }
 
 void myBuffer::setSlider(){
+    printf("Updating the slider: %d", currentPos);
     float percent =  100 * currentPos / (float)songTotal;
     QMetaObject::invokeMethod(mw, "updateSlider",Qt::QueuedConnection, Q_ARG(int, (int)percent));
 }
@@ -82,6 +83,10 @@ void myBuffer::pausePlayer(){
 }
 
 void myBuffer::resumePlayer(){
+    if(player->state() == QAudio::IdleState){
+        player->start(this);
+        cData.tail = cData.headBuff;
+    }
     player->resume();
 
 }
@@ -182,6 +187,7 @@ void myBuffer::setHeader(char * h){
     songTotal = ls.value(4).toInt();
     songNumber = ls.value(5).toInt();
     currentPos = ls.value(6).toInt();
+
     currentTail = cData.tail;
     songStart = currentPos;
     realPos = 0;

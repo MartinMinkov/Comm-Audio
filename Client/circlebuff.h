@@ -3,6 +3,7 @@
 
 #include "qplatformdefs.h"
 #include <stdlib.h>
+#include "globals.h"
 
 #define MAXLEN 500
 #define BLOCKSIZE 60000

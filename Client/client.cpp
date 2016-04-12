@@ -1,4 +1,5 @@
 #include "client.h"
+#include "globals.h"
 circlebuff music;
 QFile sourceFile;
 QBuffer playBuffer;
@@ -9,14 +10,18 @@ char musicBuff[20000] = { 0 };
 extern QObject * mw;
 
 extern QObject * bf;
-bool drag = false;
+bool drag = true;
 client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
 {
-    paused = true;
+    LPCWSTR idk = L"Astring";
+    DWORD id;
+    dataInBuffer = CreateEvent(NULL, TRUE, FALSE, idk);
+    paused = false;
     streamSetup = false;
     ui->setupUi(this);
+
     ui->disconnectButton->setEnabled(false);
     for(int i= 1; i < 5; i++)
     {
@@ -210,6 +215,7 @@ void client::on_playStreamButton_clicked()
             return;
 
         qDebug() << "Starting to listen";
+        WaitForSingleObject(dataInBuffer, 5000);
         play.setSocket(StreamSocket);
         streamSetup = true;
     } else {
@@ -238,6 +244,7 @@ void client::on_stopStreamButton_clicked()
     closesocket(StreamSocket);
     closesocket(SI->Socket);
     emit streamUDPWorker->disconnect();
+
     qDebug() << "After Disconnet";
 }
 
@@ -287,12 +294,6 @@ void client::setCurrentlyPlaying(QString songName){
 }
 void client::on_voiceChatButton_clicked()
 {
-
-   rec.initializeAudio();
-
-    rec.startPlayer();
-    return;
-
     char buf[PACKET_LEN];
     char *clientIP = buf;
 
@@ -318,13 +319,16 @@ void client::on_voiceChatButton_clicked()
 void client::on_endChatButton_clicked()
 {
     //emit signalStopRecording();
+
     rec.stopRecording();
 }
 
 
 void client::on_acceptVoiceButton_clicked()
 {
-    cData.tail = cData.headBuff;
+    qDebug() << "ON ACCEPT BUTTON";
+    rec.initializeAudio();
+    rec.startPlayer();
 }
 
 void client::tabSelected(){
