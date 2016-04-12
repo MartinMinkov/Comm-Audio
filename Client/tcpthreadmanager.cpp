@@ -305,6 +305,8 @@ void ThreadManager::SendVoiceRefreshRequest()
     std::string temp;
     temp = REFRESH_USER;
     sendDataTCP(TCPSocket, temp.c_str());
+    if(!handleRequest())
+        return;
 }
 
 DWORD WINAPI uploadStuff(LPVOID param){

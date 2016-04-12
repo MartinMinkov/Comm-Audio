@@ -98,8 +98,11 @@ void ClientHandlerThread::receiveRequests(){
             sendDataTCP(m_socket, constructedSongList.c_str());
         }
 
-
-        networkutility::debugMessage(bp);
+        // user refresh request
+        if(buf[0] == REFRESH_USER){
+            QString refreshedUserList = constructUserListString();
+            sendDataTCP(m_socket, refreshedUserList.toLocal8Bit().data());
+        }
     }
 
     emit finished();

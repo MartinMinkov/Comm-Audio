@@ -191,7 +191,7 @@ void client::on_updateVoiceUsersButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
     connect(receiveTCPWorker, SIGNAL(signalVoiceRefresh()), receiveTCPWorker, SLOT(SendVoiceRefreshRequest()));
-    emit receiveTCPWorker->SendVoiceRefreshRequest();
+    emit receiveTCPWorker->signalVoiceRefresh();
 }
 
 void client::on_playStreamButton_clicked()
