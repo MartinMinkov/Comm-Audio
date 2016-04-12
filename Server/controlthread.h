@@ -19,7 +19,7 @@ public:
 signals:
     void signalSetup(int port);
     void signalDisconnect();
-    void signalCreateClientThread(int socket);
+    void signalCreateClientThread(int socket, QString clientIP);
     void finished();
 
 public slots:

@@ -76,7 +76,7 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     emit signalHandleRequest();
     emit finished();
 }
-void ThreadManager::VoiceConnect()
+void ThreadManager::VoiceConnect(QString clientIP)
 {
     //TCP Socket
     if ((VCConnectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == INVALID_SOCKET)
@@ -89,7 +89,7 @@ void ThreadManager::VoiceConnect()
     VCserver.sin_family = AF_INET;
     VCserver.sin_port = htons(DEFAULT_VOICE_PORT);
     //This must be fixed
-    if ((hp = gethostbyname("192.168.0.18")) == NULL)
+    if ((hp = gethostbyname(clientIP.toLocal8Bit().constData())) == NULL)
     {
         formatMessage("Unknown server address");
         return;
@@ -391,4 +391,10 @@ void ThreadManager::parseUserList(char* bp)
         playlist = userList;
         emit updateSongList(userList);
     }
+}
+
+void ThreadManager::requestVoiceChatIP(QString username){
+    std::string temp;
+    temp = username.toUtf8().constData();
+    sendDataTCP(TCPSocket, temp.c_str());
 }

@@ -15,6 +15,7 @@ client::client(QWidget *parent) :
     ui(new Ui::client)
 {
     paused = true;
+    streamSetup = false;
     ui->setupUi(this);
     ui->disconnectButton->setEnabled(false);
     for(int i= 1; i < 5; i++)
@@ -195,22 +196,34 @@ void client::on_updateVoiceUsersButton_clicked()
 
 void client::on_playStreamButton_clicked()
 {
-    //PLAY
-    printf("I hate alvin");
-	qDebug() << "Play Stream Button is clicked";
-    //Not sure why this is done, but its something to do with passing objects in threads.
-    connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
-    emit receiveTCPWorker->signalSongRefresh();
-    connect(&play, SIGNAL(updateCurrentlyPlaying(QString)), this, SLOT(setCurrentlyPlaying(QString)));
+    if(!streamSetup){
+        qDebug() << "Play Stream Button is clicked";
+        //Not sure why this is done, but its something to do with passing objects in threads.
+        connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+        emit receiveTCPWorker->signalSongRefresh();
+        connect(&play, SIGNAL(updateCurrentlyPlaying(QString)), this, SLOT(setCurrentlyPlaying(QString)));
 
-    streamUDPWorker->initMultiCastSock();
+        streamUDPWorker->initMultiCastSock();
 
-	//Check if StreamSocket socket is not null
-	if (StreamSocket == 0)
-		return;
+        //Check if StreamSocket socket is not null
+        if (StreamSocket == 0)
+            return;
 
-	qDebug() << "Starting to listen";
-    play.setSocket(StreamSocket);
+        qDebug() << "Starting to listen";
+        play.setSocket(StreamSocket);
+        streamSetup = true;
+    } else {
+        if(paused){
+
+            paused = false;
+            play.pausePlayer();
+        }
+        else{
+            play.resumePlayer();
+            paused = true;
+        }
+    }
+
 }
 void client::updateSlider(int percent){
     if(drag)
@@ -231,19 +244,10 @@ void client::on_stopStreamButton_clicked()
 void client::on_rewindStreamButton_clicked()
 {
     //REWIND
-    /*cData.tail -= 20;
+    cData.tail -= 20;
     if(cData.tail < 0)
         cData.tail = 0;
-*/
-    if(paused){
 
-        paused = false;
-        play.pausePlayer();
-    }
-    else{
-        play.resumePlayer();
-        paused = true;
-    }
 }
 
 void client::handleUpdateStatusBar(bool connected){
@@ -289,8 +293,22 @@ void client::on_voiceChatButton_clicked()
     rec.startPlayer();
     return;
     */
-    connect(receiveTCPWorker, SIGNAL(signalVoiceConnect()), receiveTCPWorker, SLOT(VoiceConnect()));
-    emit receiveTCPWorker->signalVoiceConnect();
+    char buf[PACKET_LEN];
+    char *clientIP = buf;
+
+    //ask the server for the IP corresponding to the selected username
+    connect(receiveTCPWorker, SIGNAL(signalGetVoiceChatIP(QString)), receiveTCPWorker, SLOT(requestVoiceChatIP(QString)));
+    QString username = QString("%1%2").arg(REQ_CHAT_IP).arg(ui->connectedWidget->currentItem()->text());
+    emit receiveTCPWorker->signalGetVoiceChatIP(username);
+
+    //read the ip from the server
+    if(receiveTCP(TCPSocket, clientIP)){
+        qDebug() << "got a client IP back?";
+        qDebug() << clientIP;
+    }
+
+    connect(receiveTCPWorker, SIGNAL(signalVoiceConnect(QString)), receiveTCPWorker, SLOT(VoiceConnect(QString)));
+    emit receiveTCPWorker->signalVoiceConnect(clientIP);
     qDebug() << "Before init";
     rec.initializeAudio();
     qDebug() << "after init";
