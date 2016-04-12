@@ -53,7 +53,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -113,7 +113,7 @@
       </font>
      </property>
      <property name="text">
-      <string>127.0.0.1</string>
+      <string>192.168.0.18</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -163,7 +163,7 @@
       </font>
      </property>
      <property name="text">
-      <string>SpenserLee</string>
+      <string>Martin</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

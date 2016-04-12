@@ -59,6 +59,7 @@ public:
         memcpy(buff[head % MAXLEN], add, len);
         head++;
         headBuff++;
+        printf("adding data: %d %d", head, tail);
     }
 
     void del(){

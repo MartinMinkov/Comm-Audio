@@ -309,9 +309,8 @@ void client::on_voiceChatButton_clicked()
 
     connect(receiveTCPWorker, SIGNAL(signalVoiceConnect(QString)), receiveTCPWorker, SLOT(VoiceConnect(QString)));
     emit receiveTCPWorker->signalVoiceConnect(clientIP);
-    qDebug() << "Before init";
+
     rec.initializeAudio();
-    qDebug() << "after init";
 
     rec.startPlayer();
     //rec.startSecondary();

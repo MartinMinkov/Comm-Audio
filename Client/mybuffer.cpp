@@ -40,14 +40,14 @@ qint64 myBuffer::readData(char * data, qint64 len){
         fflush(stdout);
         if(!(endSong = cData.peak(loader, curSong))){
             printf("End of song/buffer");
-            return -1;
+            return 0;
         }
         if(endSong == -1){
             curSong = loader[0];
             char yaok[40];
             memcpy(yaok, loader, 40);
             setHeader(yaok);
-            return -1;
+            return 0;
         }
         currentPos++;
         fwrite(loader, sizeof(char), 60000, fp);
@@ -159,7 +159,7 @@ void myBuffer::setSocket(int socket){
     mySocket = socket;
     DWORD id;
     //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
-    while(1){
+    /*while(1){
 
         if(cData.tail < cData.headBuff){
         startPlayer();
@@ -167,7 +167,8 @@ void myBuffer::setSocket(int socket){
         }
 
     }
-    cData.tail = cData.headBuff;
+    cData.tail = cData.headBuff;*/
+    startPlayer();
 }
 void myBuffer::setHeader(char * h){
     QString orig(h);
