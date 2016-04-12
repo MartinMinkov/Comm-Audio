@@ -34,9 +34,10 @@ signals:
     void signalVoiceRefresh();
     void finished();
     void signalVoiceChat();
+    void signalGetVoiceChatIP(QString username);
     void updateCaller(QString);
     void updateStatusBar(bool connected);
-    void signalVoiceConnect();
+    void signalVoiceConnect(QString clientIP);
     void signalStartPlayer();
 
 public slots:
@@ -47,10 +48,11 @@ public slots:
     void SendUploadRequest(QString songName);
     //DWORD WINAPI readStuff(LPVOID param);
     void SendVoiceRequest();
+    void requestVoiceChatIP(QString username);
     void SendSongRefreshRequest();
     void SendVoiceRefreshRequest();
     void setupVoiceChat();
-    void VoiceConnect();
+    void VoiceConnect(QString clientIP);
 
 private:
     UDPThreadManager udp;

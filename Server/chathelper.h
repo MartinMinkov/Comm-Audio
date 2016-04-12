@@ -8,6 +8,7 @@ class chathelper
 public:
     chathelper();
     void handleChatRequest();
+    void handleChatIPRequest(int socket, QString username);
 };
 
 #endif // CHATHELPER_H
