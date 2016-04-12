@@ -16,11 +16,9 @@ SOURCES += main.cpp\
         client.cpp \
         networkutility.cpp \
         circlebuff.cpp \
-        filemanager.cpp \
         udpthreadmanager.cpp \
         tcpthreadmanager.cpp \
         mybuffer.cpp \
-        micbuffer.cpp \
         globals.cpp \
         recorder.cpp \
     recorderreceive.cpp
@@ -30,9 +28,7 @@ HEADERS  += client.h \
     circlebuff.h \
     udpthreadmanager.h \
     tcpthreadmanager.h \
-    filemanager.h \
     mybuffer.h \
-    micbuffer.h \
     globals.h \
     recorder.h \
     recorderreceive.h

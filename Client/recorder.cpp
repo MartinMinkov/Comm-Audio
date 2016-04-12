@@ -25,7 +25,7 @@ void Recorder::initializeAudio()
     micIn = new micBuffer();
     this->open(QIODevice::WriteOnly);
     audioInput = new QAudioInput(format, this);
-    cData.clear();
+    //cData.clear();
     audioInput->start(this);
     player = new myBuffer();
     memset(header, '\0', 40);
