@@ -1,8 +1,4 @@
 #include "mybuffer.h"
-#include "networkutility.h"
-#include "globals.h"
-#include "streamhandlerthread.h"
-#define MAXLEN 60000
 
 int totalRet = 0;
 bool newCirc = true;
@@ -152,12 +148,10 @@ DWORD WINAPI readFromFile(LPVOID param){
 
 }
 
-
-
-
 qint64 myBuffer::writeData(const char *data, qint64 len){
     return 0;
 }
+
 qint64 myBuffer::bytesAvailable(){
     return 0;
 }
@@ -167,7 +161,7 @@ void myBuffer::startPlayer(){
     DWORD id;
     LPCWSTR tom = L"thisisretarded";
     LPCWSTR martin = L"StartPlayer";
-    needData =  CreateEvent(NULL, TRUE, FALSE,tom );
+    needData =  CreateEvent(NULL, TRUE, FALSE, tom );
     sync =  CreateEvent(NULL, TRUE, FALSE, martin );
     fileReader = CreateThread(NULL, 0, readFromFile, (void *)this, 0, &id);
     SetEvent(needData);

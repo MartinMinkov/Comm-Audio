@@ -1,6 +1,4 @@
 #include "playermanager.h"
-#include "testbuff.h"
-#include "globals.h"
 
 testBuff * t;
 playerManager::playerManager()
@@ -52,34 +50,34 @@ void playerManager::getHeader(std::vector<int> vect){
 }
 
 bool playerManager::setFormat(std::vector<int> vect){
-       QAudioFormat format;
+    QAudioFormat format;
 
-       printf("%d %d %d", vect.at(0), vect.at(1), vect.at(2));
-       fflush(stdout);
-       format.setSampleRate(66666);
-       format.setChannelCount(2);
-       format.setSampleSize(16);
-       format.setCodec("audio/pcm");
-       format.setByteOrder(QAudioFormat::LittleEndian);
-       format.setSampleType(QAudioFormat::UnSignedInt);
-        printf("Done setting format");
-        fflush(stdout);
-       QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
-       if (!info.isFormatSupported(format)) {
-           qWarning() << "Raw audio format not supported by backend, cannot play audio.";
-           return false;
-       }
-//       QString song("C:/Users/Alvin/Documents/songs/pokemon1.wav");
+    printf("%d %d %d", vect.at(0), vect.at(1), vect.at(2));
+    fflush(stdout);
+    format.setSampleRate(66666);
+    format.setChannelCount(2);
+    format.setSampleSize(16);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::UnSignedInt);
+    printf("Done setting format");
+    fflush(stdout);
+    QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
+    if (!info.isFormatSupported(format)) {
+       qWarning() << "Raw audio format not supported by backend, cannot play audio.";
+       return false;
+    }
+    //QString song("C:/Users/Alvin/Documents/songs/pokemon1.wav");
 
-       t = new testBuff(mSongName, NULL);
-       connect(t, SIGNAL(triggerUpdateCurrentlyPlayingLabel(QString)), this, SLOT(relayCurrentlyPlayingSong(QString)));
-
-
-       //player = new QAudioOutput(format, t);
-       //player->start();
-        //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()));
+    t = new testBuff(mSongName, NULL);
+    connect(t, SIGNAL(triggerUpdateCurrentlyPlayingLabel(QString)), this, SLOT(relayCurrentlyPlayingSong(QString)));
 
 
+    //player = new QAudioOutput(format, t);
+    //player->start();
+    //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()));
+
+    return true;
 }
 void playerManager::startPlayer(){
     //player->start(t);

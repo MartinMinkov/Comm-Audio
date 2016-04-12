@@ -49,7 +49,7 @@ bool testBuff::loadSong(){
     emit triggerUpdateCurrentlyPlayingLabel(songName);
 
     if(!(fqt.open(QIODevice::ReadOnly))){
-            return false;
+        return false;
     }
 
     qbt = fqt.readAll();
@@ -62,8 +62,7 @@ bool testBuff::loadSong(){
     getHeader(vect);
     setFormat(vect);
 
-
-
+    return true;
 }
 void testBuff::getHeader(std::vector<int> vect){
     QString hold = "";
@@ -107,9 +106,9 @@ bool testBuff::setFormat(std::vector<int> vect){
        player->setVolume(0.0);
        currentPos = 0;
        player->start(this);
-
-
+       return true;
 }
+
 qint64 testBuff::readData(char * data, qint64 len){
     int length;
     QByteArray chunk;
@@ -153,25 +152,21 @@ qint64 testBuff::readData(char * data, qint64 len){
         NN = true;
         total = 0;
         return remain;
-    }
-    else{
+    }else{
         loader += total;
         memcpy(data, loader + 40, len);
         loader = &buff[0];
         total += len;
         return len;
-
-
-
+    }
+    //end brace was after return length instead?
     memcpy(data, loader, length);
 
     return length;
-
-
 }
-}
+
 qint64 testBuff::writeData(const char * data, qint64 len){
- return -1;
+    return -1;
 }
 
 qint64 testBuff::bytesAvailable(){

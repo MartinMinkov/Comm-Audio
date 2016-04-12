@@ -79,7 +79,7 @@ bool WSAS(SOCKET sd, char * message, int size, int timeout){
     if((sendErr == SOCKET_ERROR) && (WSA_IO_PENDING != WSAGetLastError())) {
         sendErr = WSAGetLastError();
         WSACleanup();
-            exit(0);
+        exit(0);
      }
 
     fflush(stdout);
@@ -106,30 +106,30 @@ int WSARead(SOCKET sd, char * message, int timeout, int size){
     dbuf.buf = message;
     dbuf.len = size;
     ov.hEvent = WSACreateEvent();
-    if ((recvErr = WSARecv(sd, &dbuf, 1, &recvBytes,
-                &flags, &ov, NULL)) == SOCKET_ERROR)
-            {
-                recvErr = WSAGetLastError();
-                if (recvErr != WSA_IO_PENDING) {
+    if ((recvErr = WSARecv(sd, &dbuf, 1, &recvBytes,&flags, &ov, NULL)) == SOCKET_ERROR)
+    {
+        recvErr = WSAGetLastError();
+        if (recvErr != WSA_IO_PENDING) {
 
-                    return 0;
-                }
-            }
+            return 0;
+        }
+    }
 
-            recvErr = WSAWaitForMultipleEvents(1, &ov.hEvent, FALSE, timeout, FALSE);
-            switch (recvErr) {
-            case WAIT_TIMEOUT:
-                return 0;
-                break;
-            case WAIT_FAILED:
-                exit(1);
-                break;
-            default:
-                break;
-            }
-        int x = strlen(dbuf.buf);
-        int rc = WSAGetOverlappedResult(sd, &ov, &recvBytes, FALSE, &flags);
-        return recvBytes;
+    recvErr = WSAWaitForMultipleEvents(1, &ov.hEvent, FALSE, timeout, FALSE);
+    switch (recvErr)
+    {
+    case WAIT_TIMEOUT:
+        return 0;
+        break;
+    case WAIT_FAILED:
+        exit(1);
+        break;
+    default:
+        break;
+    }
+    int x = strlen(dbuf.buf);
+    int rc = WSAGetOverlappedResult(sd, &ov, &recvBytes, FALSE, &flags);
+    return recvBytes;
 
 }
 int receiveUDP(LPSOCKET_INFORMATION SI, sockaddr_in server, DWORD RecvBytes, DWORD Flags)
@@ -140,7 +140,7 @@ int receiveUDP(LPSOCKET_INFORMATION SI, sockaddr_in server, DWORD RecvBytes, DWO
     {
         if (WSAGetLastError() != WSA_IO_PENDING)
         {
-            int i = WSAGetLastError();
+            //int i = WSAGetLastError();
             return FALSE;
         }
     }
@@ -159,7 +159,7 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
     if (Error != 0)
     {
-        int i = WSAGetLastError();
+        //int i = WSAGetLastError();
         qDebug() << "I/O operation failed";
         GlobalFree(SOCKINFO);
         return;

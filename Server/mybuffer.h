@@ -9,6 +9,8 @@
 #include "networkutility.h"
 #include "circlebuff.h"
 
+#include "streamhandlerthread.h"
+
 #define MAXLEN 60000
 #define BUFFSIZE 60000
 

@@ -54,7 +54,7 @@ void ControlThread::setup(int port){
     while(1){
         client_len = sizeof(client);
 
-        if((accept_socket = accept(listen_socket, (struct sockaddr *)&client, &client_len)) == -1){
+        if((accept_socket = accept(listen_socket, (struct sockaddr *)&client, &client_len)) == SOCKET_ERROR){
             networkutility::debugMessage("Can't accept client");
             return;
 //            continue;

@@ -4,18 +4,18 @@
 #include "qplatformdefs.h"
 #include <stdlib.h>
 
-#define MAXLEN 1000
+#define CIRCBUFFMAXLEN 1000
 #define BLOCKSIZE 60000
 class circlebuff
 {
 public:
     circlebuff();
-    int byteLen[MAXLEN];
-    char * buff[MAXLEN];
+    int byteLen[CIRCBUFFMAXLEN];
+    char * buff[CIRCBUFFMAXLEN];
     int head, tail, buffHead;
     void init(){
         int i = 0;
-        for(i = 0; i < MAXLEN; i++){
+        for(i = 0; i < CIRCBUFFMAXLEN; i++){
             char * k = new char[BLOCKSIZE];
             buff[i] = k;
             byteLen[i] = 0;
@@ -26,9 +26,9 @@ public:
     int pop(char * bff){
         if(tail < head){
             fflush(stdout);
-            memcpy(bff, buff[tail % MAXLEN], byteLen[tail % MAXLEN]);
-            memset(buff[tail % MAXLEN], '\0', MAXLEN);
-            int ret = byteLen[tail % MAXLEN];
+            memcpy(bff, buff[tail % CIRCBUFFMAXLEN], byteLen[tail % CIRCBUFFMAXLEN]);
+            memset(buff[tail % CIRCBUFFMAXLEN], '\0', CIRCBUFFMAXLEN);
+            int ret = byteLen[tail % CIRCBUFFMAXLEN];
             tail++;
             return ret;
         }
@@ -39,9 +39,9 @@ public:
     int peak(char * bff){
         if(tail < head){
             fflush(stdout);
-            memcpy(bff, buff[tail % MAXLEN], byteLen[tail % MAXLEN]);
-            memset(buff[tail % MAXLEN], '\0', MAXLEN);
-            int ret = byteLen[tail % MAXLEN];
+            memcpy(bff, buff[tail % CIRCBUFFMAXLEN], byteLen[tail % CIRCBUFFMAXLEN]);
+            memset(buff[tail % CIRCBUFFMAXLEN], '\0', CIRCBUFFMAXLEN);
+            int ret = byteLen[tail % CIRCBUFFMAXLEN];
             tail++;
             return ret;
         }
@@ -50,8 +50,8 @@ public:
     }
 
     void push(char * add, int len){
-        byteLen[head % MAXLEN] = len;
-        memcpy(buff[head % MAXLEN], add, len);
+        byteLen[head % CIRCBUFFMAXLEN] = len;
+        memcpy(buff[head % CIRCBUFFMAXLEN], add, len);
         head++;
         buffHead++;
     }

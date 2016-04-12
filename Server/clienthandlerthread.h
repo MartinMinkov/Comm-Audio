@@ -11,7 +11,6 @@
 #include "streamhelper.h"
 #include "chathelper.h"
 
-//#include "server.h"
 #include "mybuffer.h"
 
 class ClientHandlerThread : public QObject

@@ -1,4 +1,5 @@
 #include "server.h"
+
 HANDLE loveQt;
 myBuffer player(accept_socket);
 server::server(QWidget *parent) :
@@ -150,17 +151,11 @@ void server::setupPlaylistTable(){
     ui->playlistView->verticalHeader()->hide();
 
 }
-DWORD WINAPI doServer(LPVOID param){
-    //myBuffer * player;
-    //player = new myBuffer(accept_socket);
-    //player->startPlayer();
-    return NULL;
-}
 
 void server::on_button_start_stream_clicked()
 {
     if(!isPlaying){
-        DWORD id;
+        //DWORD id;
         play = new playerManager();
         connect(play, SIGNAL(relayCurrentSong(QString)), this, SLOT(updateCurrentlyPlayingLabel(QString)));
 

@@ -105,7 +105,7 @@ DWORD WINAPI readStuff(LPVOID param){
     while(1){
         err = WaitForMultipleObjects(2, events, FALSE, INFINITE);
         ResetEvent(newData);
-        while(len = c.pop(wrt)){
+        while((len = c.pop(wrt))){
             fwrite(wrt, sizeof(char), len, fqt);
             printf("head %d tail %d, length: %d\n", c.head, c.tail, len);
             memset(readBuff, '\0', FILEMAX);
