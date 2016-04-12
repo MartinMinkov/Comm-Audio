@@ -28,7 +28,7 @@ signals:
     void updateUserList(QVector<QString> userList);
     void updateSongList(QVector<QString> userList);
     void signalDownload(QString songName);
-    void signalUpload();
+    void signalUpload(QString songName);
     void signalVoice();
     void signalSongRefresh();
     void signalVoiceRefresh();

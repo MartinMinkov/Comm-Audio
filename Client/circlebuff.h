@@ -22,7 +22,7 @@ public:
             char * k = new char[BLOCKSIZE];
             buff[i] = k;
             byteLen[i] = 0;
-            memset(buff[i], '/0', BLOCKSIZE);
+            memset(buff[i], '\0', BLOCKSIZE);
         }
     }
 

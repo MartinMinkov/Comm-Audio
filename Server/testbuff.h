@@ -4,13 +4,15 @@
 #include <QObject>
 #include <QAudioOutput>
 #include <QIODevice>
-#include "circlebuff.h"
 #include <QFile>
-#include "wavfile.h"
+#include "circlebuff.h"
+//#include "wavfile.h"
 #include "globals.h"
 #include "streamhandlerthread.h"
-#include "wavfile.h";
+#include "wavfile.h"
+
 #define BUFFSIZE 60000
+
 class testBuff : public QIODevice
 {
     Q_OBJECT

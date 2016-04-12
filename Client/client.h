@@ -66,6 +66,7 @@ private slots:
     void on_endChatButton_clicked();
     void on_acceptVoiceButton_clicked();
     void on_button_uploadDirectory_clicked();
+    void on_volumeSlider_valueChanged(int value);
 
 private:
     Ui::client *ui;
@@ -82,8 +83,6 @@ private:
     UDPThreadManager* streamUDPWorker;
 
     Recorder rec;
-
-    QStringList uploadList;
 };
 
 #endif // CLIENT_H

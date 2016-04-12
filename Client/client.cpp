@@ -119,7 +119,12 @@ void client::on_updateSongButton_clicked()
 
 void client::on_uploadButton_clicked()
 {
-    //emit receiveWorker->signalUpload();
+    connect(receiveTCPWorker, SIGNAL(signalUpload(QString)), receiveTCPWorker, SLOT(SendUploadRequest(QString)));
+    QString songName = ui->uploadFileWidget->currentItem()->text();
+
+    //find the corresponding song name from the path list
+
+    emit receiveTCPWorker->signalUpload(songName);
 }
 void client::on_downloadSongButton_clicked()
 {
@@ -173,6 +178,8 @@ void client::handleStateChanged(QAudio::State newState){
     case QAudio::StoppedState:
         printf("Audio is stopped");
         fflush(stdout);
+        break;
+    default:
         break;
     }
     printf("State changed");
@@ -276,7 +283,9 @@ void client::setCurrentlyPlaying(QString songName){
 }
 void client::on_voiceChatButton_clicked()
 {
+
     /*rec.initializeAudio();
+
     rec.startPlayer();
     return;
     */
@@ -285,6 +294,8 @@ void client::on_voiceChatButton_clicked()
     qDebug() << "Before init";
     rec.initializeAudio();
     qDebug() << "after init";
+
+    rec.startPlayer();
     //rec.startSecondary();
 }
 void client::on_endChatButton_clicked()
@@ -338,6 +349,7 @@ void client::on_button_uploadDirectory_clicked()
     for (int i = 0; i < fileList.count(); i++){
         qDebug() << fileList[i];
         uploadList.push_back(fileList[i]);
+        uploadListWithPath.push_back(uploadDirectory + "/" + fileList[i]);
     }
 
     //update the upload list widget
@@ -345,4 +357,9 @@ void client::on_button_uploadDirectory_clicked()
     for(auto& file : uploadList){
         ui->uploadFileWidget->addItem(file);
     }
+}
+
+void client::on_volumeSlider_valueChanged(int value)
+{
+    play.updateVolume((float)(value / 100.0f));
 }

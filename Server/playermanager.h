@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QAudioOutput>
 
+#include "testbuff.h"
+
 class playerManager : public QObject
 {
     Q_OBJECT

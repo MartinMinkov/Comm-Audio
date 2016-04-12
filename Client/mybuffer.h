@@ -23,6 +23,8 @@ public:
     char buff[BUFFSIZE];
     void setHeader(char * h);
     FILE * testOutput;
+    FILE * fp;
+
     char * loader;
     bool newSong;
     int currentPos, songTotal, currentTail, songStart;
@@ -32,8 +34,10 @@ public:
     void startPlayer();
     void setSocket(int socket);
     void setSlider();
+
     void pausePlayer();
     void resumePlayer();
+    void updateVolume(float v);
     //MAKE THIS SLOT CONNECTED TO LIVE PRESS;
     void jumpLive();
     void sliderChange(int perc);

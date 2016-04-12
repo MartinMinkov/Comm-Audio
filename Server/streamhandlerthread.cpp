@@ -21,7 +21,7 @@ void streamhandlerthread::initMultiCast()
     }
     stLclAddr.sin_family      = AF_INET;
     stLclAddr.sin_addr.s_addr = htonl(INADDR_ANY);                  /* any interface */
-    stLclAddr.sin_port        = DEFUALT_STREAM_PORT;                 /* any port */
+    stLclAddr.sin_port        = DEFAULT_STREAM_PORT;                /* any port */
     nRet = bind(StreamSocket, (struct sockaddr*) &stLclAddr, sizeof(stLclAddr));
     if (nRet == SOCKET_ERROR)
     {
@@ -55,7 +55,7 @@ void streamhandlerthread::initMultiCast()
     /* Assign our destination address */
     client.sin_family =      AF_INET;
     client.sin_addr.s_addr = inet_addr(MULTICAST_ADDRESS);
-    client.sin_port =        htons(DEFUALT_STREAM_PORT);
+    client.sin_port =        htons(DEFAULT_STREAM_PORT);
 
     qDebug() << "Attempting to send to multicast";
     //Send stuff

@@ -89,7 +89,7 @@ void ThreadManager::VoiceConnect()
     VCserver.sin_family = AF_INET;
     VCserver.sin_port = htons(DEFAULT_VOICE_PORT);
     //This must be fixed
-    if ((hp = gethostbyname("192.168.0.17")) == NULL)
+    if ((hp = gethostbyname("192.168.0.18")) == NULL)
     {
         formatMessage("Unknown server address");
         return;
@@ -246,14 +246,32 @@ void ThreadManager::SendUploadRequest(QString songName)
 
     FILE * upload;
     char buffer[FILEMAX] = { 0 };
+    QString songNameWithPath;
 
-    std::string temp;
-    temp = REQ_UPLOAD;
-    temp += "download.jpg";
-    sendDataTCP(TCPSocket, temp.c_str());
+//    std::string temp;
+//    temp = REQ_UPLOAD;
+//    temp += "download.jpg";
+
+    int index = 0;
+    //find the corresponding song title with filepath
+    for(QStringList::iterator it = uploadList.begin(); it != uploadList.end(); ++it, index++){
+        QString current = *it;
+        if(QString::compare(current,songName,Qt::CaseSensitive) == 0){
+            songNameWithPath = uploadListWithPath.at(index);
+            break;
+        }
+    }
+
+    //prepend the upload request to the path
+    songName = REQ_UPLOAD + songName;
+
+    sendDataTCP(TCPSocket, songName.toStdString().c_str());
     char * buff = buffer;
     int bytesRead;
-    if(!(upload = fopen(songName.toStdString().c_str(), "rb+"))){
+    if(!(upload = fopen(songNameWithPath.toStdString().c_str(), "rb+"))){
+
+            qDebug() << songNameWithPath;
+            qDebug() << "couldn't open file";
             return;
     }
     while((bytesRead = fread(buff, sizeof(char), FILEMAX, upload))){
@@ -263,7 +281,7 @@ void ThreadManager::SendUploadRequest(QString songName)
         }
         WSAS(TCPSocket, buff, 20000, 1000);
     }
-
+    qDebug() << "end song upload request function";
 }
 
 void ThreadManager::SendVoiceRequest()
