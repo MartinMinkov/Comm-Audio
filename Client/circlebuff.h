@@ -74,6 +74,7 @@ public:
         headBuff = -2;
         for(int i = 0; i < MAXLEN; i++){
             memset(buff[i], '\0', BLOCKSIZE);
+            byteLen[i] = 0;
         }
     }
 };
