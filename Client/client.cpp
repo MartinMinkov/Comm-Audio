@@ -7,12 +7,14 @@ QAudioOutput * testPlayer;
 QFile testFile;
 char musicBuff[20000] = { 0 };
 extern QObject * mw;
+
 extern QObject * bf;
 bool drag = false;
 client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
 {
+    paused = true;
     ui->setupUi(this);
     ui->disconnectButton->setEnabled(false);
     for(int i= 1; i < 5; i++)
@@ -222,9 +224,19 @@ void client::on_stopStreamButton_clicked()
 void client::on_rewindStreamButton_clicked()
 {
     //REWIND
-    cData.tail -= 20;
+    /*cData.tail -= 20;
     if(cData.tail < 0)
         cData.tail = 0;
+*/
+    if(paused){
+
+        paused = false;
+        play.pausePlayer();
+    }
+    else{
+        play.resumePlayer();
+        paused = true;
+    }
 }
 
 void client::handleUpdateStatusBar(bool connected){
@@ -264,15 +276,16 @@ void client::setCurrentlyPlaying(QString songName){
 }
 void client::on_voiceChatButton_clicked()
 {
-    rec.initializeAudio();
+    /*rec.initializeAudio();
     rec.startPlayer();
     return;
+    */
     connect(receiveTCPWorker, SIGNAL(signalVoiceConnect()), receiveTCPWorker, SLOT(VoiceConnect()));
     emit receiveTCPWorker->signalVoiceConnect();
     qDebug() << "Before init";
     rec.initializeAudio();
     qDebug() << "after init";
-    rec.startSecondary();
+    //rec.startSecondary();
 }
 void client::on_endChatButton_clicked()
 {

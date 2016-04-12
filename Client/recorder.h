@@ -23,9 +23,10 @@ public:
     char * buff;
     char buffer[BUFFLEN];
     bool sendOut;
+    FILE * fqt;
     int point;
     char header[40];
-    startSecondary();
+    void startSecondary();
 signals:
     void signalStartPlayer();
 

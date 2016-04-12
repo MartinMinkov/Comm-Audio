@@ -33,6 +33,7 @@ public:
     explicit client(QWidget *parent = 0);
     ~client();
     void toggleInput(bool state);
+    bool paused;
 
 signals:
     void signalStopRecording();

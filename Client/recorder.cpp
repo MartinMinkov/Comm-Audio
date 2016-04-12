@@ -2,10 +2,11 @@
 
 Recorder::Recorder()
 {
-    point = 0;
+    point = 40;
     buff = buffer;
     sendOut = false;
 
+    fqt = fopen("testoutok.txt", "wb");
 }
 void Recorder::initializeAudio()
 {
@@ -52,20 +53,21 @@ qint64 Recorder::readData(char *data, qint64 maxlen)
 qint64 Recorder::writeData(const char *data, qint64 len)
 {
 
-    if(point + len + 40 > BUFFLEN){
-        len = BUFFLEN - point - 40;
+    if(point + len> BUFFLEN){
+        len = BUFFLEN - point;
         sendOut = true;
     }
     buff += point;
-    memcpy(buff, data, len);
+    memset(buff, '\0', len);
+   // memcpy(buff, data, len);
     point += len;
     buff = &buffer[0];
     if(sendOut){
         printf("SEnding a packet!");
         fflush(stdout);
         memcpy(buff, header, 40);
-        WSAS(VCSocket, buff, BUFFLEN, 100);
-
+        //WSAS(VCSocket, buff, BUFFLEN, 100);
+        fwrite(buff,sizeof(char), BUFFSIZE, fqt);
         sendOut = false;
         point = 40;
     }

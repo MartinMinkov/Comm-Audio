@@ -32,7 +32,8 @@ public:
     void startPlayer();
     void setSocket(int socket);
     void setSlider();
-
+    void pausePlayer();
+    void resumePlayer();
     //MAKE THIS SLOT CONNECTED TO LIVE PRESS;
     void jumpLive();
     void sliderChange(int perc);
