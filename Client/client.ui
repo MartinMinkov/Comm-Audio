@@ -53,7 +53,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -1264,7 +1264,7 @@
        <rect>
         <x>190</x>
         <y>70</y>
-        <width>111</width>
+        <width>41</width>
         <height>41</height>
        </rect>
       </property>
@@ -1276,7 +1276,17 @@
        </font>
       </property>
       <property name="text">
-       <string>Jump to Live</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="qdarkstyle/style.qrc">
+        <normaloff>:/qss_icons/rc/jump_to_live.png</normaloff>:/qss_icons/rc/jump_to_live.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="rewindStreamButton">
