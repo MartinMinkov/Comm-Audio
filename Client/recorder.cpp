@@ -25,7 +25,7 @@ void Recorder::initializeAudio()
     micIn = new micBuffer();
     this->open(QIODevice::WriteOnly);
     audioInput = new QAudioInput(format, this);
-    //cData.clear();
+    cData.clear();
     audioInput->start(this);
     player = new myBuffer();
     memset(header, '\0', 40);
@@ -34,7 +34,7 @@ void Recorder::initializeAudio()
 }
 void Recorder::startPlayer()
 {
-   // initializeAudio();
+    //initializeAudio();
     qDebug() << "PLAYER STARTING SECONDARY";
     player->setSocket(1);
 
@@ -62,7 +62,6 @@ qint64 Recorder::writeData(const char *data, qint64 len)
     point += len;
     buff = &buffer[0];
     if(sendOut){
-
         if(player->player->state() == QAudio::IdleState){
             if(cData.headBuff > cData.tail){
                 player->resumePlayer();

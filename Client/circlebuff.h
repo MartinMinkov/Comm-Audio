@@ -15,70 +15,16 @@ public:
     char * buff[MAXLEN];
     int head, tail, headBuff;
     bool alive;
-    void init(){
-        alive = true;
-        int i = 0;
-        for(i = 0; i < MAXLEN; i++){
-            char * k = new char[BLOCKSIZE];
-            buff[i] = k;
-            byteLen[i] = 0;
-            memset(buff[i], '\0', BLOCKSIZE);
-        }
-    }
+    void init();
 
-    int pop(char * bff){
-        if(tail < head){
-            memcpy(bff, buff[tail % MAXLEN], byteLen[tail % MAXLEN]);
-//            memset(buff[tail % MAXLEN], '\0', MAXLEN);
-            int ret = byteLen[tail % MAXLEN];
-            tail++;
-            return ret;
-        }
+    int pop(char * bff);
+    int peak(char * bff, char c);
 
-        return 0;
+    void push(char * add, int len);
 
-    }
-    int peak(char * bff, char c){
-        if(tail < head){
-            printf("buff: %s", buff[tail % MAXLEN]);
-            memcpy(bff, buff[tail % MAXLEN], byteLen[tail % MAXLEN]);
-            int ret = byteLen[tail % MAXLEN];
-            if(bff[0] != c)
-                return -1;
-            //memset(buff[tail % MAXLEN], '\0', MAXLEN);
+    void del();
 
-            tail++;
-            return ret;
-        }
-
-        return 0;
-    }
-
-    void push(char * add, int len){
-        byteLen[head % MAXLEN] = len;
-        memcpy(buff[head % MAXLEN], add, len);
-        head++;
-        headBuff++;
-        printf(add);
-
-        fflush(stdout);}
-
-    void del(){
-        for(int i = 0; i < MAXLEN; i++){
-            delete(buff[i]);
-        }
-        alive = false;
-    }
-
-    void clear(){
-        head = 0;
-        tail = 0;
-        headBuff = -2;
-        for(int i = 0; i < MAXLEN; i++){
-            memset(buff[i], '\0', BLOCKSIZE);
-            byteLen[i] = 0;
-        }
-    }
+    void clear();
 };
 
 #endif // CIRCLEBUFF_H

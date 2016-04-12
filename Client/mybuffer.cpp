@@ -2,8 +2,8 @@
 bool newCirc = true;
 SOCKET mySocket;
 circlebuff cData;
-myBuffer::myBuffer()
 
+myBuffer::myBuffer()
 {
     fp = fopen("testout", "wb");
     QAudioFormat format;
@@ -80,13 +80,14 @@ qint64 myBuffer::readData(char * data, qint64 len){
 void myBuffer::pausePlayer(){
     player->suspend();
 }
+
 void myBuffer::resumePlayer(){
     player->resume();
 
 }
+
 void myBuffer::updateVolume(float v){
     player->setVolume(v);
-
 }
 
 void myBuffer::jumpLive(){
@@ -158,22 +159,23 @@ void myBuffer::setSocket(int socket){
     mySocket = socket;
     DWORD id;
     //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
-   // while(1){
 
-        //if(cData.tail < cData.headBuff){
+    /*while(1){
+        if(cData.tail < cData.headBuff){
         startPlayer();
-       // break;
-       // }
-
-    //}
-    //cData.tail = cData.headBuff;
+        break;
+        }
+    }
+    cData.tail = cData.headBuff;*/
+    startPlayer();
 }
+
 void myBuffer::setHeader(char * h){
     QString orig(h);
     QAudioFormat format;
     QStringList ls = orig.split("-");
     int songNumber, ss, samp, chan;
-//    songNumber = ls.value(0).toInt();
+    //songNumber = ls.value(0).toInt();
     ss = ls.value(1).toInt();
     samp = ls.value(2).toInt();
     chan = ls.value(3).toInt();

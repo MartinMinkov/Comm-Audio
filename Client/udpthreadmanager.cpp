@@ -46,6 +46,7 @@ void UDPThreadManager::initMultiCastSock()
 void UDPThreadManager::initalizeVoiceChatSockets()
 {
     int nRet;
+    char flag = 1;
 
     qDebug() << "In initialize";
 
@@ -59,6 +60,7 @@ void UDPThreadManager::initalizeVoiceChatSockets()
         qDebug() << "Cannot create UDP Send socket";
         return;
     }
+
     if (connectionRequested == true)
     {
         voiceChatReceive.sin_port        = htons(RECEIVE_VOICE_PORT);
