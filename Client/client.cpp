@@ -293,11 +293,11 @@ void client::on_rewindStreamButton_clicked()
 
 void client::handleUpdateStatusBar(bool connected){
     if(connected){
-        ui->label_statusbar_text->setText("Status: CONNECTED");
-        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #78ff00; }");
+        ui->label_statusbar_text->setText("Status: Connected");
+        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #72FFF7; }");
     } else {
-        ui->label_statusbar_text->setText("Status: DISCONNECTED");
-        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #ff104e; }");
+        ui->label_statusbar_text->setText("Status: Disconnected");
+        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #E4144C; }");
     }
 }
 

@@ -50,6 +50,7 @@ void server::on_bStartServer_clicked(){
     //emit
     connect(streamHandlerWorker, SIGNAL(signalInitMutliCast()), streamHandlerWorker, SLOT(initMultiCast()));
 
+
     //start
     streamThread->start();
     emit streamHandlerWorker->signalInitMutliCast();
@@ -103,6 +104,17 @@ int server::getPortNumber(){
 void server::toggleConnected(bool state){
     ui->bStartServer->setEnabled(!state);
     ui->bStopServer->setEnabled(state);
+    ui->label_server_status->setText(state ? "Status: Running" : "Status: Stopped");
+    ui->label_server_status->setStyleSheet(state ?
+                                               "#label_server_status { color: #72FFF7; }"
+                                             : "#label_server_status { color: #E4144C; }");
+    if(state){
+        if(ui->etPort->text().toInt() == 0){
+            ui->etPort->setText(QString::number(DEFAULT_PORT));
+        }
+    } else {
+        ui->etPort->clear();
+    }
 }
 
 void server::createClientThread(int socket, QString clientIP){
@@ -167,12 +179,14 @@ void server::on_button_start_stream_clicked()
         //pass in the file along with filepath to startSong
         updateCurrentlyPlayingLabel(playlist.at(0));
         ui->label_server_stream_status->setText("Status: Streaming");
+        ui->label_server_stream_status->setStyleSheet("#label_server_stream_status { color: #72FFF7; }");
         play->startSong(playlistWithPath.at(0));
         isPlaying = true;
     } else {
         //TODO: stop the stream; currently endPlayer doesn't do anything
         play->endPlayer();
         ui->label_server_stream_status->setText("Status: Stopped");
+        ui->label_server_stream_status->setStyleSheet("#label_server_stream_status { color: #E4144C; }");
         isPlaying = false;
     }
 

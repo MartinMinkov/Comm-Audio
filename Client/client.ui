@@ -1576,10 +1576,12 @@
      <font>
       <family>Segoe UI</family>
       <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>Status: DISCONNECTED</string>
+     <string>Status: Disconnected</string>
     </property>
    </widget>
   </widget>
