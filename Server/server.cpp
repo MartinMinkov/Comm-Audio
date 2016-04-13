@@ -127,7 +127,7 @@ void server::createClientThread(int socket, QString clientIP){
     //TODO: connect start signal with a slot to create Colin's thread (update song list)
 
     connect(clientWorker, SIGNAL(signalUpdateUserList(QVector<QString>)), this, SLOT(updateUserList(QVector<QString>)));
-    connect(clientWorker, SIGNAL(signalDisconnect()), clientWorker, SLOT(disconnect()));
+    connect(clientWorker, SIGNAL(signalHandlerDisconnect()), clientWorker, SLOT(disconnect()));
     connect(clientWorker, SIGNAL(finished()), clientHandlerThread, SLOT(quit()));
     connect(clientWorker, SIGNAL(finished()), clientWorker, SLOT(deleteLater()));
     connect(clientHandlerThread, SIGNAL(finished()), clientHandlerThread, SLOT(deleteLater()));
