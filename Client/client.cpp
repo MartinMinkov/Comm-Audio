@@ -511,3 +511,8 @@ void client::updateIncomingVoiceChatText(QString name){
     temp.append(name);
     ui->voiceCallLabel->setText(temp);
 }
+
+void client::on_streamingPlaylistWidget_itemSelectionChanged()
+{
+    ui->label_selectedSongNameVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
+}
