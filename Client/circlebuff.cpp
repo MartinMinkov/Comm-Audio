@@ -51,6 +51,7 @@ void circlebuff::push(char * add, int len){
     memcpy(buff[head % MAXLEN], add, len);
     head++;
     headBuff++;
+
     if(headBuff > tail)
         SetEvent(dataInBuffer);
 

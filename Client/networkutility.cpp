@@ -159,8 +159,10 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
     if (Error != 0)
     {
-        //int i = WSAGetLastError();
-        qDebug() << "I/O operation failed";
+        int i = WSAGetLastError();
+        qDebug() << "I/O operation failed with value" + i;
+        printf("%d", i);
+        fflush(stdout);
         GlobalFree(SOCKINFO);
         return;
     }
@@ -179,10 +181,9 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         GlobalFree(SOCKINFO);
         return;
     }
-
+    qDebug() << "RECIVING DATA HERE";
     receiveUDP(SOCKINFO, streamServer, BytesTransferred, Flags);
     cData.push(SOCKINFO->Buffer, 60000);
-
 }
 void formatMessage(const char* message)
 {

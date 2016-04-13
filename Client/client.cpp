@@ -18,6 +18,7 @@ client::client(QWidget *parent) :
     LPCWSTR idk = L"Astring";
     DWORD id;
     dataInBuffer = CreateEvent(NULL, TRUE, FALSE, idk);
+    streamStop = CreateEvent(NULL, TRUE, FALSE, (LPCWSTR)L"work");
     paused = true;
     streamSetup = false;
     ui->setupUi(this);
@@ -85,7 +86,6 @@ void client::on_connectButton_clicked()
 
     receiveTCPThread->start();
     receiveVoiceChatThread->start();
-    streamUDPThread->start();
 
     emit receiveTCPWorker->signalConnect(ipaddr, portnum, username);
 
@@ -110,7 +110,8 @@ void client::on_disconnectButton_clicked()
 
     closesocket(TCPSocket);
     closesocket(VCSocket);
-    WSACleanup();
+    closesocket(AcceptSocket);
+    closesocket(StreamSocket);
 
     client::toggleInput(true);
     ui->connectStatus->setText("Disconnected");
@@ -238,20 +239,25 @@ void client::on_updateVoiceUsersButton_clicked()
 void client::on_playStreamButton_clicked()
 {
     if(!streamSetup){
+        streamUDPThread->start();
         qDebug() << "Play Stream Button is clicked";
         //Not sure why this is done, but its something to do with passing objects in threads.
         connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()), Qt::UniqueConnection);
-        emit receiveTCPWorker->signalSongRefresh();
+        //emit receiveTCPWorker->signalSongRefresh();
         connect(&play, SIGNAL(updateCurrentlyPlaying(QString)), this, SLOT(setCurrentlyPlaying(QString)), Qt::UniqueConnection);
 
         streamUDPWorker->initMultiCastSock();
 
         //Check if StreamSocket socket is not null
         if (StreamSocket == 0)
+        {
+            qDebug() << "Stream Socket is null";
             return;
+        }
 
         qDebug() << "Starting to listen";
         WaitForSingleObject(dataInBuffer, 5000);
+        ResetEvent(dataInBuffer);
         play.setSocket(StreamSocket);
         streamSetup = true;
     } else {
@@ -309,11 +315,16 @@ void client::updateSlider(float percent, int songTime){
 void client::on_stopStreamButton_clicked()
 {
     //STOP
+
     connect(streamUDPWorker, SIGNAL(signalDisconnect()), streamUDPWorker, SLOT(disconnect()), Qt::UniqueConnection);
     closesocket(StreamSocket);
     closesocket(SI->Socket);
     emit streamUDPWorker->disconnect();
-
+    streamSetup = false;
+    paused = true;
+    cData.clear();
+    ResetEvent(dataInBuffer);
+    SetEvent(streamStop);
     qDebug() << "After Disconnet";
 }
 
@@ -492,8 +503,8 @@ void client::on_pushButton_12_clicked()
     emit receiveTCPWorker->songVote((char *)sVote);
     ui->pushButton_12->setEnabled(false);
 
+    ui->label_selectedSongVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
 }
-
 void client::on_downloadFileWidget_itemSelectionChanged()
 {
     setDownloadStatus(0);

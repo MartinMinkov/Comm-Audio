@@ -8,7 +8,9 @@ extern QVector<QString> playlist;
 extern QStringList uploadList;
 extern QStringList uploadListWithPath;
 extern HANDLE dataInBuffer;
+extern HANDLE streamStop;
 class globals
+
 {
 public:
     globals();

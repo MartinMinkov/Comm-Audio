@@ -41,6 +41,8 @@ void UDPThreadManager::initMultiCastSock()
         qDebug() << "setsockopt() IP_ADD_MEMBERSHIP address failed";
         return;
     }
+    qDebug() << "BEFORE SIGNAL UDP WORKER";
+    //UDPWorker(StreamSocket, streamServer);
     emit signalUDPWorker(StreamSocket, streamServer);
 }
 void UDPThreadManager::initalizeVoiceChatSockets(QString ipAddr)
@@ -99,9 +101,10 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
     DWORD RecvBytes = 0, Index;
     DWORD Flags = 0;
     WSAEVENT				UDPEvent;
-    WSAEVENT				EventArray[1  ];
+    WSAEVENT				EventArray[1];
 
     qDebug() << "In UDPWorker";
+
     //Creating Socket Info struct
     if ((SI = (LPSOCKET_INFORMATION)GlobalAlloc(GPTR, sizeof(SOCKET_INFORMATION))) == NULL)
     {
@@ -118,6 +121,7 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
 
     // Save the event in the event array.
     EventArray[0] = UDPEvent;
+    EventArray[1] = streamStop;
 
     //Copy socket
     SI->Socket = sd;
@@ -128,7 +132,11 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
     qDebug() << "Before while loop";
     while (TRUE)
     {
-        Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, WSA_INFINITE, TRUE);
+        Index = WSAWaitForMultipleEvents(2, EventArray, FALSE, INFINITE, TRUE);
+        if(Index == WAIT_OBJECT_0 + 1){
+            ResetEvent(streamStop);
+            break;
+        }
         if (Index == WSA_WAIT_FAILED)
         {
             qDebug() << "WSAWaitForMultipleEvents failed";
@@ -137,16 +145,19 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
         if (Index != WAIT_IO_COMPLETION)
         {
             // An accept() call event is ready - break the wait loop
+            qDebug() << "NOT WAIT IO COMPLETION IN WORKER";
             return;
         }
         if (Index == WAIT_IO_COMPLETION)
         {
+            qDebug() << "WAIT IO COMPLETION INSIDE WORKER";
             continue;
         }
     }
 }
 void UDPThreadManager::disconnect()
 {
+    qDebug() << "UDP THREAD MURKED YO";
     this->thread()->quit();
 }
 
