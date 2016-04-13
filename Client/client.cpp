@@ -22,6 +22,8 @@ client::client(QWidget *parent) :
     streamSetup = false;
     ui->setupUi(this);
 
+    ui->uploadButton->setEnabled(false);
+    ui->downloadSongButton->setEnabled(false);
     ui->disconnectButton->setEnabled(false);
     for(int i= 1; i < 5; i++)
     {
@@ -29,6 +31,7 @@ client::client(QWidget *parent) :
     }
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabSelected()), Qt::UniqueConnection);
     mw = this;
+
 }
 
 client::~client()
@@ -497,9 +500,11 @@ void client::on_pushButton_12_clicked()
 void client::on_downloadFileWidget_itemSelectionChanged()
 {
     setDownloadStatus(0);
+    ui->downloadSongButton->setEnabled(true);
 }
 
 void client::on_uploadFileWidget_itemSelectionChanged()
 {
     setUploadStatus(0);
+    ui->uploadButton->setEnabled(true);
 }
