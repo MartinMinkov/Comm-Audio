@@ -325,6 +325,7 @@ void client::on_updateStreamPlaylist_clicked(){
 
 void client::setCurrentlyPlaying(QString songName){
     ui->currentlyPlayingText->setText(songName);
+    ui->pushButton_12->setEnabled(true);
 }
 void client::on_voiceChatButton_clicked()
 {
@@ -437,4 +438,26 @@ void client::callNotification()
     {
         qDebug() << "Yes was *not* clicked";
     }
+}
+
+void client::on_pushButton_12_clicked()
+{
+  /* QList<QListWidgetItem *>  sel = ui->streamingPlaylistWidget->selectedItems();
+   if(sel.size() == 0){
+       return;
+   }
+   else{
+   }*/
+
+    int vote = ui->streamingPlaylistWidget->currentRow();
+    if(vote == -1)
+        return;
+
+    char send[1024] = { 0 };
+    char * sVote = send;
+    sprintf(send, ")%d", vote);
+    connect(receiveTCPWorker, SIGNAL(songVote(char *)), receiveTCPWorker, SLOT(voteForSong(char *)));
+    emit receiveTCPWorker->songVote((char *)sVote);
+    ui->pushButton_12->setEnabled(false);
+
 }

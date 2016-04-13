@@ -76,6 +76,10 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     emit signalHandleRequest();
     emit finished();
 }
+void ThreadManager::voteForSong(char * song){
+    sendDataTCP(TCPSocket, song);
+}
+
 void ThreadManager::VoiceConnect(QString clientIP)
 {
     //TCP Socket

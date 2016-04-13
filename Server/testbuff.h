@@ -42,6 +42,9 @@ public:
     char headerBuffer[40];
     void createHeader(char * head);
     bool publicVariable;
+    int checkWinner();
+    int theCurrent;
+    void zeroSongList();
 signals:
     void triggerUpdateCurrentlyPlayingLabel(QString songName);
 };

@@ -37,12 +37,41 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
    // qbt = fqt.readAll();
    // fqt.close();
 }
+int testBuff::checkWinner(){
+    int max = -1;
+    int pos = -1;
+    for(int i = 0; i < SLISTSIZE; i++){
+        if(songVoting[i] > max){
+            max = songVoting[i];
+            pos = i;
+        }
+    }
+    printf("Vote for song #: %d", pos);
+    return pos;
+}
+void testBuff::zeroSongList(){
+    for(int i = 0; i < SLISTSIZE; i++){
+        songVoting[i] = 0;
+    }
+}
+
 bool testBuff::loadSong(){
     printf("in constructor");
             fflush(stdout);
     nextSong = false;
-    QString songNameWithPath = playlistWithPath.at(currentSong % totalSong);
-    QString songName = playlist.at(currentSong % totalSong);
+    QString songNameWithPath;
+    QString songName;
+    int posNext = checkWinner();
+    if(posNext > -1){
+        songNameWithPath = playlistWithPath.at(posNext);
+        songName = playlist.at(posNext);
+        theCurrent = posNext;
+    }else{
+    songNameWithPath = playlistWithPath.at(currentSong % totalSong);
+    songName = playlist.at(currentSong % totalSong);
+    theCurrent = currentSong % totalSong;
+    }
+    zeroSongList();
     currentSong++;
     fqt.setFileName(songNameWithPath);
     //set the currently playing text in server here
@@ -76,7 +105,7 @@ void testBuff::getHeader(std::vector<int> vect){
     hold += "-" + QString::number(b);
     hold += "-" + QString::number(c);
     hold += "-" + QString::number(fileSize/ BUFFSIZE);
-    hold += "-" + QString::number((songNumber-1) % playlist.size()) + "-";
+    hold += "-" + QString::number(theCurrent % playlist.size()) + "-";
     memset(header, '\0', 40);
     memcpy(header, hold.toStdString().c_str(), 40);
     songNumber++;

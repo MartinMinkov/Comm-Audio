@@ -74,6 +74,8 @@ private slots:
 
     void on_connectedWidget_itemSelectionChanged();
 
+    void on_pushButton_12_clicked();
+
 private:
     Ui::client *ui;
     QThread* receiveTCPThread;
