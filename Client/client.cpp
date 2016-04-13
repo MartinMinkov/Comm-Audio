@@ -66,8 +66,8 @@ void client::on_connectButton_clicked()
     connect(receiveTCPWorker, SIGNAL(updateSongList(QVector<QString>)), this, SLOT(updateSongs(QVector<QString>)));
     connect(receiveTCPWorker, SIGNAL(signalHandleRequest()), receiveTCPWorker, SLOT(handleRequest()));
     connect(receiveTCPWorker, SIGNAL(updateStatusBar(bool)), this, SLOT(handleUpdateStatusBar(bool)));
-    connect(receiveTCPWorker, SIGNAL(finished()), this, SLOT(callNotification()));
-    connect(receiveTCPWorker, SIGNAL(signalCallNotification()), receiveVoiceChatThread, SLOT(quit()));
+    connect(receiveTCPWorker, SIGNAL(finished()), this, SLOT(quit()));
+    connect(receiveTCPWorker, SIGNAL(signalCallNotification()), receiveVoiceChatThread, SLOT(callNotification()));
 
     //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()));
 
@@ -107,7 +107,6 @@ void client::on_disconnectButton_clicked()
 
     closesocket(TCPSocket);
     closesocket(VCSocket);
-    WSACleanup();
 
     client::toggleInput(true);
     ui->connectStatus->setText("Disconnected");

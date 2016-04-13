@@ -55,10 +55,8 @@ void ControlThread::setup(int port){
         client_len = sizeof(client);
 
         if((accept_socket = accept(listen_socket, (struct sockaddr *)&client, &client_len)) == SOCKET_ERROR){
-            networkutility::debugMessage("Can't accept client");
+            networkutility::debugMessage("Can't accept TCP client");
             return;
-//            continue;
-//            networkutility::debugMessage("continuuing");
         }
 
         //get the client IP so we can use it for voice chat

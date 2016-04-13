@@ -58,7 +58,6 @@ void ClientHandlerThread::receiveRequests(){
 
         if(bytesRead == 0){
             networkutility::debugMessage("client disconnected");
-//            continue;
             emit signalHandlerDisconnect();
             break;
         }
@@ -81,7 +80,6 @@ void ClientHandlerThread::receiveRequests(){
             fflush(stdout);
 
         }
-
 
         // stream request
         if(buf[0] == REQ_STREAM){
@@ -131,7 +129,7 @@ void ClientHandlerThread::disconnect(){
     removeUserFromList();
     emit signalUpdateUserList(userList);
     closesocket(m_socket);
-    WSACleanup();
+    //WSACleanup();
     emit finished();
 }
 
@@ -144,12 +142,7 @@ QString ClientHandlerThread::constructUserListString(){
         {
             userListString.append(*it).append(";");
         }
-
-        //erase newline chars
-//        userListString.erase(std::remove(userListString.begin(), userListString.end(), '\n'), userListString.end());
-
         userListString.remove('\n');
-
         return userListString;
 }
 
@@ -185,6 +178,5 @@ void ClientHandlerThread::removeUserFromList(){
 
     //also remove it from the clientIP map
     userListWithIP.remove(clientUsername);
-
 }
 
