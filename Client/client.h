@@ -79,6 +79,8 @@ private slots:
     void on_downloadFileWidget_itemSelectionChanged();
     void on_uploadFileWidget_itemSelectionChanged();
 
+    void on_streamingPlaylistWidget_itemSelectionChanged();
+
 private:
     Ui::client *ui;
     QThread* receiveTCPThread;
