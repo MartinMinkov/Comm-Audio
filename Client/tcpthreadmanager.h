@@ -42,6 +42,9 @@ signals:
     void signalStartPlayer();
     void signalCallNotification();
     void songVote(char * song);
+    void signalDownloadStatus(int state);
+    void signalUploadStatus(int state);
+    void signalUpdateVoiceChatUser(QString);
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);
@@ -67,6 +70,7 @@ private:
     struct sockaddr_in VCserver;
     struct sockaddr_in voiceChatClient;
     struct hostent *hp;
+    QString mUsername;
 };
 
 DWORD WINAPI readStuff(LPVOID param);
