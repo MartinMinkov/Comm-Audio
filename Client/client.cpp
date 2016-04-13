@@ -326,19 +326,17 @@ void client::on_stopStreamButton_clicked()
     closesocket(StreamSocket);
     closesocket(SI->Socket);
     emit streamUDPWorker->disconnect();
-<<<<<<< HEAD
+
     streamSetup = false;
     paused = true;
     cData.clear();
     ResetEvent(dataInBuffer);
     SetEvent(streamStop);
-=======
 
     ui->tabWidget->setTabEnabled(1, true);
     ui->tabWidget->setTabEnabled(2, true);
     ui->tabWidget->setTabEnabled(3, true);
 
->>>>>>> 8f19eb0d03bc872ea1614c9a81d261d94f6dbafa
     qDebug() << "After Disconnet";
 }
 
@@ -529,12 +527,7 @@ void client::on_pushButton_12_clicked()
     connect(receiveTCPWorker, SIGNAL(songVote(char *)), receiveTCPWorker, SLOT(voteForSong(char *)));
     emit receiveTCPWorker->songVote((char *)sVote);
     ui->pushButton_12->setEnabled(false);
-<<<<<<< HEAD
-
-    ui->label_selectedSongVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
-=======
     voted = true;
->>>>>>> 8f19eb0d03bc872ea1614c9a81d261d94f6dbafa
 }
 void client::on_downloadFileWidget_itemSelectionChanged()
 {
