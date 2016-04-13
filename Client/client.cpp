@@ -370,7 +370,7 @@ void client::setCurrentlyPlaying(QString songName){
     ui->currentlyPlayingText->setText(songName);
     ui->pushButton_12->setEnabled(true);
     ui->volumeSlider->valueChanged(ui->volumeSlider->value());
-    ui->label_selectedSongVote->setText("No song voted for yet.");
+    ui->label_selectedSongNameVote->setText("No song voted for yet.");
 }
 void client::on_voiceChatButton_clicked()
 {
