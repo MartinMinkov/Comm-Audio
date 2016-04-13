@@ -71,10 +71,9 @@ void client::on_connectButton_clicked()
     connect(receiveTCPWorker, SIGNAL(updateStatusBar(bool)), this, SLOT(handleUpdateStatusBar(bool)), Qt::UniqueConnection);
     connect(receiveTCPWorker, SIGNAL(finished()), this, SLOT(callNotification()), Qt::UniqueConnection);
     connect(receiveTCPWorker, SIGNAL(signalCallNotification()), receiveVoiceChatThread, SLOT(quit()), Qt::UniqueConnection);
-    connect(receiveTCPWorker, SIGNAL(signalUpdateVoiceChatUser(QString)), this, SLOT(updateIncomingVoiceChatText(QString)), Qt::UniqueConnection);
 
     //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()), Qt::UniqueConnection);
-
+    connect(receiveVoiceChatWorker, SIGNAL(signalUpdateVoiceChatUser(QString)), this, SLOT(updateIncomingVoiceChatText(QString)), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(signalVoiceChat()), receiveVoiceChatWorker, SLOT(setupVoiceChat()), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(updateCaller(QString)), this, SLOT(updateCallLabel(QString)), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()), Qt::UniqueConnection);
