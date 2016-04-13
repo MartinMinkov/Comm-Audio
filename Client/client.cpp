@@ -66,7 +66,8 @@ void client::on_connectButton_clicked()
     connect(receiveTCPWorker, SIGNAL(updateSongList(QVector<QString>)), this, SLOT(updateSongs(QVector<QString>)));
     connect(receiveTCPWorker, SIGNAL(signalHandleRequest()), receiveTCPWorker, SLOT(handleRequest()));
     connect(receiveTCPWorker, SIGNAL(updateStatusBar(bool)), this, SLOT(handleUpdateStatusBar(bool)));
-    connect(receiveTCPWorker, SIGNAL(finished()), receiveVoiceChatThread, SLOT(quit()));
+    connect(receiveTCPWorker, SIGNAL(finished()), this, SLOT(callNotification()));
+    connect(receiveTCPWorker, SIGNAL(signalCallNotification()), receiveVoiceChatThread, SLOT(quit()));
 
     //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()));
 
@@ -318,9 +319,13 @@ void client::on_voiceChatButton_clicked()
 }
 void client::on_endChatButton_clicked()
 {
-    //emit signalStopRecording();
+    closesocket(VCRecieveSocket);
+    closesocket(VCSendSocket);
+    closesocket(VCConnectSocket);
 
-    rec.stopRecording();
+    emit receiveTCPWorker->signalDisconnect();
+    if (rec.player != NULL)
+        rec.stopRecording();
 }
 
 
@@ -388,4 +393,15 @@ void client::on_volumeSlider_valueChanged(int value)
 void client::on_connectedWidget_itemSelectionChanged()
 {
     ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
+}
+void client::callNotification()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Call Incoming!", "Quit?", QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        qDebug() << "Yes was clicked";
+    } else
+    {
+        qDebug() << "Yes was *not* clicked";
+    }
 }

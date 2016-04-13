@@ -9,6 +9,7 @@
 #include "networkutility.h"
 #include "globals.h"
 #include "udpthreadmanager.h"
+#include <QMessageBox>
 
 #define FILEMAX 20000
 
@@ -39,6 +40,7 @@ signals:
     void updateStatusBar(bool connected);
     void signalVoiceConnect(QString clientIP);
     void signalStartPlayer();
+    void signalCallNotification();
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);

@@ -38,6 +38,7 @@ public:
 signals:
     void signalStopRecording();
 
+
 public slots:
     void updateUsers(QVector<QString> userList);
     void updateSongs(QVector<QString> playList);
@@ -47,6 +48,7 @@ public slots:
     Q_SLOT void updateSlider(int percent);
     void setCurrentlyPlaying(QString songName);
     void tabSelected();
+    void callNotification();
 
 private slots:
     void on_connectButton_clicked();
