@@ -70,12 +70,12 @@ bool playerManager::setFormat(std::vector<int> vect){
     //QString song("C:/Users/Alvin/Documents/songs/pokemon1.wav");
 
     t = new testBuff(mSongName, NULL);
-    connect(t, SIGNAL(triggerUpdateCurrentlyPlayingLabel(QString)), this, SLOT(relayCurrentlyPlayingSong(QString)));
+    connect(t, SIGNAL(triggerUpdateCurrentlyPlayingLabel(QString)), this, SLOT(relayCurrentlyPlayingSong(QString)), Qt::UniqueConnection);
 
 
     //player = new QAudioOutput(format, t);
     //player->start();
-    //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()));
+    //connect(t, SIGNAL(functionName()), this, SLOT(endPlayer()), Qt::UniqueConnection);
 
     return true;
 }

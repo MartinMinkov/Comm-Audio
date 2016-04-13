@@ -22,13 +22,16 @@ client::client(QWidget *parent) :
     streamSetup = false;
     ui->setupUi(this);
 
+    ui->uploadButton->setEnabled(false);
+    ui->downloadSongButton->setEnabled(false);
     ui->disconnectButton->setEnabled(false);
     for(int i= 1; i < 5; i++)
     {
         ui->tabWidget->setTabEnabled(i, false);
     }
-    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabSelected()));
+    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabSelected()), Qt::UniqueConnection);
     mw = this;
+
 }
 
 client::~client()
@@ -61,24 +64,24 @@ void client::on_connectButton_clicked()
     qRegisterMetaType<SOCKET>("SOCKET");
     qRegisterMetaType<sockaddr_in>("sockaddr_in");
 
-    connect(receiveTCPWorker, SIGNAL(signalConnect(QString, QString, QString)), receiveTCPWorker, SLOT(connect(QString, QString, QString)));
-    connect(receiveTCPWorker, SIGNAL(updateUserList(QVector<QString>)), this, SLOT(updateUsers(QVector<QString>)));
-    connect(receiveTCPWorker, SIGNAL(updateSongList(QVector<QString>)), this, SLOT(updateSongs(QVector<QString>)));
-    connect(receiveTCPWorker, SIGNAL(signalHandleRequest()), receiveTCPWorker, SLOT(handleRequest()));
-    connect(receiveTCPWorker, SIGNAL(updateStatusBar(bool)), this, SLOT(handleUpdateStatusBar(bool)));
-    connect(receiveTCPWorker, SIGNAL(finished()), this, SLOT(callNotification()));
-    connect(receiveTCPWorker, SIGNAL(signalCallNotification()), receiveVoiceChatThread, SLOT(quit()));
+    connect(receiveTCPWorker, SIGNAL(signalConnect(QString, QString, QString)), receiveTCPWorker, SLOT(connect(QString, QString, QString)), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(updateUserList(QVector<QString>)), this, SLOT(updateUsers(QVector<QString>)), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(updateSongList(QVector<QString>)), this, SLOT(updateSongs(QVector<QString>)), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(signalHandleRequest()), receiveTCPWorker, SLOT(handleRequest()), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(updateStatusBar(bool)), this, SLOT(handleUpdateStatusBar(bool)), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(finished()), this, SLOT(callNotification()), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(signalCallNotification()), receiveVoiceChatThread, SLOT(quit()), Qt::UniqueConnection);
 
-    //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()));
+    //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()), Qt::UniqueConnection);
 
-    connect(receiveVoiceChatWorker, SIGNAL(signalVoiceChat()), receiveVoiceChatWorker, SLOT(setupVoiceChat()));
-    connect(receiveVoiceChatWorker, SIGNAL(updateCaller(QString)), this, SLOT(updateCallLabel(QString)));
-    connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()));
+    connect(receiveVoiceChatWorker, SIGNAL(signalVoiceChat()), receiveVoiceChatWorker, SLOT(setupVoiceChat()), Qt::UniqueConnection);
+    connect(receiveVoiceChatWorker, SIGNAL(updateCaller(QString)), this, SLOT(updateCallLabel(QString)), Qt::UniqueConnection);
+    connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()), Qt::UniqueConnection);
 
-    connect(streamUDPWorker, SIGNAL(signalUDPWorker(SOCKET, struct sockaddr_in)), streamUDPWorker, SLOT(UDPWorker(SOCKET, struct sockaddr_in)));
+    connect(streamUDPWorker, SIGNAL(signalUDPWorker(SOCKET, struct sockaddr_in)), streamUDPWorker, SLOT(UDPWorker(SOCKET, struct sockaddr_in)), Qt::UniqueConnection);
     qDebug() << "UDPWorker connected";
 
-    connect(receiveTCPWorker, SIGNAL(signalStartPlayer()), &rec, SLOT(startPlayer()));
+    connect(receiveTCPWorker, SIGNAL(signalStartPlayer()), &rec, SLOT(startPlayer()), Qt::UniqueConnection);
 
     receiveTCPThread->start();
     receiveVoiceChatThread->start();
@@ -98,8 +101,8 @@ void client::on_connectButton_clicked()
 
 void client::on_disconnectButton_clicked()
 {
-    connect(receiveTCPWorker, SIGNAL(signalDisconnect()), receiveTCPWorker, SLOT(disconnect()));
-    connect(receiveVoiceChatWorker, SIGNAL(signalDisconnect()), receiveVoiceChatWorker, SLOT(disconnect()));
+    connect(receiveTCPWorker, SIGNAL(signalDisconnect()), receiveTCPWorker, SLOT(disconnect()), Qt::UniqueConnection);
+    connect(receiveVoiceChatWorker, SIGNAL(signalDisconnect()), receiveVoiceChatWorker, SLOT(disconnect()), Qt::UniqueConnection);
 
     //disconnect
     emit receiveTCPWorker->signalDisconnect();
@@ -120,14 +123,14 @@ void client::on_disconnectButton_clicked()
 void client::on_updateSongButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
-    connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+    connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()), Qt::UniqueConnection);
     emit receiveTCPWorker->signalSongRefresh();
 }
 
 void client::on_uploadButton_clicked()
 {
-    connect(receiveTCPWorker, SIGNAL(signalUpload(QString)), receiveTCPWorker, SLOT(SendUploadRequest(QString)));
-    connect(receiveTCPWorker, SIGNAL(signalUploadStatus(int)), this, SLOT(setUploadStatus(int)));
+    connect(receiveTCPWorker, SIGNAL(signalUpload(QString)), receiveTCPWorker, SLOT(SendUploadRequest(QString)), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(signalUploadStatus(int)), this, SLOT(setUploadStatus(int)), Qt::UniqueConnection);
     QString songName = ui->uploadFileWidget->currentItem()->text();
     emit receiveTCPWorker->signalUploadStatus(1);
 
@@ -137,8 +140,8 @@ void client::on_uploadButton_clicked()
 }
 void client::on_downloadSongButton_clicked()
 {
-    connect(receiveTCPWorker, SIGNAL(signalDownload(QString)), receiveTCPWorker, SLOT(SendDownloadRequest(QString)));
-    connect(receiveTCPWorker, SIGNAL(signalDownloadStatus(int)), this, SLOT(setDownloadStatus(int)));
+    connect(receiveTCPWorker, SIGNAL(signalDownload(QString)), receiveTCPWorker, SLOT(SendDownloadRequest(QString)), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(signalDownloadStatus(int)), this, SLOT(setDownloadStatus(int)), Qt::UniqueConnection);
     QString songName = QString("%1%2").arg(REQ_DOWNLOAD).arg(ui->downloadFileWidget->currentItem()->text());
     emit receiveTCPWorker->signalDownload(songName);
     emit receiveTCPWorker->signalDownloadStatus(1);
@@ -228,7 +231,7 @@ void client::handleStateChanged(QAudio::State newState){
 void client::on_updateVoiceUsersButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
-    connect(receiveTCPWorker, SIGNAL(signalVoiceRefresh()), receiveTCPWorker, SLOT(SendVoiceRefreshRequest()));
+    connect(receiveTCPWorker, SIGNAL(signalVoiceRefresh()), receiveTCPWorker, SLOT(SendVoiceRefreshRequest()), Qt::UniqueConnection);
     emit receiveTCPWorker->signalVoiceRefresh();
 }
 
@@ -237,9 +240,9 @@ void client::on_playStreamButton_clicked()
     if(!streamSetup){
         qDebug() << "Play Stream Button is clicked";
         //Not sure why this is done, but its something to do with passing objects in threads.
-        connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+        connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()), Qt::UniqueConnection);
         emit receiveTCPWorker->signalSongRefresh();
-        connect(&play, SIGNAL(updateCurrentlyPlaying(QString)), this, SLOT(setCurrentlyPlaying(QString)));
+        connect(&play, SIGNAL(updateCurrentlyPlaying(QString)), this, SLOT(setCurrentlyPlaying(QString)), Qt::UniqueConnection);
 
         streamUDPWorker->initMultiCastSock();
 
@@ -306,7 +309,7 @@ void client::updateSlider(float percent, int songTime){
 void client::on_stopStreamButton_clicked()
 {
     //STOP
-    connect(streamUDPWorker, SIGNAL(signalDisconnect()), streamUDPWorker, SLOT(disconnect()));
+    connect(streamUDPWorker, SIGNAL(signalDisconnect()), streamUDPWorker, SLOT(disconnect()), Qt::UniqueConnection);
     closesocket(StreamSocket);
     closesocket(SI->Socket);
     emit streamUDPWorker->disconnect();
@@ -348,7 +351,7 @@ void client::on_horizontalSlider_2_sliderPressed()
     drag = true;
 }
 void client::on_updateStreamPlaylist_clicked(){
-    connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+    connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()), Qt::UniqueConnection);
     emit receiveTCPWorker->signalSongRefresh();
 }
 
@@ -362,7 +365,7 @@ void client::on_voiceChatButton_clicked()
     char *clientIP = buf;
 
     //ask the server for the IP corresponding to the selected username
-    connect(receiveTCPWorker, SIGNAL(signalGetVoiceChatIP(QString)), receiveTCPWorker, SLOT(requestVoiceChatIP(QString)));
+    connect(receiveTCPWorker, SIGNAL(signalGetVoiceChatIP(QString)), receiveTCPWorker, SLOT(requestVoiceChatIP(QString)), Qt::UniqueConnection);
     QString username = QString("%1%2").arg(REQ_CHAT_IP).arg(ui->connectedWidget->currentItem()->text());
     emit receiveTCPWorker->signalGetVoiceChatIP(username);
 
@@ -372,7 +375,7 @@ void client::on_voiceChatButton_clicked()
         qDebug() << clientIP;
     }
 
-    connect(receiveTCPWorker, SIGNAL(signalVoiceConnect(QString)), receiveTCPWorker, SLOT(VoiceConnect(QString)));
+    connect(receiveTCPWorker, SIGNAL(signalVoiceConnect(QString)), receiveTCPWorker, SLOT(VoiceConnect(QString)), Qt::UniqueConnection);
     emit receiveTCPWorker->signalVoiceConnect(clientIP);
 
     rec.initializeAudio();
@@ -402,19 +405,19 @@ void client::on_acceptVoiceButton_clicked()
 void client::tabSelected(){
     //file download tab
     if(ui->tabWidget->currentIndex()==1){
-        connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+        connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()), Qt::UniqueConnection);
         emit receiveTCPWorker->signalSongRefresh();
     }
 
     //voice chat tab
     if(ui->tabWidget->currentIndex()==3){
-        connect(receiveTCPWorker, SIGNAL(signalVoiceRefresh()), receiveTCPWorker, SLOT(SendVoiceRefreshRequest()));
+        connect(receiveTCPWorker, SIGNAL(signalVoiceRefresh()), receiveTCPWorker, SLOT(SendVoiceRefreshRequest()), Qt::UniqueConnection);
         emit receiveTCPWorker->SendVoiceRefreshRequest();
     }
 
     //stream tab
     if(ui->tabWidget->currentIndex()==4){
-        connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()));
+        connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()), Qt::UniqueConnection);
         emit receiveTCPWorker->signalSongRefresh();
     }
 }
@@ -494,9 +497,11 @@ void client::on_pushButton_12_clicked()
 void client::on_downloadFileWidget_itemSelectionChanged()
 {
     setDownloadStatus(0);
+    ui->downloadSongButton->setEnabled(true);
 }
 
 void client::on_uploadFileWidget_itemSelectionChanged()
 {
     setUploadStatus(0);
+    ui->uploadButton->setEnabled(true);
 }
