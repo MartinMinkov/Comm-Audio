@@ -22,6 +22,7 @@ public:
     char * header;
     char headerBuff[100];
     void getHeader(std::vector<int> vect);
+    void restartStream();
 public slots:
     void endPlayer();
     void relayCurrentlyPlayingSong(QString songName);

@@ -93,6 +93,13 @@ bool testBuff::loadSong(){
 
     return true;
 }
+void testBuff::pauseStream(){
+    player->suspend();
+}
+void testBuff::resumeStream(){
+    player->resume();
+}
+
 void testBuff::getHeader(std::vector<int> vect){
     QString hold = "";
     int a,b,c;

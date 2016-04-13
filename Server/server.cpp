@@ -8,6 +8,7 @@ server::server(QWidget *parent) :
 {
     ui->setupUi(this);
     isPlaying = false;
+    isConnected = false;
     setupPlaylistTable();
     toggleConnected(false);
 }
@@ -60,6 +61,8 @@ void server::on_bStartServer_clicked(){
 void server::on_bStopServer_clicked(){
     emit controlWorker->disconnect();
     toggleConnected(false);
+
+
 }
 
 void server::on_bAddSongs_clicked(){
@@ -166,7 +169,7 @@ void server::setupPlaylistTable(){
 
 void server::on_button_start_stream_clicked()
 {
-    if(!isPlaying){
+    if(!isPlaying && !isConnected){
         //DWORD id;
         play = new playerManager();
         connect(play, SIGNAL(relayCurrentSong(QString)), this, SLOT(updateCurrentlyPlayingLabel(QString)), Qt::UniqueConnection);
@@ -179,15 +182,25 @@ void server::on_button_start_stream_clicked()
         //pass in the file along with filepath to startSong
         updateCurrentlyPlayingLabel(playlist.at(0));
         ui->label_server_stream_status->setText("Status: Streaming");
-        ui->label_server_stream_status->setStyleSheet("#label_server_stream_status { color: #72FFF7; }");
         play->startSong(playlistWithPath.at(0));
         isPlaying = true;
+        isConnected = true;
     } else {
-        //TODO: stop the stream; currently endPlayer doesn't do anything
-        play->endPlayer();
-        ui->label_server_stream_status->setText("Status: Stopped");
-        ui->label_server_stream_status->setStyleSheet("#label_server_stream_status { color: #E4144C; }");
-        isPlaying = false;
+        if(isPlaying){
+            play->endPlayer();
+            ui->label_server_stream_status->setText("Status: Stopped");
+            ui->label_server_stream_status->setStyleSheet("#label_server_stream_status { color: #E4144C; }");
+
+            isPlaying = false;
+        }else{
+            play->restartStream();
+            ui->label_server_stream_status->setText("Status: Streaming");
+            ui->label_server_stream_status->setStyleSheet("#label_server_stream_status { color: #72FFF7; }");
+
+            isPlaying = true;
+        }
+
+
     }
 
 

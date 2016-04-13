@@ -53,7 +53,7 @@ private:
     QThread* streamThread;
     streamhandlerthread* streamHandlerWorker;
     bool isPlaying;
-
+    bool isConnected;
 
 private slots:
     void on_bStartServer_clicked();
