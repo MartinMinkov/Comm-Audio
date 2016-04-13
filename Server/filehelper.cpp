@@ -88,6 +88,7 @@ void filehelper::handleUploadRequest(QString songName, SOCKET m_socket){
     WaitForSingleObject(fileDone, FILEMAX);
     fclose(fqt);
     printf("Done reading");
+    c.clear();
     fflush(stdout);
 
 }

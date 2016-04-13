@@ -55,6 +55,15 @@ public:
         head++;
         buffHead++;
     }
+    void clear(){
+        head = 0;
+        tail = 0;
+        buffHead = -2;
+        for(int i = 0; i < CIRCBUFFMAXLEN; i++){
+            memset(buff[i], '\0', BLOCKSIZE);
+            byteLen[i] = 0;
+        }
+    }
 };
 
 #endif // CIRCLEBUFF_H

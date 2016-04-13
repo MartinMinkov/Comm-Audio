@@ -145,21 +145,11 @@ void ThreadManager::setupVoiceChat()
         qDebug() <<  "Can't accept client";
         return;
     }
+    //emit
+    qDebug() << "Hi allen2";
     connectionRequested = true;
     udp.initalizeVoiceChatSockets();
     emit signalStartPlayer();
-    qDebug() <<  "Hi Allen";
-
-    //Get username from connecting client
-    /*if ((BytesRead = recv(VCSocket, bp, bytesToRead, 0)) > 0)
-    {
-        bytesToRead -= BytesRead;
-    }*/
-    // emit voice chat GUI signal
-    //QString callerName(bp);
-    //emit updateCaller(callerName);
-
-    // emit voice chat recv thread
 }
 bool ThreadManager::handleRequest()
 {
@@ -305,6 +295,8 @@ void ThreadManager::SendVoiceRefreshRequest()
     std::string temp;
     temp = REFRESH_USER;
     sendDataTCP(TCPSocket, temp.c_str());
+    if(!handleRequest())
+        return;
 }
 
 DWORD WINAPI uploadStuff(LPVOID param){
@@ -323,8 +315,6 @@ DWORD WINAPI uploadStuff(LPVOID param){
             }
             WSAS(TCPSocket, buff, 20000, 1000);
     }
-
-
 }
 
 DWORD WINAPI readStuff(LPVOID param){

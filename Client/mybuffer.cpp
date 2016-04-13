@@ -2,8 +2,8 @@
 bool newCirc = true;
 SOCKET mySocket;
 circlebuff cData;
-myBuffer::myBuffer()
 
+myBuffer::myBuffer()
 {
     fp = fopen("testout", "wb");
     QAudioFormat format;
@@ -27,6 +27,7 @@ myBuffer::myBuffer()
 }
 
 void myBuffer::setSlider(){
+
     float percent =  300 * currentPos / (float)songTotal;
     QMetaObject::invokeMethod(mw, "updateSlider",Qt::QueuedConnection, Q_ARG(float,percent), Q_ARG(int, songTime));
 }
@@ -36,22 +37,21 @@ qint64 myBuffer::readData(char * data, qint64 len){
     int endSong;
     if(newCirc){
        setSlider();
-        printf("Head: %d Tail: %d, headBu7ff :%d ", cData.head, cData.tail, cData.headBuff);
+
         fflush(stdout);
         if(!(endSong = cData.peak(loader, curSong))){
             printf("End of song/buffer");
-            return -1;
+            return 0;
         }
         if(endSong == -1){
             curSong = loader[0];
             char yaok[40];
             memcpy(yaok, loader, 40);
             setHeader(yaok);
-            return -1;
+            return 0;
         }
         currentPos++;
-        fwrite(loader, sizeof(char), 60000, fp);
-        fwrite("\n\n\n\n\n\n\n", sizeof(char), 7, fp);
+
         newCirc = false;
         realPos = 40;
     }
@@ -81,13 +81,18 @@ qint64 myBuffer::readData(char * data, qint64 len){
 void myBuffer::pausePlayer(){
     player->suspend();
 }
+
 void myBuffer::resumePlayer(){
+    if(player->state() == QAudio::IdleState){
+        player->start(this);
+        cData.tail = cData.headBuff;
+    }
     player->resume();
 
 }
+
 void myBuffer::updateVolume(float v){
     player->setVolume(v);
-
 }
 
 void myBuffer::jumpLive(){
@@ -159,29 +164,32 @@ void myBuffer::setSocket(int socket){
     mySocket = socket;
     DWORD id;
     //fillBuff = CreateThread(NULL, 0, fillUp, (void *)this, 0, &id);
-    while(1){
 
+    /*while(1){
         if(cData.tail < cData.headBuff){
         startPlayer();
         break;
         }
-
     }
-    cData.tail = cData.headBuff;
+    cData.tail = cData.headBuff;*/
+    startPlayer();
 }
+
 void myBuffer::setHeader(char * h){
     QString orig(h);
     QAudioFormat format;
     QStringList ls = orig.split("-");
     int songNumber, ss, samp, chan;
-//    songNumber = ls.value(0).toInt();
+    //songNumber = ls.value(0).toInt();
     ss = ls.value(1).toInt();
     samp = ls.value(2).toInt();
     chan = ls.value(3).toInt();
     songTotal = ls.value(4).toInt();
     songNumber = ls.value(5).toInt();
     currentPos = ls.value(6).toInt();
+
     songTime = (songTotal * BUFFSIZE) / (samp * ss * chan / 8);
+
     currentTail = cData.tail;
     songStart = currentPos;
     realPos = 0;

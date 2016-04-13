@@ -8,3 +8,4 @@ globals::globals()
 
 QStringList uploadList;
 QStringList uploadListWithPath;
+HANDLE dataInBuffer;

@@ -46,6 +46,7 @@ void UDPThreadManager::initMultiCastSock()
 void UDPThreadManager::initalizeVoiceChatSockets()
 {
     int nRet;
+    char flag = 1;
 
     qDebug() << "In initialize";
 
@@ -59,6 +60,7 @@ void UDPThreadManager::initalizeVoiceChatSockets()
         qDebug() << "Cannot create UDP Send socket";
         return;
     }
+
     if (connectionRequested == true)
     {
         voiceChatReceive.sin_port        = htons(RECEIVE_VOICE_PORT);
@@ -80,7 +82,7 @@ void UDPThreadManager::initalizeVoiceChatSockets()
     }
     voiceChatSend.sin_family      = AF_INET;
     voiceChatSend.sin_addr.s_addr = htonl(INADDR_ANY);
-    if ((hp = gethostbyname("192.168.0.18")) == NULL)
+    if ((hp = gethostbyname("192.168.0.17")) == NULL)
     {
         qDebug() << "No host info";
         return;
@@ -127,7 +129,6 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
     while (TRUE)
     {
         Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, WSA_INFINITE, TRUE);
-        qDebug() << "Maybe got something";
         if (Index == WSA_WAIT_FAILED)
         {
             qDebug() << "WSAWaitForMultipleEvents failed";
@@ -140,8 +141,7 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
         }
         if (Index == WAIT_IO_COMPLETION)
         {
-            qDebug() << "Server Terminating";
-            return;
+            continue;
         }
     }
 }

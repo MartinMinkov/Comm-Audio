@@ -1,4 +1,5 @@
 #include "client.h"
+#include "globals.h"
 circlebuff music;
 QFile sourceFile;
 QBuffer playBuffer;
@@ -14,9 +15,13 @@ client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
 {
-    paused = true;
+    LPCWSTR idk = L"Astring";
+    DWORD id;
+    dataInBuffer = CreateEvent(NULL, TRUE, FALSE, idk);
+    paused = false;
     streamSetup = false;
     ui->setupUi(this);
+
     ui->disconnectButton->setEnabled(false);
     for(int i= 1; i < 5; i++)
     {
@@ -191,7 +196,7 @@ void client::on_updateVoiceUsersButton_clicked()
 {
     qDebug() << "Send Refresh Button is clicked";
     connect(receiveTCPWorker, SIGNAL(signalVoiceRefresh()), receiveTCPWorker, SLOT(SendVoiceRefreshRequest()));
-    emit receiveTCPWorker->SendVoiceRefreshRequest();
+    emit receiveTCPWorker->signalVoiceRefresh();
 }
 
 void client::on_playStreamButton_clicked()
@@ -210,6 +215,7 @@ void client::on_playStreamButton_clicked()
             return;
 
         qDebug() << "Starting to listen";
+        WaitForSingleObject(dataInBuffer, 5000);
         play.setSocket(StreamSocket);
         streamSetup = true;
     } else {
@@ -271,6 +277,7 @@ void client::on_stopStreamButton_clicked()
     closesocket(StreamSocket);
     closesocket(SI->Socket);
     emit streamUDPWorker->disconnect();
+
     qDebug() << "After Disconnet";
 }
 
@@ -320,12 +327,6 @@ void client::setCurrentlyPlaying(QString songName){
 }
 void client::on_voiceChatButton_clicked()
 {
-
-    /*rec.initializeAudio();
-
-    rec.startPlayer();
-    return;
-    */
     char buf[PACKET_LEN];
     char *clientIP = buf;
 
@@ -342,9 +343,8 @@ void client::on_voiceChatButton_clicked()
 
     connect(receiveTCPWorker, SIGNAL(signalVoiceConnect(QString)), receiveTCPWorker, SLOT(VoiceConnect(QString)));
     emit receiveTCPWorker->signalVoiceConnect(clientIP);
-    qDebug() << "Before init";
+
     rec.initializeAudio();
-    qDebug() << "after init";
 
     rec.startPlayer();
     //rec.startSecondary();
@@ -352,13 +352,16 @@ void client::on_voiceChatButton_clicked()
 void client::on_endChatButton_clicked()
 {
     //emit signalStopRecording();
+
     rec.stopRecording();
 }
 
 
 void client::on_acceptVoiceButton_clicked()
 {
-    cData.tail = cData.headBuff;
+    qDebug() << "ON ACCEPT BUTTON";
+    rec.initializeAudio();
+    rec.startPlayer();
 }
 
 void client::tabSelected(){
@@ -413,4 +416,9 @@ void client::on_button_uploadDirectory_clicked()
 void client::on_volumeSlider_valueChanged(int value)
 {
     play.updateVolume((float)(value / 100.0f));
+}
+
+void client::on_connectedWidget_itemSelectionChanged()
+{
+    ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
 }

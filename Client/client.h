@@ -70,6 +70,8 @@ private slots:
     void on_button_uploadDirectory_clicked();
     void on_volumeSlider_valueChanged(int value);
 
+    void on_connectedWidget_itemSelectionChanged();
+
 private:
     Ui::client *ui;
     QThread* receiveTCPThread;
