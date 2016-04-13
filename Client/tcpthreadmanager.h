@@ -40,7 +40,6 @@ signals:
     void updateStatusBar(bool connected);
     void signalVoiceConnect(QString clientIP);
     void signalStartPlayer();
-    void signalCallNotification();
     void songVote(char * song);
     void signalDownloadStatus(int state);
     void signalUploadStatus(int state);

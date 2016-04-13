@@ -155,7 +155,6 @@ void ThreadManager::setupVoiceChat()
         return;
     }
     //notify
-    //emit signalCallNotification();
     //if accept continue
     //else cleanup and exit
 

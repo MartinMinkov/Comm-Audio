@@ -71,8 +71,7 @@ void client::on_connectButton_clicked()
     connect(receiveTCPWorker, SIGNAL(updateSongList(QVector<QString>)), this, SLOT(updateSongs(QVector<QString>)), Qt::UniqueConnection);
     connect(receiveTCPWorker, SIGNAL(signalHandleRequest()), receiveTCPWorker, SLOT(handleRequest()), Qt::UniqueConnection);
     connect(receiveTCPWorker, SIGNAL(updateStatusBar(bool)), this, SLOT(handleUpdateStatusBar(bool)), Qt::UniqueConnection);
-    connect(receiveTCPWorker, SIGNAL(finished()), this, SLOT(callNotification()), Qt::UniqueConnection);
-    connect(receiveTCPWorker, SIGNAL(signalCallNotification()), receiveVoiceChatThread, SLOT(quit()), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(finished()), this, SLOT(quit()), Qt::UniqueConnection);
 
     //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(signalUpdateVoiceChatUser(QString)), this, SLOT(updateIncomingVoiceChatText(QString)), Qt::UniqueConnection);
@@ -343,7 +342,6 @@ void client::on_stopStreamButton_clicked()
 void client::on_rewindStreamButton_clicked()
 {
     play.rewind();
-
 }
 
 void client::handleUpdateStatusBar(bool connected){
@@ -496,18 +494,6 @@ void client::on_connectedWidget_itemSelectionChanged()
     if(!voted)
         ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
 }
-void client::callNotification()
-{
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Call Incoming!", "Quit?", QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        qDebug() << "Yes was clicked";
-    } else
-    {
-        qDebug() << "Yes was *not* clicked";
-    }
-}
-
 void client::on_pushButton_12_clicked()
 {
   /* QList<QListWidgetItem *>  sel = ui->streamingPlaylistWidget->selectedItems();

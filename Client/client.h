@@ -50,7 +50,6 @@ public slots:
     Q_SLOT void updateSlider(float percent, int songTime);
     void setCurrentlyPlaying(QString songName);
     void tabSelected();
-    void callNotification();
     void setDownloadStatus(int state);
     void setUploadStatus(int state);
     void updateIncomingVoiceChatText(QString name);
