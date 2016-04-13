@@ -103,7 +103,7 @@ void ThreadManager::VoiceConnect(QString clientIP)
         formatMessage("Can't connect to client");
         return;
     }
-    udp.initalizeVoiceChatSockets();
+    udp.initalizeVoiceChatSockets(clientIP);
     qDebug() << "HOW DOES THIS GET HERE";
 }
 void ThreadManager::setupVoiceChat()
@@ -145,10 +145,14 @@ void ThreadManager::setupVoiceChat()
         qDebug() <<  "Can't accept client";
         return;
     }
-    //emit
+    //notify
+    //emit signalCallNotification();
+    //if accept continue
+    //else cleanup and exit
     qDebug() << "Hi allen2";
     connectionRequested = true;
-    udp.initalizeVoiceChatSockets();
+    QString temp = inet_ntoa(voiceChatClient.sin_addr);
+    udp.initalizeVoiceChatSockets(temp);
     emit signalStartPlayer();
 }
 bool ThreadManager::handleRequest()
@@ -188,8 +192,6 @@ bool ThreadManager::handleRequest()
     if (buf[0] == REFRESH_SONG || buf[0] == REFRESH_USER){
         parseUserList(bp);
     }
-
-
     qDebug() << "Received : "  << buf;
     return true;
 }

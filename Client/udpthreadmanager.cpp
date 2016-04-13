@@ -43,7 +43,7 @@ void UDPThreadManager::initMultiCastSock()
     }
     emit signalUDPWorker(StreamSocket, streamServer);
 }
-void UDPThreadManager::initalizeVoiceChatSockets()
+void UDPThreadManager::initalizeVoiceChatSockets(QString ipAddr)
 {
     int nRet;
     char flag = 1;
@@ -82,7 +82,7 @@ void UDPThreadManager::initalizeVoiceChatSockets()
     }
     voiceChatSend.sin_family      = AF_INET;
     voiceChatSend.sin_addr.s_addr = htonl(INADDR_ANY);
-    if ((hp = gethostbyname("192.168.0.17")) == NULL)
+    if ((hp = gethostbyname(ipAddr.toStdString().c_str())) == NULL)
     {
         qDebug() << "No host info";
         return;
@@ -99,7 +99,7 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
     DWORD RecvBytes = 0, Index;
     DWORD Flags = 0;
     WSAEVENT				UDPEvent;
-    WSAEVENT				EventArray[1];
+    WSAEVENT				EventArray[1  ];
 
     qDebug() << "In UDPWorker";
     //Creating Socket Info struct

@@ -15,7 +15,7 @@ public:
     explicit UDPThreadManager(QObject *parent = 0);
     void initMultiCastSock();
     void receiveStream();
-    void initalizeVoiceChatSockets();
+    void initalizeVoiceChatSockets(QString ipAddr);
 
 signals:
     void signalUDPWorker(SOCKET sd, struct sockaddr_in);
