@@ -71,6 +71,7 @@ void client::on_connectButton_clicked()
     connect(receiveTCPWorker, SIGNAL(updateStatusBar(bool)), this, SLOT(handleUpdateStatusBar(bool)), Qt::UniqueConnection);
     connect(receiveTCPWorker, SIGNAL(finished()), this, SLOT(callNotification()), Qt::UniqueConnection);
     connect(receiveTCPWorker, SIGNAL(signalCallNotification()), receiveVoiceChatThread, SLOT(quit()), Qt::UniqueConnection);
+    connect(receiveTCPWorker, SIGNAL(signalUpdateVoiceChatUser(QString)), this, SLOT(updateIncomingVoiceChatText(QString)), Qt::UniqueConnection);
 
     //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()), Qt::UniqueConnection);
 
@@ -507,4 +508,10 @@ void client::on_uploadFileWidget_itemSelectionChanged()
 {
     setUploadStatus(0);
     ui->uploadButton->setEnabled(true);
+}
+
+void client::updateIncomingVoiceChatText(QString name){
+    QString temp = "Incoming call from ";
+    temp.append(name);
+    ui->voiceCallLabel->setText(temp);
 }

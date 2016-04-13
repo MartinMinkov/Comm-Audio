@@ -906,7 +906,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Allen Tsang</string>
+       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -917,7 +917,7 @@
        <rect>
         <x>30</x>
         <y>70</y>
-        <width>141</width>
+        <width>51</width>
         <height>41</height>
        </rect>
       </property>

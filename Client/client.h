@@ -53,6 +53,7 @@ public slots:
     void callNotification();
     void setDownloadStatus(int state);
     void setUploadStatus(int state);
+    void updateIncomingVoiceChatText(QString name);
 
 private slots:
     void on_connectButton_clicked();
