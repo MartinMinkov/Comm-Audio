@@ -329,7 +329,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>40</y>
+        <y>20</y>
         <width>131</width>
         <height>41</height>
        </rect>
@@ -341,26 +341,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Selection:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_totalSize">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>80</y>
-        <width>111</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Total Size:</string>
+       <string>Options</string>
       </property>
      </widget>
      <widget class="QFrame" name="panel_bg_filedownload_divider">
@@ -437,7 +418,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>190</y>
+        <y>130</y>
         <width>431</width>
         <height>31</height>
        </rect>
@@ -458,7 +439,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>140</y>
+        <y>80</y>
         <width>161</width>
         <height>41</height>
        </rect>
@@ -494,7 +475,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>40</y>
+        <y>20</y>
         <width>131</width>
         <height>41</height>
        </rect>
@@ -506,26 +487,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Selection:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_totalSize_2">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>80</y>
-        <width>111</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Total Size:</string>
+       <string>Options</string>
       </property>
      </widget>
      <widget class="QFrame" name="panel_bg_fileupload_divider">
@@ -811,25 +773,6 @@
        <string>Call Status</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_duration">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>40</y>
-        <width>171</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Duration</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_callStatus_2">
       <property name="geometry">
        <rect>
@@ -852,62 +795,6 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_duration_2">
-      <property name="geometry">
-       <rect>
-        <x>220</x>
-        <y>30</y>
-        <width>121</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-        <pointsize>12</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>5:03</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_callVolume">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>100</y>
-        <width>171</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Call Volume</string>
-      </property>
-     </widget>
-     <widget class="QSlider" name="horizontalSlider">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>140</y>
-        <width>311</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
       </property>
      </widget>
      <widget class="QPushButton" name="endChatButton">
