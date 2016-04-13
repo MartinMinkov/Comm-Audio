@@ -41,8 +41,6 @@ void UDPThreadManager::initMultiCastSock()
         qDebug() << "setsockopt() IP_ADD_MEMBERSHIP address failed";
         return;
     }
-    qDebug() << "BEFORE SIGNAL UDP WORKER";
-    //UDPWorker(StreamSocket, streamServer);
     emit signalUDPWorker(StreamSocket, streamServer);
 }
 void UDPThreadManager::initalizeVoiceChatSockets(QString ipAddr)
@@ -157,7 +155,6 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
 }
 void UDPThreadManager::disconnect()
 {
-    qDebug() << "UDP THREAD MURKED YO";
     this->thread()->quit();
 }
 

@@ -154,10 +154,6 @@ void ThreadManager::setupVoiceChat()
         qDebug() <<  "Can't accept UDP client";
         return;
     }
-    //notify
-    //if accept continue
-    //else cleanup and exit
-
     char buf2[PACKET_LEN];
     char *voiceChatUsername = buf2;
     // handle the username that is sent
@@ -165,11 +161,6 @@ void ThreadManager::setupVoiceChat()
         //add client to gui
         emit signalUpdateVoiceChatUser(voiceChatUsername);
     }
-
-    //update the client gui to show an incoming call
-
-
-    qDebug() << "Hi allen2";
     connectionRequested = true;
     QString temp = inet_ntoa(voiceChatClient.sin_addr);
     udp.initalizeVoiceChatSockets(temp);
