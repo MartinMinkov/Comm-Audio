@@ -279,6 +279,7 @@ void ThreadManager::SendUploadRequest(QString songName)
         WSAS(TCPSocket, buff, 20000, 1000);
     }
     qDebug() << "end song upload request function";
+    emit signalUploadStatus(2);
 }
 
 void ThreadManager::SendVoiceRequest()

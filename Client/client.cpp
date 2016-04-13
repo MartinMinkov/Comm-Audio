@@ -127,7 +127,9 @@ void client::on_updateSongButton_clicked()
 void client::on_uploadButton_clicked()
 {
     connect(receiveTCPWorker, SIGNAL(signalUpload(QString)), receiveTCPWorker, SLOT(SendUploadRequest(QString)));
+    connect(receiveTCPWorker, SIGNAL(signalUploadStatus(int)), this, SLOT(setUploadStatus(int)));
     QString songName = ui->uploadFileWidget->currentItem()->text();
+    emit receiveTCPWorker->signalUploadStatus(1);
 
     //find the corresponding song name from the path list
 
@@ -155,7 +157,20 @@ void client::setDownloadStatus(int state){
         break;
     }
 }
+void client::setUploadStatus(int state){
 
+    switch(state){
+    case 0:
+        ui->label_uploadStatus->setText("");
+        break;
+    case 1:
+        ui->label_uploadStatus->setText("Uploading...");
+        break;
+    case 2:
+        ui->label_uploadStatus->setText("Upload complete");
+        break;
+    }
+}
 void client::toggleInput(bool state)
 {
     ui->connectButton->setEnabled(state);
@@ -482,4 +497,9 @@ void client::on_pushButton_12_clicked()
 void client::on_downloadFileWidget_itemSelectionChanged()
 {
     setDownloadStatus(0);
+}
+
+void client::on_uploadFileWidget_itemSelectionChanged()
+{
+    setUploadStatus(0);
 }

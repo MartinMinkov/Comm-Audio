@@ -43,6 +43,7 @@ signals:
     void signalCallNotification();
     void songVote(char * song);
     void signalDownloadStatus(int state);
+    void signalUploadStatus(int state);
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);
