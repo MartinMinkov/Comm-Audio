@@ -52,14 +52,14 @@ void ClientHandlerThread::receiveRequests(){
         if(bytesRead < 0){
             networkutility::debugMessage("failed recv");
             printf("Error: %d", bytesRead);
-            emit signalDisconnect();
+            emit signalHandlerDisconnect();
             return;
         }
 
         if(bytesRead == 0){
             networkutility::debugMessage("client disconnected");
-            continue;
-            emit signalDisconnect();
+//            continue;
+            emit signalHandlerDisconnect();
             break;
         }
 
