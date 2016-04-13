@@ -1,6 +1,6 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
-
+#define SLISTSIZE 100
 #include <QVector>
 #include <QStringListModel>
 #include <QStandardItemModel>
@@ -10,7 +10,7 @@
 
 extern SOCKET listen_socket;
 extern SOCKET accept_socket;
-
+extern int songVoting[SLISTSIZE];
 extern QMap<QString, QString> userListWithIP;
 extern QVector<QString> userList;
 extern QStandardItemModel *playlistModel;

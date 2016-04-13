@@ -1214,8 +1214,12 @@ QSplitter::handle:vertical {
     color: #00acc1;
 }
 
-#label_server_stream_status, #label_server_stream_current, #label_server_client, #label_server_client_number {
+#label_server_stream_current, #label_server_client, #label_server_client_number, #label_server_status {
     color: #eeeeee;
+}
+
+#label_server_stream_status{
+    color: #E4144C;
 }
 
 #label_server_playlist {

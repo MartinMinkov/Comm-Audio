@@ -127,7 +127,9 @@ void client::on_updateSongButton_clicked()
 void client::on_uploadButton_clicked()
 {
     connect(receiveTCPWorker, SIGNAL(signalUpload(QString)), receiveTCPWorker, SLOT(SendUploadRequest(QString)));
+    connect(receiveTCPWorker, SIGNAL(signalUploadStatus(int)), this, SLOT(setUploadStatus(int)));
     QString songName = ui->uploadFileWidget->currentItem()->text();
+    emit receiveTCPWorker->signalUploadStatus(1);
 
     //find the corresponding song name from the path list
 
@@ -136,8 +138,38 @@ void client::on_uploadButton_clicked()
 void client::on_downloadSongButton_clicked()
 {
     connect(receiveTCPWorker, SIGNAL(signalDownload(QString)), receiveTCPWorker, SLOT(SendDownloadRequest(QString)));
+    connect(receiveTCPWorker, SIGNAL(signalDownloadStatus(int)), this, SLOT(setDownloadStatus(int)));
     QString songName = QString("%1%2").arg(REQ_DOWNLOAD).arg(ui->downloadFileWidget->currentItem()->text());
     emit receiveTCPWorker->signalDownload(songName);
+    emit receiveTCPWorker->signalDownloadStatus(1);
+}
+void client::setDownloadStatus(int state){
+
+    switch(state){
+    case 0:
+        ui->label_downloadStatus->setText("");
+        break;
+    case 1:
+        ui->label_downloadStatus->setText("Downloading...");
+        break;
+    case 2:
+        ui->label_downloadStatus->setText("Download complete");
+        break;
+    }
+}
+void client::setUploadStatus(int state){
+
+    switch(state){
+    case 0:
+        ui->label_uploadStatus->setText("");
+        break;
+    case 1:
+        ui->label_uploadStatus->setText("Uploading...");
+        break;
+    case 2:
+        ui->label_uploadStatus->setText("Upload complete");
+        break;
+    }
 }
 void client::toggleInput(bool state)
 {
@@ -290,11 +322,11 @@ void client::on_rewindStreamButton_clicked()
 
 void client::handleUpdateStatusBar(bool connected){
     if(connected){
-        ui->label_statusbar_text->setText("Status: CONNECTED");
-        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #78ff00; }");
+        ui->label_statusbar_text->setText("Status: Connected");
+        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #72FFF7; }");
     } else {
-        ui->label_statusbar_text->setText("Status: DISCONNECTED");
-        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #ff104e; }");
+        ui->label_statusbar_text->setText("Status: Disconnected");
+        ui->label_statusbar_text->setStyleSheet("#label_statusbar_text { color: #E4144C; }");
     }
 }
 
@@ -322,6 +354,7 @@ void client::on_updateStreamPlaylist_clicked(){
 
 void client::setCurrentlyPlaying(QString songName){
     ui->currentlyPlayingText->setText(songName);
+    ui->pushButton_12->setEnabled(true);
 }
 void client::on_voiceChatButton_clicked()
 {
@@ -434,4 +467,36 @@ void client::callNotification()
     {
         qDebug() << "Yes was *not* clicked";
     }
+}
+
+void client::on_pushButton_12_clicked()
+{
+  /* QList<QListWidgetItem *>  sel = ui->streamingPlaylistWidget->selectedItems();
+   if(sel.size() == 0){
+       return;
+   }
+   else{
+   }*/
+
+    int vote = ui->streamingPlaylistWidget->currentRow();
+    if(vote == -1)
+        return;
+
+    char send[1024] = { 0 };
+    char * sVote = send;
+    sprintf(send, ")%d", vote);
+    connect(receiveTCPWorker, SIGNAL(songVote(char *)), receiveTCPWorker, SLOT(voteForSong(char *)));
+    emit receiveTCPWorker->songVote((char *)sVote);
+    ui->pushButton_12->setEnabled(false);
+
+}
+
+void client::on_downloadFileWidget_itemSelectionChanged()
+{
+    setDownloadStatus(0);
+}
+
+void client::on_uploadFileWidget_itemSelectionChanged()
+{
+    setUploadStatus(0);
 }

@@ -41,6 +41,9 @@ signals:
     void signalVoiceConnect(QString clientIP);
     void signalStartPlayer();
     void signalCallNotification();
+    void songVote(char * song);
+    void signalDownloadStatus(int state);
+    void signalUploadStatus(int state);
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);
@@ -55,6 +58,7 @@ public slots:
     void SendVoiceRefreshRequest();
     void setupVoiceChat();
     void VoiceConnect(QString clientIP);
+    void voteForSong(char * song);
 
 private:
     UDPThreadManager udp;

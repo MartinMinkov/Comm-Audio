@@ -80,7 +80,7 @@ void ControlThread::setup(int port){
 }
 
 void ControlThread::disconnect(){
-    networkutility::debugMessage("disconnecting...");
+    networkutility::debugMessage("disconnecting control thread...");
     closesocket(listen_socket);
     WSACleanup();
     emit finished();

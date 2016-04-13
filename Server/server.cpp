@@ -51,6 +51,7 @@ void server::on_bStartServer_clicked(){
     //emit
     connect(streamHandlerWorker, SIGNAL(signalInitMutliCast()), streamHandlerWorker, SLOT(initMultiCast()));
 
+
     //start
     streamThread->start();
     emit streamHandlerWorker->signalInitMutliCast();
@@ -106,6 +107,17 @@ int server::getPortNumber(){
 void server::toggleConnected(bool state){
     ui->bStartServer->setEnabled(!state);
     ui->bStopServer->setEnabled(state);
+    ui->label_server_status->setText(state ? "Status: Running" : "Status: Stopped");
+    ui->label_server_status->setStyleSheet(state ?
+                                               "#label_server_status { color: #72FFF7; }"
+                                             : "#label_server_status { color: #E4144C; }");
+    if(state){
+        if(ui->etPort->text().toInt() == 0){
+            ui->etPort->setText(QString::number(DEFAULT_PORT));
+        }
+    } else {
+        ui->etPort->clear();
+    }
 }
 
 void server::createClientThread(int socket, QString clientIP){
@@ -118,7 +130,7 @@ void server::createClientThread(int socket, QString clientIP){
     //TODO: connect start signal with a slot to create Colin's thread (update song list)
 
     connect(clientWorker, SIGNAL(signalUpdateUserList(QVector<QString>)), this, SLOT(updateUserList(QVector<QString>)));
-    connect(clientWorker, SIGNAL(signalDisconnect()), clientWorker, SLOT(disconnect()));
+    connect(clientWorker, SIGNAL(signalHandlerDisconnect()), clientWorker, SLOT(disconnect()));
     connect(clientWorker, SIGNAL(finished()), clientHandlerThread, SLOT(quit()));
     connect(clientWorker, SIGNAL(finished()), clientWorker, SLOT(deleteLater()));
     connect(clientHandlerThread, SIGNAL(finished()), clientHandlerThread, SLOT(deleteLater()));
@@ -177,13 +189,17 @@ void server::on_button_start_stream_clicked()
         if(isPlaying){
             play->endPlayer();
             ui->label_server_stream_status->setText("Status: Stopped");
+            ui->label_server_stream_status->setStyleSheet("#label_server_stream_status { color: #E4144C; }");
+
             isPlaying = false;
         }else{
             play->restartStream();
             ui->label_server_stream_status->setText("Status: Streaming");
+            ui->label_server_stream_status->setStyleSheet("#label_server_stream_status { color: #72FFF7; }");
+
             isPlaying = true;
         }
-        //TODO: stop the stream; currently endPlayer doesn't do anything
+
 
     }
 

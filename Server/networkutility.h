@@ -22,6 +22,7 @@
 #define REFRESH_USER '&'
 #define REFRESH_SONG '*'
 #define ERROR_BIT "$"
+#define VOTE ')'
 #define MAXCONNECTIONS 10
 
 extern SOCKADDR_IN  stLclAddr;

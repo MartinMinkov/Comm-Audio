@@ -76,6 +76,10 @@ void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
     emit signalHandleRequest();
     emit finished();
 }
+void ThreadManager::voteForSong(char * song){
+    sendDataTCP(TCPSocket, song);
+}
+
 void ThreadManager::VoiceConnect(QString clientIP)
 {
     //TCP Socket
@@ -230,6 +234,7 @@ void ThreadManager::SendDownloadRequest(QString songName)
     }
     SetEvent(readDone);
     WaitForSingleObject(fileDone, 20000);
+    emit signalDownloadStatus(2);
     printf("Done reading");
     fflush(stdout);
 }
@@ -274,6 +279,7 @@ void ThreadManager::SendUploadRequest(QString songName)
         WSAS(TCPSocket, buff, 20000, 1000);
     }
     qDebug() << "end song upload request function";
+    emit signalUploadStatus(2);
 }
 
 void ThreadManager::SendVoiceRequest()

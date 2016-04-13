@@ -53,7 +53,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -226,7 +226,7 @@
        <x>20</x>
        <y>80</y>
        <width>431</width>
-       <height>381</height>
+       <height>371</height>
       </rect>
      </property>
      <property name="font">
@@ -307,47 +307,11 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLineEdit" name="lineEdit">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>190</y>
-        <width>431</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>C:/Downloads</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>140</y>
-        <width>161</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Change Directory</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="downloadSongButton">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>380</y>
+        <y>410</y>
         <width>161</width>
         <height>41</height>
        </rect>
@@ -358,20 +322,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Download Songs</string>
-      </property>
-     </widget>
-     <widget class="QProgressBar" name="downloadProgress">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>430</y>
-        <width>441</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="value">
-       <number>24</number>
+       <string>Download Song</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_selection">
@@ -426,6 +377,19 @@
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_downloadStatus">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>420</y>
+        <width>261</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
@@ -512,7 +476,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>380</y>
+        <y>410</y>
         <width>161</width>
         <height>41</height>
        </rect>
@@ -524,19 +488,6 @@
       </property>
       <property name="text">
        <string>Upload Songs</string>
-      </property>
-     </widget>
-     <widget class="QProgressBar" name="downloadProgress_2">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>430</y>
-        <width>441</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="value">
-       <number>24</number>
       </property>
      </widget>
      <widget class="QLabel" name="label_selection_2">
@@ -591,6 +542,19 @@
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_uploadStatus">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>420</y>
+        <width>261</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
@@ -1250,7 +1214,7 @@
        <x>384</x>
        <y>140</y>
        <width>561</width>
-       <height>141</height>
+       <height>151</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -1263,7 +1227,7 @@
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>70</y>
+        <y>80</y>
         <width>41</width>
         <height>41</height>
        </rect>
@@ -1293,7 +1257,7 @@
       <property name="geometry">
        <rect>
         <x>140</x>
-        <y>70</y>
+        <y>80</y>
         <width>41</width>
         <height>41</height>
        </rect>
@@ -1316,7 +1280,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>60</y>
+        <y>70</y>
         <width>60</width>
         <height>60</height>
        </rect>
@@ -1358,7 +1322,7 @@
      <widget class="QLabel" name="label_songRemainingTime">
       <property name="geometry">
        <rect>
-        <x>520</x>
+        <x>510</x>
         <y>30</y>
         <width>41</width>
         <height>31</height>
@@ -1370,14 +1334,14 @@
        </font>
       </property>
       <property name="text">
-       <string>03:40</string>
+       <string/>
       </property>
      </widget>
      <widget class="QSlider" name="volumeSlider">
       <property name="geometry">
        <rect>
         <x>450</x>
-        <y>80</y>
+        <y>90</y>
         <width>91</width>
         <height>22</height>
        </rect>
@@ -1393,7 +1357,7 @@
       <property name="geometry">
        <rect>
         <x>390</x>
-        <y>80</y>
+        <y>90</y>
         <width>47</width>
         <height>20</height>
        </rect>
@@ -1411,7 +1375,7 @@
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>70</y>
+        <y>80</y>
         <width>41</width>
         <height>41</height>
        </rect>
@@ -1428,6 +1392,42 @@
         <width>35</width>
         <height>35</height>
        </size>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>35</y>
+        <width>61</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Duration:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>61</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Elapsed:</string>
       </property>
      </widget>
     </widget>
@@ -1471,7 +1471,7 @@
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>290</y>
+       <y>300</y>
        <width>181</width>
        <height>31</height>
       </rect>
@@ -1520,7 +1520,7 @@
     <widget class="QLabel" name="label_songElapsedTime">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>460</x>
        <y>170</y>
        <width>51</width>
        <height>31</height>
@@ -1532,7 +1532,7 @@
       </font>
      </property>
      <property name="text">
-      <string>00:02</string>
+      <string/>
      </property>
     </widget>
     <zorder>panel_bg_streaming_divider_2</zorder>
@@ -1576,10 +1576,12 @@
      <font>
       <family>Segoe UI</family>
       <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>Status: DISCONNECTED</string>
+     <string>Status: Disconnected</string>
     </property>
    </widget>
   </widget>

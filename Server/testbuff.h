@@ -44,6 +44,9 @@ public:
     bool publicVariable;
     void pauseStream();
     void resumeStream();
+    int checkWinner();
+    int theCurrent;
+    void zeroSongList();
 
 signals:
     void triggerUpdateCurrentlyPlayingLabel(QString songName);

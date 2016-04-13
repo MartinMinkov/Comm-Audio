@@ -20,7 +20,7 @@ public:
     ClientHandlerThread(int socket, myBuffer * player, QString clientIP);
 
 signals:
-    void signalDisconnect();
+    void signalHandlerDisconnect();
     void signalUpdateUserList(QVector<QString> userList);
     void finished();
 

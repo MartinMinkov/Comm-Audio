@@ -52,14 +52,14 @@ void ClientHandlerThread::receiveRequests(){
         if(bytesRead < 0){
             networkutility::debugMessage("failed recv");
             printf("Error: %d", bytesRead);
-            emit signalDisconnect();
+            emit signalHandlerDisconnect();
             return;
         }
 
         if(bytesRead == 0){
             networkutility::debugMessage("client disconnected");
-            continue;
-            emit signalDisconnect();
+//            continue;
+            emit signalHandlerDisconnect();
             break;
         }
 
@@ -72,6 +72,16 @@ void ClientHandlerThread::receiveRequests(){
         if(buf[0] == REQ_UPLOAD){
             fHelper->handleUploadRequest(buf, m_socket);
         }
+        if(buf[0] == VOTE){
+            bp = &buf[0];
+            bp++;
+            int vote = atoi(bp);
+            songVoting[vote]++;
+            printf("Voting for :%d", vote);
+            fflush(stdout);
+
+        }
+
 
         // stream request
         if(buf[0] == REQ_STREAM){
