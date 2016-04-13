@@ -18,7 +18,7 @@ client::client(QWidget *parent) :
     LPCWSTR idk = L"Astring";
     DWORD id;
     dataInBuffer = CreateEvent(NULL, TRUE, FALSE, idk);
-    paused = false;
+    paused = true;
     streamSetup = false;
     ui->setupUi(this);
 
