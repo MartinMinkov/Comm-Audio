@@ -11,6 +11,7 @@ extern QObject * mw;
 
 extern QObject * bf;
 bool drag = false;
+bool voted = false;
 client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
@@ -356,8 +357,10 @@ void client::on_updateStreamPlaylist_clicked(){
 }
 
 void client::setCurrentlyPlaying(QString songName){
+    voted = false;
     ui->currentlyPlayingText->setText(songName);
     ui->pushButton_12->setEnabled(true);
+    ui->volumeSlider->valueChanged(ui->volumeSlider->value());
     ui->label_selectedSongVote->setText("No song voted for yet.");
 }
 void client::on_voiceChatButton_clicked()
@@ -459,7 +462,8 @@ void client::on_volumeSlider_valueChanged(int value)
 
 void client::on_connectedWidget_itemSelectionChanged()
 {
-    ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
+    if(!voted)
+        ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
 }
 void client::callNotification()
 {
@@ -492,7 +496,7 @@ void client::on_pushButton_12_clicked()
     connect(receiveTCPWorker, SIGNAL(songVote(char *)), receiveTCPWorker, SLOT(voteForSong(char *)));
     emit receiveTCPWorker->songVote((char *)sVote);
     ui->pushButton_12->setEnabled(false);
-
+    voted = true;
 }
 
 void client::on_downloadFileWidget_itemSelectionChanged()
