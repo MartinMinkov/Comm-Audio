@@ -11,6 +11,7 @@ extern QObject * mw;
 
 extern QObject * bf;
 bool drag = false;
+bool voted = false;
 client::client(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::client)
@@ -74,7 +75,7 @@ void client::on_connectButton_clicked()
     connect(receiveTCPWorker, SIGNAL(signalCallNotification()), receiveVoiceChatThread, SLOT(quit()), Qt::UniqueConnection);
 
     //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()), Qt::UniqueConnection);
-
+    connect(receiveVoiceChatWorker, SIGNAL(signalUpdateVoiceChatUser(QString)), this, SLOT(updateIncomingVoiceChatText(QString)), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(signalVoiceChat()), receiveVoiceChatWorker, SLOT(setupVoiceChat()), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(updateCaller(QString)), this, SLOT(updateCallLabel(QString)), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()), Qt::UniqueConnection);
@@ -272,6 +273,11 @@ void client::on_playStreamButton_clicked()
         }
     }
 
+    //disable other tabs if streaming started
+    ui->tabWidget->setTabEnabled(1, false);
+    ui->tabWidget->setTabEnabled(2, false);
+    ui->tabWidget->setTabEnabled(3, false);
+
 }
 std::vector<int> client::getTime(int time){
     std::vector<int> ret;
@@ -320,11 +326,19 @@ void client::on_stopStreamButton_clicked()
     closesocket(StreamSocket);
     closesocket(SI->Socket);
     emit streamUDPWorker->disconnect();
+<<<<<<< HEAD
     streamSetup = false;
     paused = true;
     cData.clear();
     ResetEvent(dataInBuffer);
     SetEvent(streamStop);
+=======
+
+    ui->tabWidget->setTabEnabled(1, true);
+    ui->tabWidget->setTabEnabled(2, true);
+    ui->tabWidget->setTabEnabled(3, true);
+
+>>>>>>> 8f19eb0d03bc872ea1614c9a81d261d94f6dbafa
     qDebug() << "After Disconnet";
 }
 
@@ -367,8 +381,11 @@ void client::on_updateStreamPlaylist_clicked(){
 }
 
 void client::setCurrentlyPlaying(QString songName){
+    voted = false;
     ui->currentlyPlayingText->setText(songName);
     ui->pushButton_12->setEnabled(true);
+    ui->volumeSlider->valueChanged(ui->volumeSlider->value());
+    ui->label_selectedSongNameVote->setText("No song voted for yet.");
 }
 void client::on_voiceChatButton_clicked()
 {
@@ -403,6 +420,10 @@ void client::on_endChatButton_clicked()
     emit receiveTCPWorker->signalDisconnect();
     if (rec.player != NULL)
         rec.stopRecording();
+
+    ui->tabWidget->setTabEnabled(1, true);
+    ui->tabWidget->setTabEnabled(2, true);
+    ui->tabWidget->setTabEnabled(4, true);
 }
 
 
@@ -411,6 +432,11 @@ void client::on_acceptVoiceButton_clicked()
     qDebug() << "ON ACCEPT BUTTON";
     rec.initializeAudio();
     rec.startPlayer();
+
+    //disable other tabs when voice chat started
+    ui->tabWidget->setTabEnabled(1, false);
+    ui->tabWidget->setTabEnabled(2, false);
+    ui->tabWidget->setTabEnabled(4, false);
 }
 
 void client::tabSelected(){
@@ -469,7 +495,8 @@ void client::on_volumeSlider_valueChanged(int value)
 
 void client::on_connectedWidget_itemSelectionChanged()
 {
-    ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
+    if(!voted)
+        ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
 }
 void client::callNotification()
 {
@@ -502,8 +529,12 @@ void client::on_pushButton_12_clicked()
     connect(receiveTCPWorker, SIGNAL(songVote(char *)), receiveTCPWorker, SLOT(voteForSong(char *)));
     emit receiveTCPWorker->songVote((char *)sVote);
     ui->pushButton_12->setEnabled(false);
+<<<<<<< HEAD
 
     ui->label_selectedSongVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
+=======
+    voted = true;
+>>>>>>> 8f19eb0d03bc872ea1614c9a81d261d94f6dbafa
 }
 void client::on_downloadFileWidget_itemSelectionChanged()
 {
@@ -515,4 +546,16 @@ void client::on_uploadFileWidget_itemSelectionChanged()
 {
     setUploadStatus(0);
     ui->uploadButton->setEnabled(true);
+}
+
+void client::updateIncomingVoiceChatText(QString name){
+    QString temp = "Incoming call from ";
+    temp.append(name);
+    ui->voiceCallLabel->setText(temp);
+}
+
+void client::on_streamingPlaylistWidget_itemSelectionChanged()
+{
+    if(!voted)
+        ui->label_selectedSongNameVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
 }

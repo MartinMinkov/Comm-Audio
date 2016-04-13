@@ -26,6 +26,7 @@ ThreadManager::~ThreadManager()
 
 void ThreadManager::connect(QString ipaddr, QString portnum, QString username)
 {
+    mUsername = username;
     qDebug() << "Connect Thread Created";
 
     if(TCPSocket != 0) {
@@ -107,6 +108,10 @@ void ThreadManager::VoiceConnect(QString clientIP)
         formatMessage("Can't connect to client");
         return;
     }
+
+    //send the username to the other client
+    sendDataTCP(VCConnectSocket, mUsername.toStdString().c_str());
+
     udp.initalizeVoiceChatSockets(clientIP);
     qDebug() << "HOW DOES THIS GET HERE";
 }
@@ -146,13 +151,25 @@ void ThreadManager::setupVoiceChat()
     int client_len = sizeof(voiceChatClient);
     if((VCSocket = accept(AcceptSocket, (struct sockaddr *)&voiceChatClient, &client_len)) == INVALID_SOCKET)
     {
-        qDebug() <<  "Can't accept client";
+        qDebug() <<  "Can't accept UDP client";
         return;
     }
     //notify
     //emit signalCallNotification();
     //if accept continue
     //else cleanup and exit
+
+    char buf2[PACKET_LEN];
+    char *voiceChatUsername = buf2;
+    // handle the username that is sent
+    if(receiveTCP(VCSocket, voiceChatUsername)){
+        //add client to gui
+        emit signalUpdateVoiceChatUser(voiceChatUsername);
+    }
+
+    //update the client gui to show an incoming call
+
+
     qDebug() << "Hi allen2";
     connectionRequested = true;
     QString temp = inet_ntoa(voiceChatClient.sin_addr);

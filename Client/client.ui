@@ -53,7 +53,11 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
+<<<<<<< HEAD
     <number>0</number>
+=======
+    <number>4</number>
+>>>>>>> 8f19eb0d03bc872ea1614c9a81d261d94f6dbafa
    </property>
    <widget class="QWidget" name="connectTab">
     <attribute name="title">
@@ -891,9 +895,9 @@
      <widget class="QLabel" name="voiceCallLabel">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>30</x>
         <y>70</y>
-        <width>161</width>
+        <width>231</width>
         <height>41</height>
        </rect>
       </property>
@@ -901,33 +905,15 @@
        <font>
         <family>Segoe UI</family>
         <pointsize>12</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="text">
-       <string>Allen Tsang</string>
+       <string/>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_from">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>70</y>
-        <width>141</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>From:</string>
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QFrame" name="panel_bg_voicechat_divider">
@@ -1341,7 +1327,7 @@
       <rect>
        <x>420</x>
        <y>360</y>
-       <width>511</width>
+       <width>111</width>
        <height>41</height>
       </rect>
      </property>
@@ -1351,7 +1337,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Selected Song: On My Mind - Ellie Goulding</string>
+      <string>Selected Song:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_songVoting">
@@ -1422,6 +1408,24 @@
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="label_selectedSongNameVote">
+     <property name="geometry">
+      <rect>
+       <x>540</x>
+       <y>370</y>
+       <width>401</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
     <zorder>panel_bg_streaming_divider_2</zorder>
     <zorder>panel_bg_client_streaming_3</zorder>
     <zorder>panel_bg_client_streaming_2</zorder>
@@ -1433,6 +1437,7 @@
     <zorder>label_selectedSongVote</zorder>
     <zorder>label_songVoting</zorder>
     <zorder>panel_bg_streaming_divider</zorder>
+    <zorder>label_selectedSongNameVote</zorder>
    </widget>
   </widget>
   <widget class="QFrame" name="panel_bg_statusbar">

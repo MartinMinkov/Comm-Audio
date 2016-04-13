@@ -9,13 +9,6 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
 {   player = p;
     header = headerBuffer;
     loader = buff;
-   // memset(header, '\0', 40);
-   // memcpy(header,heads, 40);
-   // fqt.setFileName("ec1.wav");
-   /* if(!(fqt.open(QIODevice::ReadOnly))){
-            exit(1);
-    }
-    */
     packetNum = 0;
     headerLength = 40;
 
@@ -24,12 +17,6 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
     songNumber = 1;
     currentSong = 0;
 
-    //playList.push_back("my_mule.wav");
-//    playList.push_back("runescape.wav");
-
-//    playList.push_back("C:/Users/Alvin/Documents/songs/pokemon1.wav");
-//    playList.push_back("C:/Users/Alvin/Documents/songs/pokemon2.wav");
-//    playList.push_back("C:/Users/Alvin/Documents/songs/pokemon3.wav");
     this->open(QIODevice::ReadOnly);
     loadSong();
 
@@ -38,7 +25,7 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
    // fqt.close();
 }
 int testBuff::checkWinner(){
-    int max = -1;
+    int max = 0;
     int pos = -1;
     for(int i = 0; i < SLISTSIZE; i++){
         if(songVoting[i] > max){
