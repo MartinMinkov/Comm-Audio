@@ -537,5 +537,6 @@ void client::updateIncomingVoiceChatText(QString name){
 
 void client::on_streamingPlaylistWidget_itemSelectionChanged()
 {
-    ui->label_selectedSongNameVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
+    if(!voted)
+        ui->label_selectedSongNameVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
 }
