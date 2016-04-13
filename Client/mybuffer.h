@@ -34,7 +34,7 @@ public:
     void startPlayer();
     void setSocket(int socket);
     void setSlider();
-
+    void rewind();
     void pausePlayer();
     void resumePlayer();
     void updateVolume(float v);

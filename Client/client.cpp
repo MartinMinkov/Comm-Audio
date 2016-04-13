@@ -319,10 +319,7 @@ void client::on_stopStreamButton_clicked()
 
 void client::on_rewindStreamButton_clicked()
 {
-    //REWIND
-    cData.tail -= 20;
-    if(cData.tail < 0)
-        cData.tail = 0;
+    play.rewind();
 
 }
 

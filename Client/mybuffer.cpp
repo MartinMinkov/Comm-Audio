@@ -22,6 +22,7 @@ myBuffer::myBuffer()
     curSong = 0;
     filler.resize(BUFFSIZE);
     loader = buff;
+    currentTail = 0;
 
     this->open(QIODevice::ReadOnly);
 }
@@ -30,6 +31,29 @@ void myBuffer::setSlider(){
 
     float percent =  300 * currentPos / (float)songTotal;
     QMetaObject::invokeMethod(mw, "updateSlider",Qt::QueuedConnection, Q_ARG(float,percent), Q_ARG(int, songTime));
+}
+void myBuffer::rewind(){
+
+    printf("rewinding");
+    fflush(stdout);
+    int progress = cData.headBuff - currentTail;
+
+    if(progress > 495){
+        printf("over buffered");
+        fflush(stdout);
+        cData.tail = cData.headBuff - 495;
+        currentPos = songStart + progress - 495;
+
+    }
+    else{
+        printf("not full reset");
+        fflush(stdout);
+        cData.tail = currentTail;
+        currentPos = songStart;
+    }
+    printf("Done rewinding");
+    fflush(stdout);
+
 }
 
 qint64 myBuffer::readData(char * data, qint64 len){
@@ -213,6 +237,8 @@ void myBuffer::setHeader(char * h){
         currentSongName = playlist.at(songNumber);
     }
     emit updateCurrentlyPlaying(currentSongName);
+    printf("The header was set %d", currentTail);
+    fflush(stdout);
     player->start(this);
 }
 
