@@ -38,7 +38,7 @@ testBuff::testBuff(QString songName, QAudioOutput * p)
    // fqt.close();
 }
 int testBuff::checkWinner(){
-    int max = -1;
+    int max = 0;
     int pos = -1;
     for(int i = 0; i < SLISTSIZE; i++){
         if(songVoting[i] > max){
