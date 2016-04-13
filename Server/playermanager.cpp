@@ -85,7 +85,10 @@ void playerManager::startPlayer(){
 
 }
 void playerManager::endPlayer(){
-    printf("Ending player");
+    t->pauseStream();
+}
+void playerManager::restartStream(){
+    t->resumeStream();
 }
 
 void playerManager::relayCurrentlyPlayingSong(QString songName){
