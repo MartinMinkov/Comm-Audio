@@ -409,6 +409,7 @@ void client::on_endChatButton_clicked()
     closesocket(VCRecieveSocket);
     closesocket(VCSendSocket);
     closesocket(VCConnectSocket);
+    closesocket(AcceptSocket);
     closesocket(VCSocket);
 
     emit receiveTCPWorker->signalDisconnect();

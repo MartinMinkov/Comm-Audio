@@ -160,6 +160,9 @@ void ThreadManager::setupVoiceChat()
     if(receiveTCP(VCSocket, voiceChatUsername)){
         //add client to gui
         emit signalUpdateVoiceChatUser(voiceChatUsername);
+    } else
+    {
+        qDebug() << "TCP CANNOT RECEIVE IN SETUP VOICE CHAT";
     }
     connectionRequested = true;
     QString temp = inet_ntoa(voiceChatClient.sin_addr);
