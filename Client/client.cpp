@@ -267,6 +267,11 @@ void client::on_playStreamButton_clicked()
         }
     }
 
+    //disable other tabs if streaming started
+    ui->tabWidget->setTabEnabled(1, false);
+    ui->tabWidget->setTabEnabled(2, false);
+    ui->tabWidget->setTabEnabled(3, false);
+
 }
 std::vector<int> client::getTime(int time){
     std::vector<int> ret;
@@ -314,6 +319,10 @@ void client::on_stopStreamButton_clicked()
     closesocket(StreamSocket);
     closesocket(SI->Socket);
     emit streamUDPWorker->disconnect();
+
+    ui->tabWidget->setTabEnabled(1, true);
+    ui->tabWidget->setTabEnabled(2, true);
+    ui->tabWidget->setTabEnabled(3, true);
 
     qDebug() << "After Disconnet";
 }
@@ -396,6 +405,10 @@ void client::on_endChatButton_clicked()
     emit receiveTCPWorker->signalDisconnect();
     if (rec.player != NULL)
         rec.stopRecording();
+
+    ui->tabWidget->setTabEnabled(1, true);
+    ui->tabWidget->setTabEnabled(2, true);
+    ui->tabWidget->setTabEnabled(4, true);
 }
 
 
@@ -404,6 +417,11 @@ void client::on_acceptVoiceButton_clicked()
     qDebug() << "ON ACCEPT BUTTON";
     rec.initializeAudio();
     rec.startPlayer();
+
+    //disable other tabs when voice chat started
+    ui->tabWidget->setTabEnabled(1, false);
+    ui->tabWidget->setTabEnabled(2, false);
+    ui->tabWidget->setTabEnabled(4, false);
 }
 
 void client::tabSelected(){
