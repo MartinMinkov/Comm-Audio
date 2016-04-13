@@ -367,6 +367,7 @@ void client::on_updateStreamPlaylist_clicked(){
 void client::setCurrentlyPlaying(QString songName){
     ui->currentlyPlayingText->setText(songName);
     ui->pushButton_12->setEnabled(true);
+    ui->label_selectedSongVote->setText("No song voted for yet.");
 }
 void client::on_voiceChatButton_clicked()
 {
