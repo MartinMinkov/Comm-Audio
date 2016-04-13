@@ -24,7 +24,7 @@ public:
     void setHeader(char * h);
     FILE * testOutput;
     FILE * fp;
-
+    int songTime;
     char * loader;
     bool newSong;
     int currentPos, songTotal, currentTail, songStart;

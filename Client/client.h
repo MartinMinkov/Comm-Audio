@@ -34,6 +34,8 @@ public:
     ~client();
     void toggleInput(bool state);
 
+    std::vector<int> getTime(int time);
+
 
 signals:
     void signalStopRecording();
@@ -44,7 +46,7 @@ public slots:
     void updateCallLabel(QString);
     void handleStateChanged(QAudio::State newState);
     void handleUpdateStatusBar(bool connected);
-    Q_SLOT void updateSlider(int percent);
+    Q_SLOT void updateSlider(float percent, int songTime);
     void setCurrentlyPlaying(QString songName);
     void tabSelected();
 

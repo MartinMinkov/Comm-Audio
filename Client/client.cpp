@@ -225,10 +225,43 @@ void client::on_playStreamButton_clicked()
     }
 
 }
-void client::updateSlider(int percent){
+std::vector<int> client::getTime(int time){
+    std::vector<int> ret;
+    int h, m;
+    m = time % 60;
+    time -= m;
+    h = time / 60;
+    ret.push_back(h);
+    ret.push_back(m);
+    return ret;
+}
+
+void client::updateSlider(float percent, int songTime){
     if(drag)
         return;
-    ui->horizontalSlider_2->setSliderPosition(percent);
+    ui->horizontalSlider_2->setSliderPosition((int)percent);
+    std::vector<int> time = getTime(songTime);
+    std::vector<int> cur = getTime(songTime * percent / 300);
+    QString rem, current;
+    if(time.at(1) < 10){
+        rem = QString("%1:0%2").arg(time.at(0)).arg(time.at(1));
+    }
+    else{
+        rem = QString("%1:%2").arg(time.at(0)).arg(time.at(1));
+    }
+    if(cur.at(1) < 10){
+        current = QString("%1:0%2").arg(cur.at(0)).arg(cur.at(1));
+    }
+    else{
+        current = QString("%1:%2").arg(cur.at(0)).arg(cur.at(1));
+
+    }
+
+    ui->label_songRemainingTime->setText(rem);
+    ui->label_songElapsedTime->setText(current);
+
+
+
 }
 
 void client::on_stopStreamButton_clicked()

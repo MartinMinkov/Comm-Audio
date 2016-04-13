@@ -27,8 +27,8 @@ myBuffer::myBuffer()
 }
 
 void myBuffer::setSlider(){
-    float percent =  100 * currentPos / (float)songTotal;
-    QMetaObject::invokeMethod(mw, "updateSlider",Qt::QueuedConnection, Q_ARG(int, (int)percent));
+    float percent =  300 * currentPos / (float)songTotal;
+    QMetaObject::invokeMethod(mw, "updateSlider",Qt::QueuedConnection, Q_ARG(float,percent), Q_ARG(int, songTime));
 }
 
 qint64 myBuffer::readData(char * data, qint64 len){
@@ -97,7 +97,7 @@ void myBuffer::jumpLive(){
     fflush(stdout);
 }
 void myBuffer::sliderChange(int perc){
-    int reqBlock = perc / 100.0f * songTotal;
+    int reqBlock = perc / 300.0f * songTotal;
     int minBlock, maxBlock;
     minBlock = songStart;
     maxBlock = songStart + cData.headBuff - currentTail;
@@ -181,6 +181,7 @@ void myBuffer::setHeader(char * h){
     songTotal = ls.value(4).toInt();
     songNumber = ls.value(5).toInt();
     currentPos = ls.value(6).toInt();
+    songTime = (songTotal * BUFFSIZE) / (samp * ss * chan / 8);
     currentTail = cData.tail;
     songStart = currentPos;
     realPos = 0;
