@@ -234,6 +234,7 @@ void ThreadManager::SendDownloadRequest(QString songName)
     }
     SetEvent(readDone);
     WaitForSingleObject(fileDone, 20000);
+    emit signalDownloadStatus(2);
     printf("Done reading");
     fflush(stdout);
 }

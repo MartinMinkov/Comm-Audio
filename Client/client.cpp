@@ -136,9 +136,26 @@ void client::on_uploadButton_clicked()
 void client::on_downloadSongButton_clicked()
 {
     connect(receiveTCPWorker, SIGNAL(signalDownload(QString)), receiveTCPWorker, SLOT(SendDownloadRequest(QString)));
+    connect(receiveTCPWorker, SIGNAL(signalDownloadStatus(int)), this, SLOT(setDownloadStatus(int)));
     QString songName = QString("%1%2").arg(REQ_DOWNLOAD).arg(ui->downloadFileWidget->currentItem()->text());
     emit receiveTCPWorker->signalDownload(songName);
+    emit receiveTCPWorker->signalDownloadStatus(1);
 }
+void client::setDownloadStatus(int state){
+
+    switch(state){
+    case 0:
+        ui->label_downloadStatus->setText("");
+        break;
+    case 1:
+        ui->label_downloadStatus->setText("Downloading...");
+        break;
+    case 2:
+        ui->label_downloadStatus->setText("Download complete");
+        break;
+    }
+}
+
 void client::toggleInput(bool state)
 {
     ui->connectButton->setEnabled(state);
@@ -460,4 +477,9 @@ void client::on_pushButton_12_clicked()
     emit receiveTCPWorker->songVote((char *)sVote);
     ui->pushButton_12->setEnabled(false);
 
+}
+
+void client::on_downloadFileWidget_itemSelectionChanged()
+{
+    setDownloadStatus(0);
 }

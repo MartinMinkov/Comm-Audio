@@ -51,6 +51,7 @@ public slots:
     void setCurrentlyPlaying(QString songName);
     void tabSelected();
     void callNotification();
+    void setDownloadStatus(int state);
 
 private slots:
     void on_connectButton_clicked();
@@ -75,6 +76,8 @@ private slots:
     void on_connectedWidget_itemSelectionChanged();
 
     void on_pushButton_12_clicked();
+
+    void on_downloadFileWidget_itemSelectionChanged();
 
 private:
     Ui::client *ui;
