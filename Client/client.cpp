@@ -413,6 +413,7 @@ void client::on_voiceChatButton_clicked()
 
     connect(receiveTCPWorker, SIGNAL(signalVoiceConnect(QString)), receiveTCPWorker, SLOT(VoiceConnect(QString)), Qt::UniqueConnection);
     emit receiveTCPWorker->signalVoiceConnect(clientIP);
+    emit receiveTCPWorker->signalDisconnect();
 
     rec.initializeAudio();
     rec.startPlayer();
@@ -431,7 +432,7 @@ void client::on_endChatButton_clicked()
     closesocket(AcceptSocket);
     closesocket(VCSocket);
 
-    emit receiveTCPWorker->signalDisconnect();
+    emit receiveVoiceChatWorker->signalDisconnect();
     if (rec.player != NULL)
         rec.stopRecording();
 
