@@ -413,7 +413,6 @@ void client::on_voiceChatButton_clicked()
 
     connect(receiveTCPWorker, SIGNAL(signalVoiceConnect(QString)), receiveTCPWorker, SLOT(VoiceConnect(QString)), Qt::UniqueConnection);
     emit receiveTCPWorker->signalVoiceConnect(clientIP);
-    emit receiveTCPWorker->signalDisconnect();
 
     rec.initializeAudio();
     rec.startPlayer();
@@ -422,19 +421,28 @@ void client::on_voiceChatButton_clicked()
     ui->voiceChatButton->setEnabled(false);
     ui->label_callStatus_2->setText("Connected");
     ui->endChatButton->setEnabled(true);
-    //rec.startSecondary();
 }
 void client::on_endChatButton_clicked()
 {
+    shutdown(VCRecieveSocket, SD_BOTH);
+    shutdown(VCSendSocket, SD_BOTH);
+    shutdown(VCConnectSocket, SD_BOTH);
+    shutdown(AcceptSocket, SD_BOTH);
+    shutdown(VCSocket, SD_BOTH);
+
     closesocket(VCRecieveSocket);
     closesocket(VCSendSocket);
     closesocket(VCConnectSocket);
-    closesocket(AcceptSocket);
-    closesocket(VCSocket);
+    qDebug() << "Closing Sockets!";
+    connectionRequested = false;
 
     emit receiveVoiceChatWorker->signalDisconnect();
+
     if (rec.player != NULL)
+    {
         rec.stopRecording();
+        cData.clear();
+    }
 
     ui->tabWidget->setTabEnabled(1, true);
     ui->tabWidget->setTabEnabled(2, true);
@@ -447,7 +455,6 @@ void client::on_endChatButton_clicked()
     if(item.row() != -1){
         ui->voiceChatButton->setEnabled(true);
     }
-
     emit receiveVoiceChatWorker->signalVoiceChat();
 }
 void client::on_acceptVoiceButton_clicked()

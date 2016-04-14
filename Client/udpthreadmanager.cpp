@@ -132,6 +132,7 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
     {
         Index = WSAWaitForMultipleEvents(2, EventArray, FALSE, INFINITE, TRUE);
         if(Index == WAIT_OBJECT_0 + 1){
+            qDebug() << "STREAM STOP IS SET";
             ResetEvent(streamStop);
             break;
         }

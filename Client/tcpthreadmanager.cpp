@@ -126,8 +126,9 @@ void ThreadManager::setupVoiceChat()
 
     if(VCSocket != 0 && AcceptSocket != 0) {
         qDebug() << "Socket not null";
+        closesocket(AcceptSocket);
+        closesocket(VCSocket);
         printf("VC Socket: %d Accept Socket: %d", VCSocket, AcceptSocket);
-        return;
     }
     if ((AcceptSocket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
     {
@@ -152,6 +153,8 @@ void ThreadManager::setupVoiceChat()
     int client_len = sizeof(voiceChatClient);
     if((VCSocket = accept(AcceptSocket, (struct sockaddr *)&voiceChatClient, &client_len)) == INVALID_SOCKET)
     {
+        closesocket(AcceptSocket);
+        closesocket(VCSocket);
         qDebug() <<  "Can't accept UDP client";
         return;
     }
