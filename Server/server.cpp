@@ -182,6 +182,7 @@ void server::on_button_start_stream_clicked()
         //pass in the file along with filepath to startSong
         updateCurrentlyPlayingLabel(playlist.at(0));
         ui->label_server_stream_status->setText("Status: Streaming");
+        ui->label_server_stream_status->setStyleSheet("#label_server_stream_status { color: #72FFF7; }");
         play->startSong(playlistWithPath.at(0));
         isPlaying = true;
         isConnected = true;
