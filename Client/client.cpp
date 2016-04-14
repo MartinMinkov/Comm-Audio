@@ -93,7 +93,6 @@ void client::on_connectButton_clicked()
 
     receiveTCPThread->start();
     receiveVoiceChatThread->start();
-
     emit receiveTCPWorker->signalConnect(ipaddr, portnum, username);
 
     client::toggleInput(false);
@@ -416,8 +415,8 @@ void client::on_voiceChatButton_clicked()
     emit receiveTCPWorker->signalVoiceConnect(clientIP);
 
     rec.initializeAudio();
-
     rec.startPlayer();
+
     toggleVoiceChatAcceptRejectButtons(false);
     ui->voiceChatButton->setEnabled(true);
     ui->endChatButton->setEnabled(false);
@@ -428,6 +427,8 @@ void client::on_endChatButton_clicked()
     closesocket(VCRecieveSocket);
     closesocket(VCSendSocket);
     closesocket(VCConnectSocket);
+    closesocket(AcceptSocket);
+    closesocket(VCSocket);
 
     emit receiveTCPWorker->signalDisconnect();
     if (rec.player != NULL)
@@ -436,13 +437,11 @@ void client::on_endChatButton_clicked()
     ui->tabWidget->setTabEnabled(1, true);
     ui->tabWidget->setTabEnabled(2, true);
     ui->tabWidget->setTabEnabled(4, true);
-
     ui->label_callStatus_2->setText("Not connected");
     ui->voiceCallLabel->setText("");
 
+    emit receiveVoiceChatWorker->signalVoiceChat();
 }
-
-
 void client::on_acceptVoiceButton_clicked()
 {
     qDebug() << "ON ACCEPT BUTTON";
@@ -526,13 +525,6 @@ void client::on_connectedWidget_itemSelectionChanged()
 }
 void client::on_pushButton_12_clicked()
 {
-  /* QList<QListWidgetItem *>  sel = ui->streamingPlaylistWidget->selectedItems();
-   if(sel.size() == 0){
-       return;
-   }
-   else{
-   }*/
-
     int vote = ui->streamingPlaylistWidget->currentRow();
     if(vote == -1)
         return;

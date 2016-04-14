@@ -181,7 +181,6 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         GlobalFree(SOCKINFO);
         return;
     }
-    qDebug() << "RECIVING DATA HERE";
     receiveUDP(SOCKINFO, streamServer, BytesTransferred, Flags);
     cData.push(SOCKINFO->Buffer, 60000);
 }
