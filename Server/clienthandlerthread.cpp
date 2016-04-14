@@ -19,14 +19,16 @@ void ClientHandlerThread::receiveRequests(){
     int bytesRead;
     char buf[PACKET_LEN];
     char *username = buf;
-
+    char usernameBuffer[50] = { 0 };
     // handle the username that is sent
     if(receiveTCP(m_socket, username)){
         networkutility::debugMessage("username:");
         networkutility::debugMessage(username);
-        clientUsername = username;
+        clientUsername = usernameBuffer;
+        strcpy(clientUsername, username);
         userList.push_back(username);
-
+        qDebug() << "adding username";
+        qDebug() << clientUsername;
         //add client username and ip to clientIP map
         userListWithIP.insert(clientUsername, m_clientIP);
 //        QString test = userListWithIP.value(clientUsername);
