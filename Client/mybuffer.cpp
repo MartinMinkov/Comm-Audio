@@ -34,25 +34,17 @@ void myBuffer::setSlider(){
 }
 void myBuffer::rewind(){
 
-    printf("rewinding");
-    fflush(stdout);
     int progress = cData.headBuff - currentTail;
 
     if(progress > 495){
-        printf("over buffered");
-        fflush(stdout);
         cData.tail = cData.headBuff - 495;
         currentPos = songStart + progress - 495;
 
     }
     else{
-        printf("not full reset");
-        fflush(stdout);
         cData.tail = currentTail;
         currentPos = songStart;
     }
-    printf("Done rewinding");
-    fflush(stdout);
 
 }
 
@@ -62,9 +54,7 @@ qint64 myBuffer::readData(char * data, qint64 len){
     if(newCirc){
        setSlider();
 
-        fflush(stdout);
         if(!(endSong = cData.peak(loader, curSong))){
-            printf("End of song/buffer");
             return 0;
         }
         if(endSong == -1){
@@ -122,8 +112,6 @@ void myBuffer::updateVolume(float v){
 void myBuffer::jumpLive(){
     cData.tail = cData.headBuff;
     currentPos = songStart + cData.headBuff - currentTail;
-    printf("%d", currentPos);
-    fflush(stdout);
 }
 void myBuffer::sliderChange(int perc){
     int reqBlock = perc / 300.0f * songTotal;
@@ -133,9 +121,7 @@ void myBuffer::sliderChange(int perc){
     if(cData.headBuff > (currentTail + 498)){
         int totalProg = cData.headBuff - currentTail - 495;
         minBlock = songStart + totalProg;
-        printf("New Minblock: %d, total prog: %d", minBlock, totalProg);
         if(reqBlock < minBlock){
-            printf("Doing pre start : %d", currentTail + totalProg);
             cData.tail = currentTail + totalProg;
             currentPos = songStart + totalProg;
             return;
@@ -152,7 +138,6 @@ void myBuffer::sliderChange(int perc){
         return;
     }
     int diff = reqBlock - songStart;
-    printf("Doing normal move: %d", diff);
     cData.tail = currentTail + diff;
     currentPos = songStart + diff;
     /*
@@ -237,8 +222,6 @@ void myBuffer::setHeader(char * h){
         currentSongName = playlist.at(songNumber);
     }
     emit updateCurrentlyPlaying(currentSongName);
-    printf("The header was set %d", currentTail);
-    fflush(stdout);
     player->start(this);
 }
 
