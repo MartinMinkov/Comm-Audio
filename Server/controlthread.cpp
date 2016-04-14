@@ -1,15 +1,62 @@
 #include "controlthread.h"
 
+/*------------------------------------------------------------------------------------------------------------------
+-- SOURCE FILE: controlthread.cpp
+--
+-- FUNCTIONS:
+-- ControlThread::ControlThread(QObject *parent) : QObject(parent)
+-- ControlThread::~ControlThread()
+-- void ControlThread::setup(int port)
+-- void ControlThread::disconnect()
+--
+-- DATE:		14/04/2016
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+--
+----------------------------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: ControlThread
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+-- INTERFACE: ControlThread(QObject *parent) : QObject(parent)
+--
+-- NOTES: Constructor for client control thread.
+----------------------------------------------------------------------------------------------------------------------*/
 ControlThread::ControlThread(QObject *parent) : QObject(parent){
     listen_socket = 0;
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: ~ControlThread
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+-- INTERFACE: ControlThread::~ControlThread()
+--
+-- NOTES: Constructor for client control thread.
+----------------------------------------------------------------------------------------------------------------------*/
 ControlThread::~ControlThread(){
     closesocket(listen_socket);
     listen_socket = 0;
     WSACleanup();
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: setup
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+-- INTERFACE: setup(int port)
+--
+-- NOTES: Sets up the socket setup, binding, and accept calls, and creates a new thread for the client when he
+-- connects.
+----------------------------------------------------------------------------------------------------------------------*/
 void ControlThread::setup(int port){
     networkutility::debugMessage("inside setup()");
 
@@ -77,6 +124,16 @@ void ControlThread::setup(int port){
     emit finished();
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: disconnect
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+-- INTERFACE: setup(int port)
+--
+-- NOTES: Handles cleanup and disconnecting of the server.
+----------------------------------------------------------------------------------------------------------------------*/
 void ControlThread::disconnect(){
     networkutility::debugMessage("disconnecting control thread...");
     closesocket(listen_socket);
