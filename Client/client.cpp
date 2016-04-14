@@ -428,6 +428,12 @@ void client::on_endChatButton_clicked()
     emit receiveVoiceChatWorker->signalDisconnect();
     emit receiveTCPWorker->signalDisconnect();
 
+    shutdown(VCRecieveSocket, SD_BOTH);
+    shutdown(VCSendSocket, SD_BOTH);
+    shutdown(VCConnectSocket, SD_BOTH);
+    shutdown(AcceptSocket, SD_BOTH);
+    shutdown(VCSocket, SD_BOTH);
+
     closesocket(VCRecieveSocket);
     closesocket(VCSendSocket);
     closesocket(VCConnectSocket);
