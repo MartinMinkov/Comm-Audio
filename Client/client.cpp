@@ -27,6 +27,10 @@ client::client(QWidget *parent) :
     ui->uploadButton->setEnabled(false);
     ui->downloadSongButton->setEnabled(false);
     ui->disconnectButton->setEnabled(false);
+    ui->voiceChatButton->setEnabled(false);
+    ui->endChatButton->setEnabled(false);
+    toggleVoiceChatAcceptRejectButtons(false);
+
     for(int i= 1; i < 5; i++)
     {
         ui->tabWidget->setTabEnabled(i, false);
@@ -46,6 +50,8 @@ void client::on_connectButton_clicked()
     QString ipaddr = ui->ipfield->text();
     QString portnum = ui->portfield->text();
     QString username = ui->nameField->text();
+
+    mUsername = username;
 
     //connect
     receiveTCPThread = new QThread;
@@ -75,6 +81,7 @@ void client::on_connectButton_clicked()
 
     //connect(sendTCPWorker, SIGNAL(finished()), sendTCPThread, SLOT(quit()), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(signalUpdateVoiceChatUser(QString)), this, SLOT(updateIncomingVoiceChatText(QString)), Qt::UniqueConnection);
+    connect(receiveVoiceChatWorker, SIGNAL(signalToggleVoiceButtons(bool)), this, SLOT(toggleVoiceChatAcceptRejectButtons(bool)), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(signalVoiceChat()), receiveVoiceChatWorker, SLOT(setupVoiceChat()), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(updateCaller(QString)), this, SLOT(updateCallLabel(QString)), Qt::UniqueConnection);
     connect(receiveVoiceChatWorker, SIGNAL(finished()), receiveTCPThread, SLOT(quit()), Qt::UniqueConnection);
@@ -390,6 +397,12 @@ void client::on_voiceChatButton_clicked()
     //ask the server for the IP corresponding to the selected username
     connect(receiveTCPWorker, SIGNAL(signalGetVoiceChatIP(QString)), receiveTCPWorker, SLOT(requestVoiceChatIP(QString)), Qt::UniqueConnection);
     QString username = QString("%1%2").arg(REQ_CHAT_IP).arg(ui->connectedWidget->currentItem()->text());
+
+    //check if the user is trying to call himself
+    if(QString::compare(username,mUsername,Qt::CaseSensitive) == 0){
+        return;
+    }
+
     emit receiveTCPWorker->signalGetVoiceChatIP(username);
 
     //read the ip from the server
@@ -404,6 +417,11 @@ void client::on_voiceChatButton_clicked()
 
     rec.initializeAudio();
     rec.startPlayer();
+
+    toggleVoiceChatAcceptRejectButtons(false);
+    ui->voiceChatButton->setEnabled(true);
+    ui->endChatButton->setEnabled(false);
+    //rec.startSecondary();
 }
 void client::on_endChatButton_clicked()
 {
@@ -420,6 +438,8 @@ void client::on_endChatButton_clicked()
     ui->tabWidget->setTabEnabled(1, true);
     ui->tabWidget->setTabEnabled(2, true);
     ui->tabWidget->setTabEnabled(4, true);
+    ui->label_callStatus_2->setText("Not connected");
+    ui->voiceCallLabel->setText("");
 
     emit receiveVoiceChatWorker->signalVoiceChat();
 }
@@ -433,6 +453,10 @@ void client::on_acceptVoiceButton_clicked()
     ui->tabWidget->setTabEnabled(1, false);
     ui->tabWidget->setTabEnabled(2, false);
     ui->tabWidget->setTabEnabled(4, false);
+
+    ui->label_callStatus_2->setText("Connected");
+    ui->endChatButton->setEnabled(true);
+    toggleVoiceChatAcceptRejectButtons(false);
 }
 
 void client::tabSelected(){
@@ -490,9 +514,15 @@ void client::on_volumeSlider_valueChanged(int value)
 }
 
 void client::on_connectedWidget_itemSelectionChanged()
-{
-    if(!voted)
-        ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
+{    
+    QString tempName = ui->connectedWidget->currentItem()->text();
+    if(QString::compare(tempName,mUsername,Qt::CaseSensitive) == 0){
+        ui->label_selectedUserName->setText("You can't call yourself!");
+        ui->voiceChatButton->setEnabled(false);
+        return;
+    }
+    ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
+    ui->voiceChatButton->setEnabled(true);
 }
 void client::on_pushButton_12_clicked()
 {
@@ -530,4 +560,15 @@ void client::on_streamingPlaylistWidget_itemSelectionChanged()
 {
     if(!voted)
         ui->label_selectedSongNameVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
+}
+
+void client::toggleVoiceChatAcceptRejectButtons(bool state){
+    ui->acceptVoiceButton->setEnabled(state);
+    ui->rejectVoiceButton->setEnabled(state);
+}
+
+void client::on_rejectVoiceButton_clicked()
+{
+    ui->voiceCallLabel->setText("");
+    ui->voiceChatButton->setEnabled(true);
 }

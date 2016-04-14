@@ -791,7 +791,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Connected</string>
+       <string>Not connected</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -800,9 +800,9 @@
      <widget class="QPushButton" name="endChatButton">
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>30</x>
         <y>230</y>
-        <width>301</width>
+        <width>311</width>
         <height>41</height>
        </rect>
       </property>

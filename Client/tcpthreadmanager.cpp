@@ -165,6 +165,7 @@ void ThreadManager::setupVoiceChat()
     if(receiveTCP(VCSocket, voiceChatUsername)){
         //add client to gui
         emit signalUpdateVoiceChatUser(voiceChatUsername);
+        emit signalToggleVoiceButtons(true);
     } else
     {
         qDebug() << "TCP CANNOT RECEIVE IN SETUP VOICE CHAT";

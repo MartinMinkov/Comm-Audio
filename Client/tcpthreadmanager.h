@@ -44,6 +44,7 @@ signals:
     void signalDownloadStatus(int state);
     void signalUploadStatus(int state);
     void signalUpdateVoiceChatUser(QString);
+    void signalToggleVoiceButtons(bool state);
 
 public slots:
     void connect(QString ipaddr, QString portnum, QString username);
