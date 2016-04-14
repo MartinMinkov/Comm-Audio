@@ -424,8 +424,6 @@ void client::on_voiceChatButton_clicked()
 }
 void client::on_endChatButton_clicked()
 {
-    SetEvent(streamStop);
-
     shutdown(VCRecieveSocket, SD_BOTH);
     shutdown(VCSendSocket, SD_BOTH);
     shutdown(VCConnectSocket, SD_BOTH);
@@ -439,7 +437,6 @@ void client::on_endChatButton_clicked()
     connectionRequested = false;
 
     emit receiveVoiceChatWorker->signalDisconnect();
-    emit receiveTCPWorker->signalDisconnect();
 
     if (rec.player != NULL)
         rec.stopRecording();
