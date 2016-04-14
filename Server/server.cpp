@@ -91,8 +91,7 @@ void server::on_bAddSongs_clicked(){
     ui->playlistView->setModel(playlistModel);
     //not sure why it only works if i resize the width here
     ui->playlistView->setColumnWidth(0, 70);
-    ui->playlistView->setColumnWidth(1, 350);
-    ui->playlistView->setColumnWidth(2, 90);
+    ui->playlistView->setColumnWidth(1, 440);
 }
 
 
@@ -149,19 +148,16 @@ void server::updateUserList(QVector<QString> userList){
 
 void server::setupPlaylistTable(){
     playlistModel = new QStandardItemModel();
-    playlistModel->setColumnCount(3);
+    playlistModel->setColumnCount(2);
 
     QStandardItem* header0 = new QStandardItem("Number");
     QStandardItem* header1 = new QStandardItem("Song Name");
-    QStandardItem* header2 = new QStandardItem("Duration");
 
     playlistModel->setHorizontalHeaderItem(0,header0);
     playlistModel->setHorizontalHeaderItem(1,header1);
-    playlistModel->setHorizontalHeaderItem(2,header2);
 
     playlistModel->setHeaderData(0, Qt::Horizontal, Qt::AlignLeft, Qt::TextAlignmentRole);
     playlistModel->setHeaderData(1, Qt::Horizontal, Qt::AlignLeft, Qt::TextAlignmentRole);
-    playlistModel->setHeaderData(2, Qt::Horizontal, Qt::AlignLeft, Qt::TextAlignmentRole);
 
     ui->playlistView->verticalHeader()->hide();
 
