@@ -152,6 +152,8 @@ void ThreadManager::setupVoiceChat()
     int client_len = sizeof(voiceChatClient);
     if((VCSocket = accept(AcceptSocket, (struct sockaddr *)&voiceChatClient, &client_len)) == INVALID_SOCKET)
     {
+        closesocket(AcceptSocket);
+        closesocket(VCSocket);
         qDebug() <<  "Can't accept UDP client";
         return;
     }
