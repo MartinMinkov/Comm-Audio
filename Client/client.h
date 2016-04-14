@@ -53,6 +53,7 @@ public slots:
     void setDownloadStatus(int state);
     void setUploadStatus(int state);
     void updateIncomingVoiceChatText(QString name);
+    void toggleVoiceChatAcceptRejectButtons(bool state);
 
 private slots:
     void on_connectButton_clicked();
@@ -80,6 +81,8 @@ private slots:
 
     void on_streamingPlaylistWidget_itemSelectionChanged();
 
+    void on_rejectVoiceButton_clicked();
+
 private:
     Ui::client *ui;
     QThread* receiveTCPThread;
@@ -97,6 +100,7 @@ private:
     Recorder rec;
     bool streamSetup;
     bool paused;
+    mUsername;
 };
 
 #endif // CLIENT_H

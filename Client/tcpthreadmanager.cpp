@@ -164,6 +164,7 @@ void ThreadManager::setupVoiceChat()
     if(receiveTCP(VCSocket, voiceChatUsername)){
         //add client to gui
         emit signalUpdateVoiceChatUser(voiceChatUsername);
+        emit signalToggleVoiceButtons(true);
     }
 
     //update the client gui to show an incoming call
