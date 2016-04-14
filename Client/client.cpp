@@ -442,7 +442,11 @@ void client::on_endChatButton_clicked()
     ui->label_callStatus_2->setText("Not connected");
     ui->voiceCallLabel->setText("");
     ui->endChatButton->setEnabled(false);
-    ui->voiceChatButton->setEnabled(true);
+
+    QModelIndex item = ui->connectedWidget->currentIndex();
+    if(item.c != -1){
+        ui->voiceChatButton->setEnabled(true);
+    }
 
     emit receiveVoiceChatWorker->signalVoiceChat();
 }
