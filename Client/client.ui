@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>MAAC Client</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">

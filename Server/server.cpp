@@ -1,6 +1,6 @@
 #include "server.h"
 
-HANDLE loveQt;
+
 myBuffer player(accept_socket);
 server::server(QWidget *parent) :
     QWidget(parent),

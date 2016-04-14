@@ -1,4 +1,22 @@
 #include "mybuffer.h"
+/*------------------------------------------------------------------------------------------------------------------
+-- SOURCE FILE: myBuffer.cpp
+--
+-- FUNCTIONS:
+-- void myBuffer::setSlider()
+-- void myBuffer::rewind()
+-- qint64 myBuffer::readData(char * data, qint64 len)
+-- void myBuffer::pausePlayer()
+-- void myBuffer::resumePlayer()
+--
+--
+-- DATE:		14/04/2016
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+--
+-- NOTES:
+----------------------------------------------------------------------------------------------------------------------*/
 bool newCirc = true;
 SOCKET mySocket;
 circlebuff cData;
@@ -27,11 +45,41 @@ myBuffer::myBuffer()
     this->open(QIODevice::ReadOnly);
 }
 
+
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	setSlider
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	setSlider()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Invotes GUI update on the slider - called each packet
+----------------------------------------------------------------------------------------------------------------------*/
 void myBuffer::setSlider(){
 
     float percent =  300 * currentPos / (float)songTotal;
     QMetaObject::invokeMethod(mw, "updateSlider",Qt::QueuedConnection, Q_ARG(float,percent), Q_ARG(int, songTime));
 }
+
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	rewind
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	rewind()
+--
+--
+-- RETURNS: VOID
+-- NOTES: rewinds the song to the beginning, or as far as buffer will allow
+----------------------------------------------------------------------------------------------------------------------*/
 void myBuffer::rewind(){
 
     int progress = cData.headBuff - currentTail;
@@ -48,6 +96,21 @@ void myBuffer::rewind(){
 
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	readData
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	readData(char * data, qint64 len)
+--                  char * data - buffer to return data in
+--                  qint64 len  - amount of data written
+-- RETURNS: qint64 - number of bytes copied to buffer
+-- NOTES: OVERLOADED, part of QIOdevice.  Called each time the player needs data. Copy data into the
+buffer and return the number of bytes copied
+----------------------------------------------------------------------------------------------------------------------*/
 qint64 myBuffer::readData(char * data, qint64 len){
 
     int endSong;
@@ -92,10 +155,38 @@ qint64 myBuffer::readData(char * data, qint64 len){
     }
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	pausePlayer
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	pausePlayer
+--
+--
+-- RETURNS: VOID
+-- NOTES: pauses the player
+----------------------------------------------------------------------------------------------------------------------*/
 void myBuffer::pausePlayer(){
     player->suspend();
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	resumePlayer
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	resumePlayeR()
+--
+--
+-- RETURNS:void
+-- NOTES: resumes the player
+----------------------------------------------------------------------------------------------------------------------*/
 void myBuffer::resumePlayer(){
     if(player->state() == QAudio::IdleState){
         player->start(this);
@@ -105,14 +196,57 @@ void myBuffer::resumePlayer(){
 
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	updateVolume
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	updateVolume(float v)
+--
+--
+-- RETURNS: VOID
+-- NOTES: updates the player volume
+----------------------------------------------------------------------------------------------------------------------*/
 void myBuffer::updateVolume(float v){
     player->setVolume(v);
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	jumpLive
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	jumpLive()
+--
+--
+-- RETURNS: VOID
+-- NOTES: catch the tail up to the head -> brings the player back in sync with the server
+----------------------------------------------------------------------------------------------------------------------*/
 void myBuffer::jumpLive(){
     cData.tail = cData.headBuff;
     currentPos = songStart + cData.headBuff - currentTail;
 }
+
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	sliderChange
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	sliderChange(int perc)
+--
+--
+-- RETURNS: VOID
+-- NOTES: Called when user moves the slider. Updates the position of the song
+----------------------------------------------------------------------------------------------------------------------*/
 void myBuffer::sliderChange(int perc){
     int reqBlock = perc / 300.0f * songTotal;
     int minBlock, maxBlock;
@@ -184,6 +318,21 @@ void myBuffer::setSocket(int socket){
     startPlayer();
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	setHeader
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	setHeader(char * h)
+--
+--
+-- RETURNS: VOID
+-- NOTES: Reads the header data at the start of a new song. Sets the player format to match the format
+of the song. Restarts the player once set.
+----------------------------------------------------------------------------------------------------------------------*/
 void myBuffer::setHeader(char * h){
     QString orig(h);
     QAudioFormat format;
@@ -232,6 +381,20 @@ qint64 myBuffer::bytesAvailable(){
     return 0;
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	startPlayer
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	startPlayer()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Start the player
+----------------------------------------------------------------------------------------------------------------------*/
 void myBuffer::startPlayer(){
     player->start(this);
 }

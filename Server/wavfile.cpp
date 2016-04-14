@@ -1,4 +1,7 @@
+//Taken from QT -- Reads a wav file header
+
 /****************************************************************************
+**
 **
 ** Copyright (C) 2015 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
