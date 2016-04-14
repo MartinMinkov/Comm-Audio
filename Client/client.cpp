@@ -439,7 +439,10 @@ void client::on_endChatButton_clicked()
     emit receiveVoiceChatWorker->signalDisconnect();
 
     if (rec.player != NULL)
+    {
         rec.stopRecording();
+        cData.clear();
+    }
 
     ui->tabWidget->setTabEnabled(1, true);
     ui->tabWidget->setTabEnabled(2, true);
@@ -448,7 +451,6 @@ void client::on_endChatButton_clicked()
     ui->voiceCallLabel->setText("");
     ui->endChatButton->setEnabled(false);
     ui->voiceChatButton->setEnabled(true);
-
     emit receiveVoiceChatWorker->signalVoiceChat();
 }
 void client::on_acceptVoiceButton_clicked()

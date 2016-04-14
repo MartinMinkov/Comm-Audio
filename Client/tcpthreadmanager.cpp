@@ -126,8 +126,9 @@ void ThreadManager::setupVoiceChat()
 
     if(VCSocket != 0 && AcceptSocket != 0) {
         qDebug() << "Socket not null";
+        closesocket(AcceptSocket);
+        closesocket(VCSocket);
         printf("VC Socket: %d Accept Socket: %d", VCSocket, AcceptSocket);
-        return;
     }
     if ((AcceptSocket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
     {
