@@ -1,4 +1,22 @@
 #include "filehelper.h"
+/*------------------------------------------------------------------------------------------------------------------
+-- SOURCE FILE: filehelper.cpp - Deals with the sending and receiving of files
+--
+-- FUNCTIONS:
+-- void filehelper::handleDownloadRequest(QString title, SOCKET m_socket)
+-- void filehelper::handleUploadRequest(QString songName, SOCKET m_socket)
+-- DWORD WINAPI readStuff(LPVOID param)
+--
+--
+-- DATE:		14/04/2016
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+--
+-- NOTES: Deals with responding to upload and download requests from the client
+----------------------------------------------------------------------------------------------------------------------*/
+
+
 
 using namespace std;
 DWORD WINAPI readStuff(LPVOID param);
@@ -15,6 +33,22 @@ filehelper::filehelper()
     readDone = CreateEvent(NULL, TRUE, FALSE, ok2);
     fileDone = CreateEvent(NULL, TRUE, FALSE, ok3);
 }
+
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: handleDownloadRequest
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE: void filehelper::handleDownloadRequest(QString title, SOCKET m_socket)
+--                  QString title   - title of song to open
+--                  SOCKET m_socket - socket to send to
+-- RETURNS: VOID
+-- NOTES: Called in response to a client wanting to download a file. Opens the file and sends it
+-- accross TCP to the client
+----------------------------------------------------------------------------------------------------------------------*/
 void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
     networkutility::debugMessage("download requested");
     char * fileName;
@@ -64,6 +98,22 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
     }
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	handleUploadRequest
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	void filehelper::handleUploadRequest(QString songName, SOCKET m_socket)
+--                          QString songName - name of the file to save to
+--                          SOCKET m_sokcet  - socket to read
+--
+-- RETURNS: VOID
+-- NOTES: Call to handle an upload request from the client - allows the client to upload
+-- a file to the server, and save it for later playback
+----------------------------------------------------------------------------------------------------------------------*/
 void filehelper::handleUploadRequest(QString songName, SOCKET m_socket){
     networkutility::debugMessage("upload requested");
     networkutility n;
@@ -100,6 +150,21 @@ void filehelper::handleUploadRequest(QString songName, SOCKET m_socket){
     fflush(stdout);
 
 }
+
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: readStuff
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:DWORD WINAPI readStuff(LPVOID param)
+--                  LPVOID param - the file to read -- CAST TO FILE *
+--
+-- RETURNS: NOTHING
+-- NOTES: Called to write data from the ciruclar buffer to a file.
+----------------------------------------------------------------------------------------------------------------------*/
 DWORD WINAPI readStuff(LPVOID param){
     //char * title = (char *)param;
     FILE * fqt = (FILE *)param;

@@ -68,6 +68,21 @@ bool receiveTCP(SOCKET sd, char* message)
     }
     return TRUE;
 }
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: WSAS
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE: bool networkutility::WSAS(SOCKET sd, char * message, int size, int timeout)
+--                          SOCKET sd      - socket to send to
+--                          char * message - message to write to the socket
+--                          int size       - length of the message to send
+--                          int timeout    - length of time to wait for timeout
+-- RETURNS: BOOL - true = success, false = TIMEOUT
+-- NOTES: Call to send an async TCP send.
+----------------------------------------------------------------------------------------------------------------------*/
+
 bool WSAS(SOCKET sd, char * message, int size, int timeout){
     WSABUF buf;
     WSAOVERLAPPED ov;
@@ -97,6 +112,20 @@ bool WSAS(SOCKET sd, char * message, int size, int timeout){
     }
 
 }
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: WSARead
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE: int WSARead(SOCKET sd, char * message, int timeout, int size)
+--                      SOCKET sd   - socket to read
+--                      char * message - buffer to copy the data received to
+--                      int timeout  - time to wait for timeout
+--                      int size     - amount of data to read
+-- RETURNS: INT - number of bytes read
+-- NOTES: Call to do WSA read of a socket
+----------------------------------------------------------------------------------------------------------------------*/
 
 int WSARead(SOCKET sd, char * message, int timeout, int size){
     WSAOVERLAPPED ov;
