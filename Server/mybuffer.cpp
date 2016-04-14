@@ -29,19 +29,12 @@ myBuffer::myBuffer(int sock)
     loader = buff;
     DWORD id;
     fileLoader = fileBuff;
-    //getSong("stress.wav");
- //   SetEvent(needData);
-    //loadSong();
-    printf("CONSTRUCTOR CALLED");
-    fflush(stdout);
     this->open(QIODevice::ReadOnly);
-  //  player->start(this);
     player->setVolume(0.0);
 }
 void myBuffer::getSong(char * songName){
     FILE * fqt;
     fqt = fopen("runescape.wav", "rb");
-   // fqt = fopen("warpeace.txt", "rb");
     char arrBuff[BUFFSIZE] = { 0 };
     char * ok = arrBuff;
     int len;
@@ -55,26 +48,17 @@ void myBuffer::getSong(char * songName){
 }
 qint64 myBuffer::readData(char * data, qint64 len){
     int endSong;
-    printf("Martin will stay here: %d", len);
     if(newCirc){
         if(cData.tail > cData.buffHead){
-            printf("Requesting more data");
             SetEvent(needData);
             if(cData.head == 0){
-                printf("Returning 0 ok");
-                fflush(stdout);
-
                 return 0;
             }
-            //needD = true;
-
         }
         if(!(endSong = cData.pop(loader))){
             printf("End of song/buffer");
             return -1;
         }
-        //sendDataTCP(my_socket, loader);
-       // n.WSAS(my_socket, loader, BUFFSIZE, 10000);
         sendToMultiCast(loader);
         newCirc = false;
     }
@@ -102,7 +86,6 @@ void myBuffer::setSocket(int socket){
 }
 
 bool myBuffer::loadSong(){
-    printf("Loading data");
     fflush(stdout);
     if(needNew){
         needNew = false;
@@ -142,8 +125,7 @@ DWORD WINAPI readFromFile(LPVOID param){
         if(needASong){
             //SetEvent(loadUpSong);
         }
-       // needD = false;
-        //}
+
     }
 
 }

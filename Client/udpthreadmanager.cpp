@@ -10,8 +10,8 @@ UDPThreadManager::UDPThreadManager(QObject *parent) : QObject(parent)
 -- FUNCTION:	initMultiCastSock
 -- DATE:        14/04/16
 -- REVISIONS:	(V1.0)
--- DESIGNER:	Colin Bose
--- PROGRAMMER:  Colin Bose
+-- DESIGNER:	Martin Minkov
+-- PROGRAMMER:  Martin Minkov
 -- INTERFACE:	initMultiCastSock()
 -- RETURNS:     void
 -- NOTES:       Initializes the socket when joining the multicast group.
@@ -59,8 +59,8 @@ void UDPThreadManager::initMultiCastSock()
 -- FUNCTION:	initializeVoiceChatSockets
 -- DATE:        14/04/16
 -- REVISIONS:	(V1.0)
--- DESIGNER:	Colin Bose
--- PROGRAMMER:  Colin Bose
+-- DESIGNER:	Martin Minkov
+-- PROGRAMMER:  Martin Minkov
 -- INTERFACE:	initializeVoiceChatSockets(QString ipAddr)
 --                  QString ipAddr: IP address of the client to connect to
 -- RETURNS:     void
@@ -121,8 +121,8 @@ void UDPThreadManager::initalizeVoiceChatSockets(QString ipAddr)
 -- FUNCTION:	UDPWorker
 -- DATE:        14/04/16
 -- REVISIONS:	(V1.0)
--- DESIGNER:	Colin Bose
--- PROGRAMMER:  Colin Bose
+-- DESIGNER:	Martin Minkov
+-- PROGRAMMER:  Martin Minkov
 -- INTERFACE:	UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
 --                  SOCKET sd:
 --                  struct sockaddr_in socketStruct:
@@ -194,8 +194,8 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
 -- FUNCTION:	disconnect
 -- DATE:        14/04/16
 -- REVISIONS:	(V1.0)
--- DESIGNER:	Colin Bose
--- PROGRAMMER:  Colin Bose
+--- DESIGNER:	Martin Minkov
+-- PROGRAMMER:  Martin Minkov
 -- INTERFACE:	disconnect()
 -- RETURNS:     void
 -- NOTES:       Called when the connection is disconnected, quits the thread.
