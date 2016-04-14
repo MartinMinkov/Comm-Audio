@@ -714,24 +714,73 @@ void client::on_pushButton_12_clicked()
     ui->pushButton_12->setEnabled(false);
     voted = true;
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	void on_downloadFileWidget_itemSelectionChanged
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:  void on_downloadFileWidget_itemSelectionChanged()
+--
+--
+-- RETURNS:
+-- NOTES: Unlocks download file button on listwidget item select
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_downloadFileWidget_itemSelectionChanged()
 {
     setDownloadStatus(0);
     ui->downloadSongButton->setEnabled(true);
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_uploadFileWidget_itemSelectionChanged
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	on_uploadFileWidget_itemSelectionChanged()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Unlocks upload file button when an item is selected from the qlistwidget
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_uploadFileWidget_itemSelectionChanged()
 {
     setUploadStatus(0);
     ui->uploadButton->setEnabled(true);
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	updateIncomingVoiceChatText
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	updateIncomingVoiceChatText(Qstring name)
+--
+--
+-- RETURNS: VOID
+-- NOTES: Updates the call incoming from dialogue
+----------------------------------------------------------------------------------------------------------------------*/
 void client::updateIncomingVoiceChatText(QString name){
     QString temp = "Incoming call from ";
     temp.append(name);
     ui->voiceCallLabel->setText(temp);
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_streamingPlaylistWidget_itemSelectionChanged
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	on_streamingPlaylistWidget_itemSelectionChanged()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Changes label text to match list widget selection
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_streamingPlaylistWidget_itemSelectionChanged()
 {
     if(!voted)
@@ -747,8 +796,8 @@ void client::on_streamingPlaylistWidget_itemSelectionChanged()
 -- INTERFACE:	toggleVoiceChatAcceptRejectButtons(bool state)
 --                          bool state - enabled/disabled
 --
--- RETURNS:
--- NOTES:
+-- RETURNS: VOID
+-- NOTES: Sets the status of the voice chat butotns - enabled/disabled
 ----------------------------------------------------------------------------------------------------------------------*/
 void client::toggleVoiceChatAcceptRejectButtons(bool state){
     ui->acceptVoiceButton->setEnabled(state);
