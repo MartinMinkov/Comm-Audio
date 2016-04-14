@@ -30,7 +30,8 @@ void initSockInfo(LPSOCKET_INFORMATION SOCKET_INFO, char* buffer, struct sockadd
 
 void sendDataTCP(SOCKET sd, const char* message)
 {
-    if(send(sd, message, PACKET_LEN, 0) == SOCKET_ERROR)
+    int check;
+    if((check = send(sd, message, PACKET_LEN, 0)) == SOCKET_ERROR)
     {
        if (WSAGetLastError())
         {

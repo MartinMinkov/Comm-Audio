@@ -88,6 +88,9 @@ private:
     QThread* receiveTCPThread;
     ThreadManager* receiveTCPWorker;
 
+    QThread* fileThread;
+    ThreadManager* fileWorker;
+
     QThread* receiveUDPThread;
     ThreadManager* receiveUDPWorker;
 

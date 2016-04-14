@@ -57,6 +57,10 @@ void client::on_connectButton_clicked()
     receiveTCPThread = new QThread;
     receiveTCPWorker = new ThreadManager();
 
+
+    fileThread = new QThread;
+    fileWorker = new ThreadManager();
+
     receiveVoiceChatThread = new QThread;
     receiveVoiceChatWorker = new ThreadManager();
 
@@ -66,6 +70,7 @@ void client::on_connectButton_clicked()
     receiveTCPWorker->moveToThread(receiveTCPThread);
     receiveVoiceChatWorker->moveToThread(receiveVoiceChatThread);
     streamUDPWorker->moveToThread(streamUDPThread);
+    fileWorker->moveToThread(fileThread);
 
     //Not sure why this is done, but its something to do with passing objects in threads.
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
@@ -93,6 +98,7 @@ void client::on_connectButton_clicked()
 
     receiveTCPThread->start();
     receiveVoiceChatThread->start();
+    fileThread->start();
     emit receiveTCPWorker->signalConnect(ipaddr, portnum, username);
 
     client::toggleInput(false);
@@ -147,11 +153,11 @@ void client::on_uploadButton_clicked()
 }
 void client::on_downloadSongButton_clicked()
 {
-    connect(receiveTCPWorker, SIGNAL(signalDownload(QString)), receiveTCPWorker, SLOT(SendDownloadRequest(QString)), Qt::UniqueConnection);
-    connect(receiveTCPWorker, SIGNAL(signalDownloadStatus(int)), this, SLOT(setDownloadStatus(int)), Qt::UniqueConnection);
+    connect(fileWorker, SIGNAL(signalDownload(QString)), fileWorker, SLOT(SendDownloadRequest(QString)), Qt::UniqueConnection);
+    connect(fileWorker, SIGNAL(signalDownloadStatus(int)), this, SLOT(setDownloadStatus(int)), Qt::UniqueConnection);
     QString songName = QString("%1%2").arg(REQ_DOWNLOAD).arg(ui->downloadFileWidget->currentItem()->text());
-    emit receiveTCPWorker->signalDownload(songName);
-    emit receiveTCPWorker->signalDownloadStatus(1);
+    emit fileWorker->signalDownload(songName);
+    emit fileWorker->signalDownloadStatus(1);
 }
 void client::setDownloadStatus(int state){
 

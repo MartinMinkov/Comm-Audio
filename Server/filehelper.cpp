@@ -48,6 +48,7 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
 
     char success[] = "M";
     sendDataTCP(m_socket, success);
+
     while((bytesRead = fread(buff, sizeof(char), FILEMAX, fqt))){
             if(bytesRead != FILEMAX){
             n.WSAS(m_socket, buff, bytesRead, 1000);

@@ -228,13 +228,8 @@ void ThreadManager::SendDownloadRequest(QString songName)
     HANDLE writeThread;
     DWORD id;
     char fileName[500] = { 0 };
-    //QString temp;
     c.init();
-    qDebug() << songName;
-   //temp = REQ_DOWNLOAD;
-    //temp += songName;
-    printf("Allen im here");
-    fflush(stdout);
+    int left = 42344526;
     sendDataTCP(TCPSocket, songName.toStdString().c_str());
     songName = songName.remove(0, 1);
     char * title =  fileName;
@@ -248,8 +243,13 @@ void ThreadManager::SendDownloadRequest(QString songName)
     int len;
     writeThread = CreateThread(NULL, 0, readStuff, (void *)title, 0 , &id);
     while((len = WSARead(TCPSocket, buf, 2000, 20000))){
+        left -= len;
         c.push(buf, len);
-        SetEvent(newData);
+        if(left == 0){
+            printf("No data left");
+            break;
+        }
+        //SetEvent(newData);
     }
     SetEvent(readDone);
     WaitForSingleObject(fileDone, 20000);
@@ -318,6 +318,7 @@ void ThreadManager::SendSongRefreshRequest()
 }
 void ThreadManager::SendVoiceRefreshRequest()
 {
+
     qDebug() << "Send Voice Refresh Request is called";
     std::string temp;
     temp = REFRESH_USER;
