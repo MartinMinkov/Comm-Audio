@@ -491,6 +491,7 @@ void client::tabSelected(){
     if(ui->tabWidget->currentIndex()==1){
         connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()), Qt::UniqueConnection);
         emit receiveTCPWorker->signalSongRefresh();
+
     }
 
     //voice chat tab
