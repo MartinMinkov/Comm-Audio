@@ -274,22 +274,6 @@ void myBuffer::sliderChange(int perc){
     int diff = reqBlock - songStart;
     cData.tail = currentTail + diff;
     currentPos = songStart + diff;
-    /*
-    int newPos = currentTail + (perc * songTotal / 100);
-    float ret;
-    if(newPos > cData.head){
-        cData.tail = cData.headBuff;
-        currentPos = songStart + cData.headBuff - currentTail;
-    }else{
-        if((newPos + 475) < cData.headBuff){
-            newPos = cData.headBuff - 475;
-        }
-        if(newPos < 0)
-            newPos = 0;
-        cData.tail = newPos;
-        currentPos = songStart + cData.tail - currentTail;
-    }*/
-    //printf("Head: %d, Tail: %d", cData.head, cData.tail);
 }
 
 DWORD WINAPI fillUp(LPVOID param){
