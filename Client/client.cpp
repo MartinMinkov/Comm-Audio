@@ -1,5 +1,53 @@
 #include "client.h"
 #include "globals.h"
+/*------------------------------------------------------------------------------------------------------------------
+-- SOURCE FILE: client.cpp
+--
+-- FUNCTIONS:
+-- client::client(QWidget *parent) : QWidget(parent), ui(new Ui::client)
+-- client::~client()
+-- void client::on_connectButton_clicked()
+-- void client::on_disconnectButton_clicked()
+-- void client::on_updateSongButton_clicked()
+-- void client::setDownloadStatus(int state)
+-- void client::setUploadStatus(int state)
+-- void client::toggleInput(bool state)
+-- void client::updateUsers(QVector<QString> userList)
+-- void client::updateCallLabel(QString caller)
+-- void client::handleStateChanged(QAudio::State newState)
+-- void client::on_updateVoiceUsersButton_clicked()
+-- void client::on_playStreamButton_clicked()
+-- std::vector<int> client::getTime(int time)
+-- void client::updateSlider(float percent, int songTime)
+-- void client::on_stopStreamButton_clicked()
+-- void client::on_rewindStreamButton_clicked()
+-- void client::handleUpdateStatusBar(bool connected)
+-- void client::on_horizontalSlider_2_sliderReleased()
+-- void client::on_liveStreamButton_clicked()
+-- void client::on_horizontalSlider_2_sliderPressed()
+-- void client::on_updateStreamPlaylist_clicked()
+-- void client::setCurrentlyPlaying(QString songName)
+-- void client::on_voiceChatButton_clicked()
+-- void client::on_endChatButton_clicked()
+-- void client::on_acceptVoiceButton_clicked()
+-- void client::tabSelected()
+-- void client::on_button_uploadDirectory_clicked()
+-- void client::on_volumeSlider_valueChanged(int value)
+-- void client::on_connectedWidget_itemSelectionChanged()
+-- void client::on_pushButton_12_clicked()
+-- void client::on_downloadFileWidget_itemSelectionChanged()
+-- void client::on_uploadFileWidget_itemSelectionChanged()
+-- void client::updateIncomingVoiceChatText(QString name)
+-- void client::on_streamingPlaylistWidget_itemSelectionChanged()
+-- void client::toggleVoiceChatAcceptRejectButtons(bool state)
+-- void client::on_rejectVoiceButton_clicked()
+-- DATE:		14/04/2016
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+--
+-- NOTES: A circular buffer to store char array data. Provides functions to add and remove data.
+----------------------------------------------------------------------------------------------------------------------*/
 circlebuff music;
 QFile sourceFile;
 QBuffer playBuffer;
