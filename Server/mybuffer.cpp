@@ -29,19 +29,12 @@ myBuffer::myBuffer(int sock)
     loader = buff;
     DWORD id;
     fileLoader = fileBuff;
-    //getSong("stress.wav");
- //   SetEvent(needData);
-    //loadSong();
-    printf("CONSTRUCTOR CALLED");
-    fflush(stdout);
     this->open(QIODevice::ReadOnly);
-  //  player->start(this);
     player->setVolume(0.0);
 }
 void myBuffer::getSong(char * songName){
     FILE * fqt;
     fqt = fopen("runescape.wav", "rb");
-   // fqt = fopen("warpeace.txt", "rb");
     char arrBuff[BUFFSIZE] = { 0 };
     char * ok = arrBuff;
     int len;
@@ -93,7 +86,6 @@ void myBuffer::setSocket(int socket){
 }
 
 bool myBuffer::loadSong(){
-    printf("Loading data");
     fflush(stdout);
     if(needNew){
         needNew = false;
