@@ -17,9 +17,6 @@
 -- NOTES: Manages the audio output player. Has methods to set the format and header for each new song
 ----------------------------------------------------------------------------------------------------------------------*/
 
-
-
-
 testBuff * t;
 
 playerManager::playerManager()
