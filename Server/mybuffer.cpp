@@ -159,10 +159,8 @@ qint64 myBuffer::bytesAvailable(){
 void myBuffer::startPlayer(){
 
     DWORD id;
-    LPCWSTR tom = L"thisisretarded";
-    LPCWSTR martin = L"StartPlayer";
-    needData =  CreateEvent(NULL, TRUE, FALSE, tom );
-    sync =  CreateEvent(NULL, TRUE, FALSE, martin );
+    needData =  CreateEvent(NULL, TRUE, FALSE, (LPCWSTR)L"needData" );
+    sync =  CreateEvent(NULL, TRUE, FALSE, (LPCWSTR)L"sync" );
     fileReader = CreateThread(NULL, 0, readFromFile, (void *)this, 0, &id);
     SetEvent(needData);
   // Sleep(50);
