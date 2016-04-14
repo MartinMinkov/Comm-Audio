@@ -248,6 +248,20 @@ void client::on_updateVoiceUsersButton_clicked()
     emit receiveTCPWorker->signalVoiceRefresh();
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: on_playStremButton_clicked()
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_playStreamButton_clicked
+--
+--
+-- RETURNS: VOID
+-- NOTES: Starts the audio streaming
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_playStreamButton_clicked()
 {
     if(!streamSetup){
@@ -291,6 +305,19 @@ void client::on_playStreamButton_clicked()
     ui->tabWidget->setTabEnabled(3, false);
 
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: getTime
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	getTime(int time)
+--
+--
+-- RETURNS: VETOR of two integers - minutes and seconds
+-- NOTES: Call to convert integer into minute sand seconds
+----------------------------------------------------------------------------------------------------------------------*/
 std::vector<int> client::getTime(int time){
     std::vector<int> ret;
     int h, m;
@@ -302,6 +329,18 @@ std::vector<int> client::getTime(int time){
     return ret;
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	updateSlider
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	updateSlider(float percent, int songTime)
+--                      float percent - percent of the song completed - move the bar this far
+--                      songTime - total song time
+-- RETURNS:
+-- NOTES:
+----------------------------------------------------------------------------------------------------------------------*/
 void client::updateSlider(float percent, int songTime){
     if(drag)
         return;
@@ -353,6 +392,18 @@ void client::on_stopStreamButton_clicked()
     qDebug() << "After Disconnet";
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	rewindStreamButton_clicked
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_rewindStreamButton_clicked
+--
+--
+-- RETURNS: VOID
+-- NOTES: rewind the stream as far as possible
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_rewindStreamButton_clicked()
 {
     play.rewind();
@@ -369,12 +420,36 @@ void client::handleUpdateStatusBar(bool connected){
 }
 
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_horizontalSlider_2_sliderReleased
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_horizontalSlider_2_sliderReleased
+--
+--
+-- RETURNS:VOID
+-- NOTES: Called when the scroll bar is moved, updates the song position
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_horizontalSlider_2_sliderReleased()
 {
     drag = false;
     play.sliderChange(ui->horizontalSlider_2->value());
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_liveStreamButton_clicked
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_liveStreamButton_clicke
+--
+--
+-- RETURNS: VOID
+-- NOTES: moves the stream to the current head of the buffer -- to live time
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_liveStreamButton_clicked()
 {
 
@@ -535,6 +610,18 @@ void client::on_button_uploadDirectory_clicked()
     }
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_volumeSlider_valueChanged(int value)
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_volumeSlider_valueChanged(int value)
+--
+--
+-- RETURNS: VOID
+-- NOTES: updates the audio player volume on slider change
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_volumeSlider_valueChanged(int value)
 {
     play.updateVolume((float)(value / 100.0f));
@@ -551,6 +638,19 @@ void client::on_connectedWidget_itemSelectionChanged()
     ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
     ui->voiceChatButton->setEnabled(true);
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_pushButton_12_clicked
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_pushButton_12_clicked
+--
+--
+-- RETURNS: VOID
+-- NOTES: Song vote button - sends your vote to the server
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_pushButton_12_clicked()
 {
     int vote = ui->streamingPlaylistWidget->currentRow();
@@ -589,11 +689,35 @@ void client::on_streamingPlaylistWidget_itemSelectionChanged()
         ui->label_selectedSongNameVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	toggleVoiceChatAcceptRejectButtons
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	toggleVoiceChatAcceptRejectButtons(bool state)
+--                          bool state - enabled/disabled
+--
+-- RETURNS:
+-- NOTES:
+----------------------------------------------------------------------------------------------------------------------*/
 void client::toggleVoiceChatAcceptRejectButtons(bool state){
     ui->acceptVoiceButton->setEnabled(state);
     ui->rejectVoiceButton->setEnabled(state);
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: on_rejectVoiceButton_clicked()
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	on_rejectVoiceButton_clicked()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Rejects a voice call -> resets the text and buttons
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_rejectVoiceButton_clicked()
 {
     ui->voiceCallLabel->setText("");
