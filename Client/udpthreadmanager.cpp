@@ -5,6 +5,17 @@ UDPThreadManager::UDPThreadManager(QObject *parent) : QObject(parent)
 {
     StreamSocket = 0;
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	initMultiCastSock
+-- DATE:        14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	initMultiCastSock()
+-- RETURNS:     void
+-- NOTES:       Initializes the socket when joining the multicast group.
+------------------------------------------------------------------------------------------------------------------*/
 void UDPThreadManager::initMultiCastSock()
 {
     int nRet;
@@ -29,7 +40,7 @@ void UDPThreadManager::initMultiCastSock()
     nRet = bind(StreamSocket, (struct sockaddr*) &streamServer, addr_size);
     if (nRet == SOCKET_ERROR)
     {
-        qDebug() << "bind( failed";
+        qDebug() << "bind() failed";
         return;
     }
     //Join Multicast Group
@@ -43,6 +54,18 @@ void UDPThreadManager::initMultiCastSock()
     }
     emit signalUDPWorker(StreamSocket, streamServer);
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	initializeVoiceChatSockets
+-- DATE:        14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	initializeVoiceChatSockets(QString ipAddr)
+--                  QString ipAddr: IP address of the client to connect to
+-- RETURNS:     void
+-- NOTES:       Initializes the socket when creating a voice chat call.
+------------------------------------------------------------------------------------------------------------------*/
 void UDPThreadManager::initalizeVoiceChatSockets(QString ipAddr)
 {
     int nRet;
@@ -62,12 +85,12 @@ void UDPThreadManager::initalizeVoiceChatSockets(QString ipAddr)
 
     if (connectionRequested == true)
     {
-        voiceChatReceive.sin_port        = htons(RECEIVE_VOICE_PORT);
+        voiceChatReceive.sin_port     = htons(RECEIVE_VOICE_PORT);
         voiceChatSend.sin_port        = htons(SEND_VOICE_PORT);
     }
     else
     {
-        voiceChatReceive.sin_port        = htons(SEND_VOICE_PORT);
+        voiceChatReceive.sin_port     = htons(SEND_VOICE_PORT);
         voiceChatSend.sin_port        = htons(RECEIVE_VOICE_PORT);
     }
     voiceChatReceive.sin_family      = AF_INET;
@@ -76,7 +99,7 @@ void UDPThreadManager::initalizeVoiceChatSockets(QString ipAddr)
     nRet = bind(VCRecieveSocket, (struct sockaddr*) &voiceChatReceive, addr_size);
     if (nRet == SOCKET_ERROR)
     {
-        qDebug() << "Voice Receieve bind( failed";
+        qDebug() << "Voice Receieve bind() failed";
         return;
     }
     voiceChatSend.sin_family      = AF_INET;
@@ -93,6 +116,19 @@ void UDPThreadManager::initalizeVoiceChatSockets(QString ipAddr)
     qDebug() << "Sending signalUDPWorker";
     UDPWorker(VCRecieveSocket, voiceChatReceive);
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	UDPWorker
+-- DATE:        14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
+--                  SOCKET sd:
+--                  struct sockaddr_in socketStruct:
+-- RETURNS:     void
+-- NOTES:       Creates a thread worker to handle a UDP connection
+------------------------------------------------------------------------------------------------------------------*/
 void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
 {
     DWORD RecvBytes = 0, Index;
@@ -153,6 +189,17 @@ void UDPThreadManager::UDPWorker(SOCKET sd, struct sockaddr_in socketStruct)
         }
     }
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	disconnect
+-- DATE:        14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	disconnect()
+-- RETURNS:     void
+-- NOTES:       Called when the connection is disconnected, quits the thread.
+------------------------------------------------------------------------------------------------------------------*/
 void UDPThreadManager::disconnect()
 {
     this->thread()->quit();
