@@ -444,7 +444,7 @@ void client::on_endChatButton_clicked()
     ui->endChatButton->setEnabled(false);
 
     QModelIndex item = ui->connectedWidget->currentIndex();
-    if(item.c != -1){
+    if(item.row() != -1){
         ui->voiceChatButton->setEnabled(true);
     }
 
