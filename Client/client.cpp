@@ -393,7 +393,9 @@ void client::on_voiceChatButton_clicked()
 {
     char buf[PACKET_LEN];
     char *clientIP = buf;
-
+    ui->tabWidget->setTabEnabled(1, false);
+    ui->tabWidget->setTabEnabled(2, false);
+    ui->tabWidget->setTabEnabled(4, false);
     //ask the server for the IP corresponding to the selected username
     connect(receiveTCPWorker, SIGNAL(signalGetVoiceChatIP(QString)), receiveTCPWorker, SLOT(requestVoiceChatIP(QString)), Qt::UniqueConnection);
     QString username = QString("%1%2").arg(REQ_CHAT_IP).arg(ui->connectedWidget->currentItem()->text());
