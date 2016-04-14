@@ -418,8 +418,9 @@ void client::on_voiceChatButton_clicked()
     rec.startPlayer();
 
     toggleVoiceChatAcceptRejectButtons(false);
-    ui->voiceChatButton->setEnabled(true);
-    ui->endChatButton->setEnabled(false);
+    ui->voiceChatButton->setEnabled(false);
+    ui->label_callStatus_2->setText("Connected");
+    ui->endChatButton->setEnabled(true);
     //rec.startSecondary();
 }
 void client::on_endChatButton_clicked()
@@ -439,6 +440,8 @@ void client::on_endChatButton_clicked()
     ui->tabWidget->setTabEnabled(4, true);
     ui->label_callStatus_2->setText("Not connected");
     ui->voiceCallLabel->setText("");
+    ui->endChatButton->setEnabled(false);
+    ui->voiceChatButton->setEnabled(true);
 
     emit receiveVoiceChatWorker->signalVoiceChat();
 }

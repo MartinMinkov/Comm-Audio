@@ -100,7 +100,7 @@ private:
     Recorder rec;
     bool streamSetup;
     bool paused;
-    mUsername;
+    QString mUsername;
 };
 
 #endif // CLIENT_H
