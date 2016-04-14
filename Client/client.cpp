@@ -285,6 +285,7 @@ void client::on_playStreamButton_clicked()
     }
 
     //disable other tabs if streaming started
+    ui->tabWidget->setTabEnabled(0, false);
     ui->tabWidget->setTabEnabled(1, false);
     ui->tabWidget->setTabEnabled(2, false);
     ui->tabWidget->setTabEnabled(3, false);
@@ -344,6 +345,7 @@ void client::on_stopStreamButton_clicked()
     ResetEvent(dataInBuffer);
     SetEvent(streamStop);
 
+    ui->tabWidget->setTabEnabled(0, true);
     ui->tabWidget->setTabEnabled(1, true);
     ui->tabWidget->setTabEnabled(2, true);
     ui->tabWidget->setTabEnabled(3, true);
@@ -399,6 +401,7 @@ void client::on_voiceChatButton_clicked()
 {
     char buf[PACKET_LEN];
     char *clientIP = buf;
+    ui->tabWidget->setTabEnabled(0, false);
     ui->tabWidget->setTabEnabled(1, false);
     ui->tabWidget->setTabEnabled(2, false);
     ui->tabWidget->setTabEnabled(4, false);
@@ -452,6 +455,7 @@ void client::on_endChatButton_clicked()
         cData.clear();
     }
 
+    ui->tabWidget->setTabEnabled(0, true);
     ui->tabWidget->setTabEnabled(1, true);
     ui->tabWidget->setTabEnabled(2, true);
     ui->tabWidget->setTabEnabled(4, true);
@@ -472,6 +476,7 @@ void client::on_acceptVoiceButton_clicked()
     rec.startPlayer();
 
     //disable other tabs when voice chat started
+    ui->tabWidget->setTabEnabled(0, false);
     ui->tabWidget->setTabEnabled(1, false);
     ui->tabWidget->setTabEnabled(2, false);
     ui->tabWidget->setTabEnabled(4, false);
