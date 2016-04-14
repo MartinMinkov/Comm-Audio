@@ -46,7 +46,6 @@ void UDPThreadManager::initMultiCastSock()
 void UDPThreadManager::initalizeVoiceChatSockets(QString ipAddr)
 {
     int nRet;
-    char flag = 1;
 
     qDebug() << "In initialize";
 

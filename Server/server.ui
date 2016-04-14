@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>commAudio</string>
+   <string>MAAC Server</string>
   </property>
   <widget class="QWidget" name="panel_bg_server_port" native="true">
    <property name="geometry">

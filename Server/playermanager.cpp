@@ -1,6 +1,24 @@
 #include "playermanager.h"
+/*------------------------------------------------------------------------------------------------------------------
+-- SOURCE FILE: playermanager.cpp
+--
+-- FUNCTIONS:
+-- void playerManager::startSong(QString songName)
+-- void playerManager::getHeader(std::vector<int> vect)
+-- bool playerManager::setFormat(std::vector<int> vect)
+-- void playerManager::endPlayer()
+-- void playerManager::restartStream()
+-- void playerManager::relayCurrentlyPlayingSong(QString songName)
+-- DATE:		14/04/2016
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+--
+-- NOTES: Manages the audio output player. Has methods to set the format and header for each new song
+----------------------------------------------------------------------------------------------------------------------*/
 
 testBuff * t;
+
 playerManager::playerManager()
 {
     //LPCWSTR tom = L"test";
@@ -10,6 +28,21 @@ playerManager::playerManager()
     header = headerBuff;
 
 }
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: startSong
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE: startSong(QString songName)
+                        QString songName - name of the song to start
+--
+--
+-- RETURNS: VOID
+-- NOTES: Opens a song file, gets the length and the header data
+----------------------------------------------------------------------------------------------------------------------*/
 void playerManager::startSong(QString songName){
     mSongName = songName;
     std::vector<int> vect;
@@ -31,6 +64,21 @@ void playerManager::startSong(QString songName){
     printf("past all the header stuff");
     fflush(stdout);
 }
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: getHeader
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	getHeader(std::vector<int> vect
+--                      vect - vector of ints -- holds the format data
+--
+--
+-- RETURNS: VOID
+-- NOTES: Call to format a header. Adds the song number, format information and file size to a header buffer
+----------------------------------------------------------------------------------------------------------------------*/
 void playerManager::getHeader(std::vector<int> vect){
     QString hold = "";
     int a,b,c;
@@ -49,6 +97,19 @@ void playerManager::getHeader(std::vector<int> vect){
     fflush(stdout);
 }
 
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: setFormat
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE: bool playerManager::setFormat(std::vector<int> vect)
+--              vect - vector of ints containing file format
+--
+-- RETURNS: bool - TRUE = successfully set, FALSE = invlaid format
+-- NOTEs: Call to set up a new player
+----------------------------------------------------------------------------------------------------------------------*/
 bool playerManager::setFormat(std::vector<int> vect){
     QAudioFormat format;
 
@@ -79,18 +140,76 @@ bool playerManager::setFormat(std::vector<int> vect){
 
     return true;
 }
+
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: startPlayer
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE: startPlayer()
+--
+--
+-- RETURNS: VOID
+-- NOTES: call to start the player - DEPRECATED
+----------------------------------------------------------------------------------------------------------------------*/
 void playerManager::startPlayer(){
     //player->start(t);
     //player->setVolume(0.0);
 
 }
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: endPlayer
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE: endPlayer()
+--
+--
+-- RETURNS: VOID
+-- NOTES: CAll to pause the player
+----------------------------------------------------------------------------------------------------------------------*/
 void playerManager::endPlayer(){
     t->pauseStream();
 }
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: restartStream
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE: void restartStream
+--
+--
+--
+-- RETURNS: VOID
+-- NOTES: Call to restart hte stream
+----------------------------------------------------------------------------------------------------------------------*/
 void playerManager::restartStream(){
     t->resumeStream();
 }
 
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: relayCurrentlyPlayingSong
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE: void playerManager::relayCurrentlyPlayingSong(QString songName)
+                            QString songName - name of song to update
+--
+--
+-- RETURNS: VOID
+-- NOTES: Call to update the currently playing song label
+----------------------------------------------------------------------------------------------------------------------*/
 void playerManager::relayCurrentlyPlayingSong(QString songName){
     emit relayCurrentSong(songName);
 }

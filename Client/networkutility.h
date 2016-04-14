@@ -55,7 +55,6 @@ int WSARead(SOCKET sd, char * message, int timeout, int size);
 bool receiveTCP(SOCKET sd, char* message);
 void formatMessage(const char* message);
 bool WSAS(SOCKET sd, char * message, int size, int timeout);
-void sendDatalUDP(LPSOCKET_INFORMATION SI, struct	sockaddr_in server, char* message);
 int receiveUDP(LPSOCKET_INFORMATION SI, sockaddr_in server, DWORD RecvBytes, DWORD	Flags);
 void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED Overlapped, DWORD InFlags);
 

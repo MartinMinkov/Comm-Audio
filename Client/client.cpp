@@ -1,5 +1,53 @@
 #include "client.h"
 #include "globals.h"
+/*------------------------------------------------------------------------------------------------------------------
+-- SOURCE FILE: client.cpp
+--
+-- FUNCTIONS:
+-- client::client(QWidget *parent) : QWidget(parent), ui(new Ui::client)
+-- client::~client()
+-- void client::on_connectButton_clicked()
+-- void client::on_disconnectButton_clicked()
+-- void client::on_updateSongButton_clicked()
+-- void client::setDownloadStatus(int state)
+-- void client::setUploadStatus(int state)
+-- void client::toggleInput(bool state)
+-- void client::updateUsers(QVector<QString> userList)
+-- void client::updateCallLabel(QString caller)
+-- void client::handleStateChanged(QAudio::State newState)
+-- void client::on_updateVoiceUsersButton_clicked()
+-- void client::on_playStreamButton_clicked()
+-- std::vector<int> client::getTime(int time)
+-- void client::updateSlider(float percent, int songTime)
+-- void client::on_stopStreamButton_clicked()
+-- void client::on_rewindStreamButton_clicked()
+-- void client::handleUpdateStatusBar(bool connected)
+-- void client::on_horizontalSlider_2_sliderReleased()
+-- void client::on_liveStreamButton_clicked()
+-- void client::on_horizontalSlider_2_sliderPressed()
+-- void client::on_updateStreamPlaylist_clicked()
+-- void client::setCurrentlyPlaying(QString songName)
+-- void client::on_voiceChatButton_clicked()
+-- void client::on_endChatButton_clicked()
+-- void client::on_acceptVoiceButton_clicked()
+-- void client::tabSelected()
+-- void client::on_button_uploadDirectory_clicked()
+-- void client::on_volumeSlider_valueChanged(int value)
+-- void client::on_connectedWidget_itemSelectionChanged()
+-- void client::on_pushButton_12_clicked()
+-- void client::on_downloadFileWidget_itemSelectionChanged()
+-- void client::on_uploadFileWidget_itemSelectionChanged()
+-- void client::updateIncomingVoiceChatText(QString name)
+-- void client::on_streamingPlaylistWidget_itemSelectionChanged()
+-- void client::toggleVoiceChatAcceptRejectButtons(bool state)
+-- void client::on_rejectVoiceButton_clicked()
+-- DATE:		14/04/2016
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+--
+-- NOTES: A circular buffer to store char array data. Provides functions to add and remove data.
+----------------------------------------------------------------------------------------------------------------------*/
 circlebuff music;
 QFile sourceFile;
 QBuffer playBuffer;
@@ -57,6 +105,10 @@ void client::on_connectButton_clicked()
     receiveTCPThread = new QThread;
     receiveTCPWorker = new ThreadManager();
 
+
+    fileThread = new QThread;
+    fileWorker = new ThreadManager();
+
     receiveVoiceChatThread = new QThread;
     receiveVoiceChatWorker = new ThreadManager();
 
@@ -66,6 +118,7 @@ void client::on_connectButton_clicked()
     receiveTCPWorker->moveToThread(receiveTCPThread);
     receiveVoiceChatWorker->moveToThread(receiveVoiceChatThread);
     streamUDPWorker->moveToThread(streamUDPThread);
+    fileWorker->moveToThread(fileThread);
 
     //Not sure why this is done, but its something to do with passing objects in threads.
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
@@ -93,6 +146,7 @@ void client::on_connectButton_clicked()
 
     receiveTCPThread->start();
     receiveVoiceChatThread->start();
+    fileThread->start();
     emit receiveTCPWorker->signalConnect(ipaddr, portnum, username);
 
     client::toggleInput(false);
@@ -147,11 +201,11 @@ void client::on_uploadButton_clicked()
 }
 void client::on_downloadSongButton_clicked()
 {
-    connect(receiveTCPWorker, SIGNAL(signalDownload(QString)), receiveTCPWorker, SLOT(SendDownloadRequest(QString)), Qt::UniqueConnection);
-    connect(receiveTCPWorker, SIGNAL(signalDownloadStatus(int)), this, SLOT(setDownloadStatus(int)), Qt::UniqueConnection);
+    connect(fileWorker, SIGNAL(signalDownload(QString)), fileWorker, SLOT(SendDownloadRequest(QString)), Qt::UniqueConnection);
+    connect(fileWorker, SIGNAL(signalDownloadStatus(int)), this, SLOT(setDownloadStatus(int)), Qt::UniqueConnection);
     QString songName = QString("%1%2").arg(REQ_DOWNLOAD).arg(ui->downloadFileWidget->currentItem()->text());
-    emit receiveTCPWorker->signalDownload(songName);
-    emit receiveTCPWorker->signalDownloadStatus(1);
+    emit fileWorker->signalDownload(songName);
+    emit fileWorker->signalDownloadStatus(1);
 }
 void client::setDownloadStatus(int state){
 
@@ -242,6 +296,20 @@ void client::on_updateVoiceUsersButton_clicked()
     emit receiveTCPWorker->signalVoiceRefresh();
 }
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: on_playStremButton_clicked()
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_playStreamButton_clicked
+--
+--
+-- RETURNS: VOID
+-- NOTES: Starts the audio streaming
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_playStreamButton_clicked()
 {
     if(!streamSetup){
@@ -279,11 +347,25 @@ void client::on_playStreamButton_clicked()
     }
 
     //disable other tabs if streaming started
+    ui->tabWidget->setTabEnabled(0, false);
     ui->tabWidget->setTabEnabled(1, false);
     ui->tabWidget->setTabEnabled(2, false);
     ui->tabWidget->setTabEnabled(3, false);
 
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: getTime
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	getTime(int time)
+--
+--
+-- RETURNS: VETOR of two integers - minutes and seconds
+-- NOTES: Call to convert integer into minute sand seconds
+----------------------------------------------------------------------------------------------------------------------*/
 std::vector<int> client::getTime(int time){
     std::vector<int> ret;
     int h, m;
@@ -295,6 +377,18 @@ std::vector<int> client::getTime(int time){
     return ret;
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	updateSlider
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	updateSlider(float percent, int songTime)
+--                      float percent - percent of the song completed - move the bar this far
+--                      songTime - total song time
+-- RETURNS:
+-- NOTES:
+----------------------------------------------------------------------------------------------------------------------*/
 void client::updateSlider(float percent, int songTime){
     if(drag)
         return;
@@ -338,6 +432,7 @@ void client::on_stopStreamButton_clicked()
     ResetEvent(dataInBuffer);
     SetEvent(streamStop);
 
+    ui->tabWidget->setTabEnabled(0, true);
     ui->tabWidget->setTabEnabled(1, true);
     ui->tabWidget->setTabEnabled(2, true);
     ui->tabWidget->setTabEnabled(3, true);
@@ -345,6 +440,18 @@ void client::on_stopStreamButton_clicked()
     qDebug() << "After Disconnet";
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	rewindStreamButton_clicked
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_rewindStreamButton_clicked
+--
+--
+-- RETURNS: VOID
+-- NOTES: rewind the stream as far as possible
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_rewindStreamButton_clicked()
 {
     play.rewind();
@@ -361,12 +468,36 @@ void client::handleUpdateStatusBar(bool connected){
 }
 
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_horizontalSlider_2_sliderReleased
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_horizontalSlider_2_sliderReleased
+--
+--
+-- RETURNS:VOID
+-- NOTES: Called when the scroll bar is moved, updates the song position
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_horizontalSlider_2_sliderReleased()
 {
     drag = false;
     play.sliderChange(ui->horizontalSlider_2->value());
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_liveStreamButton_clicked
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_liveStreamButton_clicke
+--
+--
+-- RETURNS: VOID
+-- NOTES: moves the stream to the current head of the buffer -- to live time
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_liveStreamButton_clicked()
 {
 
@@ -393,6 +524,7 @@ void client::on_voiceChatButton_clicked()
 {
     char buf[PACKET_LEN];
     char *clientIP = buf;
+    ui->tabWidget->setTabEnabled(0, false);
     ui->tabWidget->setTabEnabled(1, false);
     ui->tabWidget->setTabEnabled(2, false);
     ui->tabWidget->setTabEnabled(4, false);
@@ -446,6 +578,7 @@ void client::on_endChatButton_clicked()
         cData.clear();
     }
 
+    ui->tabWidget->setTabEnabled(0, true);
     ui->tabWidget->setTabEnabled(1, true);
     ui->tabWidget->setTabEnabled(2, true);
     ui->tabWidget->setTabEnabled(4, true);
@@ -466,6 +599,7 @@ void client::on_acceptVoiceButton_clicked()
     rec.startPlayer();
 
     //disable other tabs when voice chat started
+    ui->tabWidget->setTabEnabled(0, false);
     ui->tabWidget->setTabEnabled(1, false);
     ui->tabWidget->setTabEnabled(2, false);
     ui->tabWidget->setTabEnabled(4, false);
@@ -480,6 +614,7 @@ void client::tabSelected(){
     if(ui->tabWidget->currentIndex()==1){
         connect(receiveTCPWorker, SIGNAL(signalSongRefresh()), receiveTCPWorker, SLOT(SendSongRefreshRequest()), Qt::UniqueConnection);
         emit receiveTCPWorker->signalSongRefresh();
+
     }
 
     //voice chat tab
@@ -524,6 +659,18 @@ void client::on_button_uploadDirectory_clicked()
     }
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_volumeSlider_valueChanged(int value)
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_volumeSlider_valueChanged(int value)
+--
+--
+-- RETURNS: VOID
+-- NOTES: updates the audio player volume on slider change
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_volumeSlider_valueChanged(int value)
 {
     play.updateVolume((float)(value / 100.0f));
@@ -540,6 +687,19 @@ void client::on_connectedWidget_itemSelectionChanged()
     ui->label_selectedUserName->setText(ui->connectedWidget->currentItem()->text());
     ui->voiceChatButton->setEnabled(true);
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_pushButton_12_clicked
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	on_pushButton_12_clicked
+--
+--
+-- RETURNS: VOID
+-- NOTES: Song vote button - sends your vote to the server
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_pushButton_12_clicked()
 {
     int vote = ui->streamingPlaylistWidget->currentRow();
@@ -554,35 +714,108 @@ void client::on_pushButton_12_clicked()
     ui->pushButton_12->setEnabled(false);
     voted = true;
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	void on_downloadFileWidget_itemSelectionChanged
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:  void on_downloadFileWidget_itemSelectionChanged()
+--
+--
+-- RETURNS:
+-- NOTES: Unlocks download file button on listwidget item select
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_downloadFileWidget_itemSelectionChanged()
 {
     setDownloadStatus(0);
     ui->downloadSongButton->setEnabled(true);
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_uploadFileWidget_itemSelectionChanged
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	on_uploadFileWidget_itemSelectionChanged()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Unlocks upload file button when an item is selected from the qlistwidget
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_uploadFileWidget_itemSelectionChanged()
 {
     setUploadStatus(0);
     ui->uploadButton->setEnabled(true);
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	updateIncomingVoiceChatText
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	updateIncomingVoiceChatText(Qstring name)
+--
+--
+-- RETURNS: VOID
+-- NOTES: Updates the call incoming from dialogue
+----------------------------------------------------------------------------------------------------------------------*/
 void client::updateIncomingVoiceChatText(QString name){
     QString temp = "Incoming call from ";
     temp.append(name);
     ui->voiceCallLabel->setText(temp);
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	on_streamingPlaylistWidget_itemSelectionChanged
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	on_streamingPlaylistWidget_itemSelectionChanged()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Changes label text to match list widget selection
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_streamingPlaylistWidget_itemSelectionChanged()
 {
     if(!voted)
         ui->label_selectedSongNameVote->setText(ui->streamingPlaylistWidget->currentItem()->text());
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	toggleVoiceChatAcceptRejectButtons
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	toggleVoiceChatAcceptRejectButtons(bool state)
+--                          bool state - enabled/disabled
+--
+-- RETURNS: VOID
+-- NOTES: Sets the status of the voice chat butotns - enabled/disabled
+----------------------------------------------------------------------------------------------------------------------*/
 void client::toggleVoiceChatAcceptRejectButtons(bool state){
     ui->acceptVoiceButton->setEnabled(state);
     ui->rejectVoiceButton->setEnabled(state);
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: on_rejectVoiceButton_clicked()
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin
+-- INTERFACE:	on_rejectVoiceButton_clicked()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Rejects a voice call -> resets the text and buttons
+----------------------------------------------------------------------------------------------------------------------*/
 void client::on_rejectVoiceButton_clicked()
 {
     ui->voiceCallLabel->setText("");
