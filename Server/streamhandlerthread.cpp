@@ -6,9 +6,20 @@ streamhandlerthread::streamhandlerthread(QObject *parent) : QObject(parent)
 {
 
 }
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: initMultiCast
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Martin Minkov
+-- PROGRAMMER:  Martin Minkov
+-- INTERFACE:	void streamhandlerthread::initMultiCast()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Sets up the multi cast sockets
+----------------------------------------------------------------------------------------------------------------------*/
 void streamhandlerthread::initMultiCast()
 {
-    qDebug() << "Initate multi cast";
     int nRet;
     u_long lTTL = TIMECAST_TTL;
     bool fFlag;
@@ -58,6 +69,18 @@ void streamhandlerthread::initMultiCast()
     client.sin_addr.s_addr = inet_addr(MULTICAST_ADDRESS);
     client.sin_port =        htons(DEFAULT_STREAM_PORT);
 }
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: initMultiCast
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Martin Minkov
+-- PROGRAMMER:  Martin Minkov
+-- INTERFACE:	void sendToMultiCast(char * buff)
+--
+--
+-- RETURNS: VOID
+-- NOTES: Sets up the multi cast sockets
+----------------------------------------------------------------------------------------------------------------------*/
 void sendToMultiCast(char * buff)
 {
     int nRet;

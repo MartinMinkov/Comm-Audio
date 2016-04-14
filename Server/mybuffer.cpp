@@ -55,26 +55,17 @@ void myBuffer::getSong(char * songName){
 }
 qint64 myBuffer::readData(char * data, qint64 len){
     int endSong;
-    printf("Martin will stay here: %d", len);
     if(newCirc){
         if(cData.tail > cData.buffHead){
-            printf("Requesting more data");
             SetEvent(needData);
             if(cData.head == 0){
-                printf("Returning 0 ok");
-                fflush(stdout);
-
                 return 0;
             }
-            //needD = true;
-
         }
         if(!(endSong = cData.pop(loader))){
             printf("End of song/buffer");
             return -1;
         }
-        //sendDataTCP(my_socket, loader);
-       // n.WSAS(my_socket, loader, BUFFSIZE, 10000);
         sendToMultiCast(loader);
         newCirc = false;
     }
@@ -142,8 +133,7 @@ DWORD WINAPI readFromFile(LPVOID param){
         if(needASong){
             //SetEvent(loadUpSong);
         }
-       // needD = false;
-        //}
+
     }
 
 }
