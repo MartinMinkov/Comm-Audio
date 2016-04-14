@@ -1,20 +1,59 @@
 #include "networkutility.h"
 
+/*------------------------------------------------------------------------------------------------------------------
+-- SOURCE FILE: networkutility.cpp
+--
+-- FUNCTIONS:
+-- networkutility::networkutility()
+-- void debugMessage(const char* message)
+-- void sendDataTCP(SOCKET sd, const char* message)
+-- bool WSAS(SOCKET sd, char * message, int size, int timeout)
+-- bool receiveTCP(SOCKET sd, char* message)
+-- int WSARead(SOCKET sd, char * message, int timeout, int size)
+--
+-- DATE:		14/04/2016
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+--
+----------------------------------------------------------------------------------------------------------------------*/
+
 int sentBytes = 0;
 
 SOCKADDR_IN  stLclAddr;
 SOCKADDR_IN  client;
 SOCKET StreamSocket;
 
+
 networkutility::networkutility()
 {
 
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: debugMessage
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+-- INTERFACE: debugMessage(const char* message)
+--
+-- NOTES: Method for printing debug messages to console.
+----------------------------------------------------------------------------------------------------------------------*/
 void networkutility::debugMessage(const char* message){
     qDebug() << message;
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: sendDataTCP
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+-- INTERFACE: sendDataTCP(SOCKET sd, const char* message)
+--
+-- NOTES: Sends data using a send() call.
+----------------------------------------------------------------------------------------------------------------------*/
 void sendDataTCP(SOCKET sd, const char* message){
     int sent;
     if((sent = send(sd, message, PACKET_LEN, 0)) == SOCKET_ERROR){
@@ -57,7 +96,18 @@ bool networkutility::WSAS(SOCKET sd, char * message, int size, int timeout){
     return true;
 }
 
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: receiveTCP
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+-- INTERFACE: receiveTCP(SOCKET sd, char* message)
+--
+-- NOTES: Receives messages using a blocking recv() call.
+----------------------------------------------------------------------------------------------------------------------*/
 bool receiveTCP(SOCKET sd, char* message){
+
     printf("RANDOMLY READING:::");
     fflush(stdout);
     if(recv(sd, message, PACKET_LEN, 0) == SOCKET_ERROR){
@@ -65,6 +115,17 @@ bool receiveTCP(SOCKET sd, char* message){
     }
     return TRUE;
 }
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION: WSARead
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Alvin Man
+-- PROGRAMMER:  Alvin Man
+-- INTERFACE: WSARead(SOCKET sd, char * message, int timeout, int size)
+--
+-- NOTES:
+----------------------------------------------------------------------------------------------------------------------*/
 int WSARead(SOCKET sd, char * message, int timeout, int size){
     WSAOVERLAPPED ov;
     DWORD recvBytes;
