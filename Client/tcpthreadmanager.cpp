@@ -10,6 +10,9 @@ ThreadManager::ThreadManager(QObject *parent) : QObject(parent)
     TCPSocket = 0;
     VCSocket = 0;
     StreamSocket = 0;
+    newData = CreateEvent(NULL, TRUE, FALSE, (LPCWSTR)L"1");
+    readDone = CreateEvent(NULL, TRUE, FALSE, (LPCWSTR)L"2");
+    fileDone = CreateEvent(NULL, TRUE, FALSE, (LPCWSTR)L"3");
 }
 
 
@@ -229,30 +232,39 @@ void ThreadManager::SendDownloadRequest(QString songName)
     DWORD id;
     char fileName[500] = { 0 };
     c.init();
-    int left = 42344526;
+    int left = 0;
+    char fileSize[1024] = { 0 };
+    char * fsz = fileSize;
     sendDataTCP(TCPSocket, songName.toStdString().c_str());
     songName = songName.remove(0, 1);
     char * title =  fileName;
     strcpy(title,songName.toStdString().c_str());
 
 
-    //receiveTCP(TCPSocket, dontcare);
-    if(!handleRequest())
+    receiveTCP(TCPSocket, fsz);
+    if(fsz[0] == ERROR_BIT)
         return;
+    printf(fsz);
+   // if(!handleRequest())
+    //    return;
+    left = atoi(fsz);
+    printf("FILE SIZE SENDING IS : %d", left);
     char buf[20000] = { 0 };
     int len;
     writeThread = CreateThread(NULL, 0, readStuff, (void *)title, 0 , &id);
     while((len = WSARead(TCPSocket, buf, 2000, 20000))){
         left -= len;
         c.push(buf, len);
-        if(left == 0){
-            printf("No data left");
-            break;
+        SetEvent(newData);
+        if(left <= 0){
+           printf("No data left");
+           break;
         }
-        //SetEvent(newData);
+
     }
     SetEvent(readDone);
     WaitForSingleObject(fileDone, 20000);
+    ResetEvent(fileDone);
     emit signalDownloadStatus(2);
     printf("Done reading");
     fflush(stdout);
@@ -362,12 +374,13 @@ DWORD WINAPI readStuff(LPVOID param){
         ResetEvent(newData);
         while(len = c.pop(wrt)){
             fwrite(wrt, sizeof(char), len, fqt);
-            printf("head %d tail %d, length: %d\n", c.head, c.tail, len);
             memset(readBuff, '\0', 20000);
         }
         if(err == WAIT_OBJECT_0 + 1){
             SetEvent(fileDone);
             fclose(fqt);
+            c.clear();
+            ResetEvent(readDone);
             break;
         }
 

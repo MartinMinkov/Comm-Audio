@@ -51,7 +51,7 @@ bool networkutility::WSAS(SOCKET sd, char * message, int size, int timeout){
             exit(0);
         }
     }
-    //int rec = WSAGetOverlappedResult(sd, &ov, &sendBytes, FALSE, (LPDWORD)0);
+    int rec = WSAGetOverlappedResult(sd, &ov, &sendBytes, FALSE, (LPDWORD)0);
     sentBytes += sendBytes;
     printf("Sent BYTES: %d", sentBytes);
     return true;

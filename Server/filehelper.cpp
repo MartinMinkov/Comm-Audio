@@ -27,6 +27,7 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
     qDebug() << title;
     FILE * fqt;
     title = title.remove(0, 1);
+    int fileSize;
 
     int index = 0;
     //find the corresponding song title with filepath
@@ -45,8 +46,13 @@ void filehelper::handleDownloadRequest(QString title, SOCKET m_socket){
         sendDataTCP(m_socket, buff2);
         return;
     }
+    fseek(fqt, 0, SEEK_END);
+    fileSize = ftell(fqt);
+    fseek(fqt, 0, SEEK_SET);
+    char success[1024];
+    sprintf(success, "%d-", fileSize);
+    printf("FILESIZE %s", success);
 
-    char success[] = "M";
     sendDataTCP(m_socket, success);
 
     while((bytesRead = fread(buff, sizeof(char), FILEMAX, fqt))){
