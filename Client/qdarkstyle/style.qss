@@ -55,12 +55,13 @@ QWidget
 QWidget:item:hover
 {
     background-color: #00acc1;
-    color: black;
+    color: #eeeeee;
 }
 
 QWidget:item:selected
 {
-    background-color: #3d8ec9;
+    background-color: #00acc1;
+    color: #eeeeee;
 }
 
 QCheckBox
@@ -1105,6 +1106,10 @@ QTableView::item:selected:active, QTreeView::item:selected:active, QListView::it
     color: #eeeeee;
 }
 
+QTableView::item:hover, QTreeView::item:hover, QListView::item:hover  {
+    background: #00acc1;
+    color: #eeeeee;
+}
 
 QHeaderView
 {
@@ -1200,6 +1205,11 @@ QSplitter::handle:vertical {
 
 #panel_bg_client_connect {
     background-color: #37474f;
+}
+
+#downloadFileWidget:item:hover, #uploadFileWidget:item:hover, #connectedWidget:item:hover, #streamingPlaylistWidget:item:hover {
+    background: #00acc1;
+    color: #eeeeee;
 }
 
 #downloadFileWidget, #uploadFileWidget, #connectedWidget, #streamingPlaylistWidget {
