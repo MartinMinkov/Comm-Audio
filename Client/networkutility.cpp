@@ -159,11 +159,11 @@ void CALLBACK ServerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
     if (Error != 0)
     {
-        int i = WSAGetLastError();
-        qDebug() << "I/O operation failed with value" + i;
-        printf("%d", i);
+        qDebug() << "I/O operation failed with value" + Error;
+        printf("%d", Error);
         fflush(stdout);
         GlobalFree(SOCKINFO);
+        SetEvent(streamStop);
         return;
     }
     if ((acceptEvent = WSACreateEvent()) == WSA_INVALID_EVENT)

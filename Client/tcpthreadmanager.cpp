@@ -126,11 +126,12 @@ void ThreadManager::setupVoiceChat()
 
     if(VCSocket != 0 && AcceptSocket != 0) {
         qDebug() << "Socket not null";
+        printf("VC Socket: %d Accept Socket: %d", VCSocket, AcceptSocket);
         return;
     }
     if ((AcceptSocket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
     {
-        qDebug() << "WSASocket: Failed to get a socket";
+        qDebug() << "WSASocket: Failed to get an accept socket";
         return;
     }
     //Init address structs
@@ -153,6 +154,10 @@ void ThreadManager::setupVoiceChat()
     {
         qDebug() <<  "Can't accept UDP client";
         return;
+    }
+    else
+    {
+        qDebug() <<  "we accept UDP client";
     }
     char buf2[PACKET_LEN];
     char *voiceChatUsername = buf2;
