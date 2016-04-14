@@ -894,7 +894,7 @@
         <x>30</x>
         <y>70</y>
         <width>231</width>
-        <height>41</height>
+        <height>121</height>
        </rect>
       </property>
       <property name="font">
@@ -909,7 +909,10 @@
        <string/>
       </property>
       <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QFrame" name="panel_bg_voicechat_divider">
