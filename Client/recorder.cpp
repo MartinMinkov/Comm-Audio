@@ -8,6 +8,21 @@ Recorder::Recorder()
 
     fqt = fopen("testoutok.txt", "wb");
 }
+
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	initializeAudio
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	initializeAudio()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Set up the microphone reader. Sets format and starts hte player
+----------------------------------------------------------------------------------------------------------------------*/
 void Recorder::initializeAudio()
 {
     format.setSampleRate(44100);
@@ -31,6 +46,21 @@ void Recorder::initializeAudio()
     strcpy(header, "z-16-44100-2-999-999");
 
 }
+
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	startPlayer
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	startPlayer
+--
+--
+-- RETURNS: VOID
+-- NOTES: start the audio output player
+----------------------------------------------------------------------------------------------------------------------*/
 void Recorder::startPlayer()
 {
     //initializeAudio();
@@ -38,6 +68,21 @@ void Recorder::startPlayer()
     player->setSocket(1);
 
 }
+
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	startSecondary
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	startSecondary
+--
+--
+-- RETURNS: void
+-- NOTES: start audio output player
+----------------------------------------------------------------------------------------------------------------------*/
 void Recorder::startSecondary(){
     qDebug() << "PLAYER STARTING PLAYER STARTING";
     player->setSocket(1);
@@ -49,6 +94,21 @@ qint64 Recorder::readData(char *data, qint64 maxlen)
 }
 
 
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	writedata
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	writeData(const char * data, qint len)
+--
+--
+-- RETURNS: qint64 - number of bytes written
+-- NOTES: When data is ready to be written from the microhpone, this is called. Write the data to a buffer, and send
+the buffer to the other voice chat person
+----------------------------------------------------------------------------------------------------------------------*/
 qint64 Recorder::writeData(const char *data, qint64 len)
 {
     if(point + len> BUFFLEN){
@@ -84,6 +144,21 @@ qint64 Recorder::writeData(const char *data, qint64 len)
     }
     return len;
 }
+
+
+/*------------------------------------------------------------------------------------------------------------------
+-- FUNCTION:	stopRecording
+-- DATE:	14/04/16
+-- REVISIONS:	(V1.0)
+-- DESIGNER:	Colin Bose
+-- PROGRAMMER:  Colin Bose
+-- INTERFACE:	stopRecording()
+--
+--
+-- RETURNS: VOID
+-- NOTES: Stops the mic recording, clears buffer
+----------------------------------------------------------------------------------------------------------------------*/
+
 void Recorder::stopRecording()
 {
     if (audioInput != NULL)
